@@ -3,9 +3,8 @@
 
 Ovo je source code drajvera za kretanje robota. Drajver se satoji od dva H mosta kojima se upravlja DC (Maxon) motorima. Postoji verzija i za malog i za velikog.
 
-IDE:MPLAB-X
+IDE:MPLAB-X                                                                                                       
 Compiler:MPLAB XC16 Compiler
-
 
 
 ##Update za 1.0
