@@ -193,8 +193,8 @@ void __attribute__((__interrupt__)) _T1Interrupt(void)
         zaglavR = greska >= 0 ? greska : -greska;
         commande_rotation = greska * Gp_T - brzina * Gd_T;
 
-        PWML =commande_distance - commande_rotation;
-        PWMD =commande_distance + commande_rotation;
+        PWML = commande_distance - commande_rotation;
+        PWMD = commande_distance + commande_rotation;
 		
 		// saturacija
    	if(PWMD <= -3200)
@@ -305,12 +305,10 @@ int main(void)
 
     resetDriver();
 
-    setSpeed(0x80);
     setSpeedAccel(K2);	//K2 je za 1m/s /bilo je 2
     int tmpX, tmpY, tmpO;
-    unsigned char rxBuffer[8];
-    
-    setSpeed(70);
+    unsigned char rxBuffer[8];    
+
     while(1)
     {
         if(getStatus() == STATUS_MOVING)
@@ -428,6 +426,13 @@ int main(void)
 
                 break;
 
+            // kralj meca da se iskljuci pwm
+            case 'K':
+                while(1){
+                    __delay_ms(200);
+                    CloseMCPWM();
+                }
+                
             default:
                 forceStatus(STATUS_ERROR);
                 break;

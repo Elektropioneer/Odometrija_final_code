@@ -2,7 +2,7 @@
 #define _CAN_H_INCLUDED
 
 #define DRIVER_IDENTIFICATOR		0xC3
-#define MAIN_BOARD_IDENTIFICATOR	0x6A
+#define MAIN_BOARD_IDENTIFICATOR	0x01 /* probaj ovako okay cek*/
 
 #define RX_BUFFER_SIZE	50
 
