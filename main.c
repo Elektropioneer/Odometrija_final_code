@@ -9,6 +9,12 @@
 #include "pwm.h"
 #include "can.h"
 
+/*
+ 
+ PROBAJ DEBUGOVATI L ORIIENATION ITD
+ 
+ */
+
 _FOSCSEL(FNOSC_PRI);	//primarni oscilator bez PLL -> ukljucujem ga prvo samo na primarni, kada se stabilizuje ukljucicu mu PLL
 _FOSC(FCKSM_CSECMD & OSCIOFNC_ON & POSCMD_XT & IOL1WAY_OFF);  //HS oscilator za >4Mhz (internet, navodno datasheet).. XT-> 
 //kompromis izmedju brzine i potrosnje, u sustini isto kao HS, koji se fokusira na brzinu!
@@ -432,6 +438,7 @@ int main(void)
                     __delay_ms(200);
                     CloseMCPWM();
                 }
+                
                 
             default:
                 forceStatus(STATUS_ERROR);

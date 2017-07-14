@@ -172,6 +172,8 @@ static char getCommand(void)
                 //case 'G' : case 'D' : case 'T' : case 'A' : case 'Q':
                 // primljena komanda za kretanje u toku kretanja
 
+                //dodati da promeni motore...
+                
                 // stop, status ostaje MOVING
 
                 d_ref = L;
