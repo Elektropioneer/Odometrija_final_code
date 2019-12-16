@@ -21,7 +21,6 @@
       <itemPath>../main.c</itemPath>
       <itemPath>../init.c</itemPath>
       <itemPath>../uart.c</itemPath>
-      <itemPath>../timer.c</itemPath>
       <itemPath>../kretanje.c</itemPath>
       <itemPath>../can.c</itemPath>
     </logicalFolder>

@@ -19,7 +19,6 @@ Command:
   build/default/production/_ext/1472/main.o \
   build/default/production/_ext/1472/init.o \
   build/default/production/_ext/1472/uart.o \
-  build/default/production/_ext/1472/timer.o \
   build/default/production/_ext/1472/kretanje.o \
   build/default/production/_ext/1472/can.o \
   --defsym=__MPLAB_BUILD=1 \
@@ -158,9 +157,8 @@ libmxconst                  0x59da                0x94            0xde  (222)
 .text                       0x5a6e              0x1e54          0x2d7e  (11646)
 .dinit                      0x78c2                0x2e            0x45  (69)
 .init.delay32               0x78f0                0x1c            0x2a  (42)
-.text                       0x790c                 0xc            0x12  (18)
 
-                 Total "program" memory used (bytes):         0xb2a4  (45732) 34%
+                 Total "program" memory used (bytes):         0xb292  (45714) 34%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x4000]
@@ -171,7 +169,7 @@ section                    address      alignment gaps    total length  (dec)
 .ndata                       0x86c                   0             0x2  (2)
 .nbss                        0x86e                   0             0x2  (2)
 .bss                         0x870                   0           0x1a8  (424)
-_0xf7243a6c5df747b9         0x47c0                   0            0x40  (64)
+_0xf7337a6c5df74881         0x47c0                   0            0x40  (64)
 
                  Total "data" memory used (bytes):          0x258  (600) 3%
 
@@ -371,7 +369,6 @@ External Symbols in Program Memory (by address):
                   0x007824                  _PinsInit
                   0x00786e                  _OscillatorInit
                   0x0078f0                  ___delay32
-                  0x00790c                  _CloseTimer1
 
 External Symbols in Program Memory (by name):
 
@@ -382,7 +379,6 @@ External Symbols in Program Memory (by name):
                   0x0071c0                  _CAN_read
                   0x007124                  _CAN_write
                   0x007740                  _CloseMCPWM
-                  0x00790c                  _CloseTimer1
                   0x00739c                  _CloseUART1
                   0x0073ac                  _ConfigIntUART1
                   0x00741a                  _DataRdyUART1
@@ -518,7 +514,6 @@ Linker script and memory map
 LOAD build/default/production/_ext/1472/main.o
 LOAD build/default/production/_ext/1472/init.o
 LOAD build/default/production/_ext/1472/uart.o
-LOAD build/default/production/_ext/1472/timer.o
 LOAD build/default/production/_ext/1472/kretanje.o
 LOAD build/default/production/_ext/1472/can.o
                     0x0001                  __MPLAB_BUILD = 0x1
@@ -737,51 +732,46 @@ __FUID3
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x7c95
+.debug_info       0x000000       0x7730
  *(.debug_info)
  .debug_info      0x000000        0xce5 build/default/production/_ext/1472/main.o
  .debug_info      0x000ce5       0x23b5 build/default/production/_ext/1472/init.o
  .debug_info      0x00309a        0xe3a build/default/production/_ext/1472/uart.o
- .debug_info      0x003ed4        0x565 build/default/production/_ext/1472/timer.o
- .debug_info      0x004439        0xde5 build/default/production/_ext/1472/kretanje.o
- .debug_info      0x00521e       0x2a77 build/default/production/_ext/1472/can.o
+ .debug_info      0x003ed4        0xde5 build/default/production/_ext/1472/kretanje.o
+ .debug_info      0x004cb9       0x2a77 build/default/production/_ext/1472/can.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x8a5
+.debug_abbrev     0x000000        0x7f1
  *(.debug_abbrev)
  .debug_abbrev    0x000000        0x1f1 build/default/production/_ext/1472/main.o
  .debug_abbrev    0x0001f1         0xed build/default/production/_ext/1472/init.o
  .debug_abbrev    0x0002de        0x16e build/default/production/_ext/1472/uart.o
- .debug_abbrev    0x00044c         0xb4 build/default/production/_ext/1472/timer.o
- .debug_abbrev    0x000500        0x22a build/default/production/_ext/1472/kretanje.o
- .debug_abbrev    0x00072a        0x17b build/default/production/_ext/1472/can.o
+ .debug_abbrev    0x00044c        0x22a build/default/production/_ext/1472/kretanje.o
+ .debug_abbrev    0x000676        0x17b build/default/production/_ext/1472/can.o
 
-.debug_line       0x000000        0x8f8
+.debug_line       0x000000        0x833
  *(.debug_line)
  .debug_line      0x000000        0x1bd build/default/production/_ext/1472/main.o
  .debug_line      0x0001bd        0x129 build/default/production/_ext/1472/init.o
  .debug_line      0x0002e6        0x129 build/default/production/_ext/1472/uart.o
- .debug_line      0x00040f         0xc5 build/default/production/_ext/1472/timer.o
- .debug_line      0x0004d4        0x2d3 build/default/production/_ext/1472/kretanje.o
- .debug_line      0x0007a7        0x151 build/default/production/_ext/1472/can.o
+ .debug_line      0x00040f        0x2d3 build/default/production/_ext/1472/kretanje.o
+ .debug_line      0x0006e2        0x151 build/default/production/_ext/1472/can.o
 
-.debug_frame      0x000000        0x6e2
+.debug_frame      0x000000        0x6b2
  *(.debug_frame)
  .debug_frame     0x000000         0xee build/default/production/_ext/1472/main.o
  .debug_frame     0x0000ee         0xf4 build/default/production/_ext/1472/init.o
  .debug_frame     0x0001e2        0x186 build/default/production/_ext/1472/uart.o
- .debug_frame     0x000368         0x30 build/default/production/_ext/1472/timer.o
- .debug_frame     0x000398        0x232 build/default/production/_ext/1472/kretanje.o
- .debug_frame     0x0005ca        0x118 build/default/production/_ext/1472/can.o
+ .debug_frame     0x000368        0x232 build/default/production/_ext/1472/kretanje.o
+ .debug_frame     0x00059a        0x118 build/default/production/_ext/1472/can.o
 
-.debug_str        0x000000        0x309
+.debug_str        0x000000        0x2ed
  *(.debug_str)
  .debug_str       0x000000         0x3b build/default/production/_ext/1472/main.o
  .debug_str       0x00003b        0x107 build/default/production/_ext/1472/init.o
  .debug_str       0x000142         0x42 build/default/production/_ext/1472/uart.o
- .debug_str       0x000184         0x1c build/default/production/_ext/1472/timer.o
- .debug_str       0x0001a0         0x5d build/default/production/_ext/1472/kretanje.o
- .debug_str       0x0001fd        0x10c build/default/production/_ext/1472/can.o
+ .debug_str       0x000184         0x5d build/default/production/_ext/1472/kretanje.o
+ .debug_str       0x0001e1        0x10c build/default/production/_ext/1472/can.o
 
 .debug_loc
  *(.debug_loc)
@@ -790,7 +780,7 @@ __FUID3
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x4ad
+                  0x000000        0x48b
  *(.debug_pubnames)
  .debug_pubnames
                   0x000000        0x1cd build/default/production/_ext/1472/main.o
@@ -799,16 +789,14 @@ __FUID3
  .debug_pubnames
                   0x00024e         0xce build/default/production/_ext/1472/uart.o
  .debug_pubnames
-                  0x00031c         0x22 build/default/production/_ext/1472/timer.o
+                  0x00031c         0xd7 build/default/production/_ext/1472/kretanje.o
  .debug_pubnames
-                  0x00033e         0xd7 build/default/production/_ext/1472/kretanje.o
- .debug_pubnames
-                  0x000415         0x98 build/default/production/_ext/1472/can.o
+                  0x0003f3         0x98 build/default/production/_ext/1472/can.o
 
 .debug_ranges
  *(.debug_ranges)
 
-.debug_aranges    0x000000         0x90
+.debug_aranges    0x000000         0x78
  *(.debug_aranges)
  .debug_aranges
                   0x000000         0x18 build/default/production/_ext/1472/main.o
@@ -817,11 +805,9 @@ __FUID3
  .debug_aranges
                   0x000030         0x18 build/default/production/_ext/1472/uart.o
  .debug_aranges
-                  0x000048         0x18 build/default/production/_ext/1472/timer.o
+                  0x000048         0x18 build/default/production/_ext/1472/kretanje.o
  .debug_aranges
-                  0x000060         0x18 build/default/production/_ext/1472/kretanje.o
- .debug_aranges
-                  0x000078         0x18 build/default/production/_ext/1472/can.o
+                  0x000060         0x18 build/default/production/_ext/1472/can.o
                     0x0000                  WREG0 = 0x0
                     0x0000                  _WREG0 = 0x0
                     0x0002                  WREG1 = 0x2
@@ -1912,80 +1898,76 @@ LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x000090        0x870
+                  0x000078        0x7f8
  .debug_pubtypes
-                  0x000090         0x7d build/default/production/_ext/1472/main.o
+                  0x000078         0x7d build/default/production/_ext/1472/main.o
  .debug_pubtypes
-                  0x00010d        0x312 build/default/production/_ext/1472/init.o
+                  0x0000f5        0x312 build/default/production/_ext/1472/init.o
  .debug_pubtypes
-                  0x00041f         0xd3 build/default/production/_ext/1472/uart.o
+                  0x000407         0xd3 build/default/production/_ext/1472/uart.o
  .debug_pubtypes
-                  0x0004f2         0x78 build/default/production/_ext/1472/timer.o
+                  0x0004da         0x49 build/default/production/_ext/1472/kretanje.o
  .debug_pubtypes
-                  0x00056a         0x49 build/default/production/_ext/1472/kretanje.o
- .debug_pubtypes
-                  0x0005b3        0x34d build/default/production/_ext/1472/can.o
+                  0x000523        0x34d build/default/production/_ext/1472/can.o
 
 __c30_signature
-                  0x000900         0xa2
+                  0x000870         0x9c
  __c30_signature
-                  0x000900          0x6 build/default/production/_ext/1472/main.o
+                  0x000870          0x6 build/default/production/_ext/1472/main.o
  __c30_signature
-                  0x000906          0x6 build/default/production/_ext/1472/init.o
+                  0x000876          0x6 build/default/production/_ext/1472/init.o
  __c30_signature
-                  0x00090c          0x6 build/default/production/_ext/1472/uart.o
+                  0x00087c          0x6 build/default/production/_ext/1472/uart.o
  __c30_signature
-                  0x000912          0x6 build/default/production/_ext/1472/timer.o
+                  0x000882          0x6 build/default/production/_ext/1472/kretanje.o
  __c30_signature
-                  0x000918          0x6 build/default/production/_ext/1472/kretanje.o
+                  0x000888          0x6 build/default/production/_ext/1472/can.o
  __c30_signature
-                  0x00091e          0x6 build/default/production/_ext/1472/can.o
+                  0x00088e          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(crt0_standard.o)
  __c30_signature
-                  0x000924          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(crt0_standard.o)
+                  0x000894          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(data_init_standard.o)
  __c30_signature
-                  0x00092a          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(data_init_standard.o)
+                  0x00089a          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(delay32.eo)
  __c30_signature
-                  0x000930          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(delay32.eo)
+                  0x0008a0          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atan2f.eo)
  __c30_signature
-                  0x000936          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atan2f.eo)
+                  0x0008a6          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(divsi3.eo)
  __c30_signature
-                  0x00093c          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(divsi3.eo)
+                  0x0008ac          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(errno.eo)
  __c30_signature
-                  0x000942          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(errno.eo)
+                  0x0008b2          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(feqltle.eo)
  __c30_signature
-                  0x000948          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(feqltle.eo)
+                  0x0008b8          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fgtge.eo)
  __c30_signature
-                  0x00094e          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fgtge.eo)
+                  0x0008be          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixsfdi.eo)
  __c30_signature
-                  0x000954          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixsfdi.eo)
+                  0x0008c4          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixsfsi.eo)
  __c30_signature
-                  0x00095a          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixsfsi.eo)
+                  0x0008ca          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatdisf.eo)
  __c30_signature
-                  0x000960          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatdisf.eo)
+                  0x0008d0          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatsisf.eo)
  __c30_signature
-                  0x000966          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatsisf.eo)
+                  0x0008d6          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatundisf.eo)
  __c30_signature
-                  0x00096c          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatundisf.eo)
+                  0x0008dc          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fpack.eo)
  __c30_signature
-                  0x000972          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fpack.eo)
+                  0x0008e2          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack.eo)
  __c30_signature
-                  0x000978          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack.eo)
+                  0x0008e8          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack2.eo)
  __c30_signature
-                  0x00097e          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack2.eo)
+                  0x0008ee          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(futil.eo)
  __c30_signature
-                  0x000984          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(futil.eo)
+                  0x0008f4          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(modsi3.eo)
  __c30_signature
-                  0x00098a          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(modsi3.eo)
+                  0x0008fa          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(muldi3.eo)
  __c30_signature
-                  0x000990          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(muldi3.eo)
+                  0x000900          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fcompare.eo)
  __c30_signature
-                  0x000996          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fcompare.eo)
- __c30_signature
-                  0x00099c          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umuldi3.eo)
+                  0x000906          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umuldi3.eo)
 
-_0xf7243a6c5df747b9
+_0xf7337a6c5df74881
                     0x47c0         0x40
- _0xf7243a6c5df747b9
+ _0xf7337a6c5df74881
                     0x47c0         0x40 build/default/production/_ext/1472/can.o
 
 .nbss               0x0800         0x6c
@@ -2118,7 +2100,3 @@ libmxconst          0xd9da         0x94 load address 0x0059da
 .init.delay32     0x0078f0         0x1c
  .init.delay32    0x0078f0         0x1c /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(delay32.eo)
                   0x0078f0                  ___delay32
-
-.text             0x00790c          0xc
- .text            0x00790c          0xc build/default/production/_ext/1472/timer.o
-                  0x00790c                  _CloseTimer1

@@ -10,11 +10,12 @@ void UARTinit()
 
     U1MODEbits.STSEL = 0;   // 1 Stop bit
     U1MODEbits.PDSEL = 0;   // No Parity, 8 data bits
-    U1MODEbits.BRGH = 0;    // Low-Speed mode - ovde je bila nula!
+    U1MODEbits.BRGH = 0;    // Low-Speed mode 
     U1BRG = 31;             // BAUD Rate Setting for 57600
     U1MODEbits.UARTEN = 1;  // Enable UART
     U1STAbits.UTXEN = 1;
     IFS0bits.U1RXIF = 0;
+     
 } // end of UARTinit()
 
 /**
@@ -37,6 +38,7 @@ void CloseMCPWM(void)
     PWMCON2     =       0;
 
     P1TCONbits.PTEN = P2TCONbits.PTEN = 0;
+
 } // end of CloseMCPWM(...)
 
 /**
@@ -65,6 +67,7 @@ void PWMinit()
     P2TPER = 1627;              // PWM frquenecy: 18425Hz
     P2DC1 = 0;
     P2TCONbits.PTEN = 1;
+
 } // end of PWMinit()
 
 /**
@@ -87,6 +90,7 @@ void TimerInit()
     IFS0bits.T1IF = 0;          // Clear Timer1 Interrupt Flag
     IEC0bits.T1IE = 1;          // Enable Timer1 interrupt
     T1CONbits.TON = 1;
+
 } // end of TimerInit(...)
 
 /**
@@ -113,6 +117,7 @@ void QEIinit()
 
     MAX2CNT=0000;
     POS2CNT=0;
+
 } // end of QEIInit(...)
 
 /**
@@ -143,6 +148,7 @@ void PortInit()
     LATBbits.LATB13 = 0;
     LATBbits.LATB14 = 0;
     LATBbits.LATB15 = 0;
+
 } // end of PortInit()
 
 /**
@@ -158,7 +164,8 @@ void PinsInit() {
     RPINR14bits.QEA1R   = PIN_QEA1;		    
     RPINR14bits.QEB1R   = PIN_QEB1;		    
     RPINR16bits.QEA2R   = PIN_QEA2;		    
-    RPINR16bits.QEB2R   = PIN_QEB2;		
+    RPINR16bits.QEB2R   = PIN_QEB2;	
+
 } // end of PinsInit(...)
 
 /**
@@ -166,6 +173,7 @@ void PinsInit() {
  * 
  */
 void OscillatorInit() {
+
     // set the oscillator to 30MHz
 	PLLFBD = 28; 				
 	CLKDIVbits.PLLPOST = 0; 	
@@ -182,6 +190,7 @@ void OscillatorInit() {
 
 	//wait for PLL lock
 	while (OSCCONbits.LOCK != 0b1);
+
 } // end of OscillatorInit(...)
 
 
