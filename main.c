@@ -229,6 +229,7 @@ static void uart_flush() {
     SRbits.IPL = 7;
     SRbits.IPL = 0;
 }
+
 int main(void)
 {
 	// set the oscillator to 30MHz
@@ -250,14 +251,13 @@ int main(void)
     
     AD1PCFGL = 0xFFFF;// all PORT Digital
 
-    // TODO: assign defines to those pins
-    RPINR18bits.U1RXR = 0;		//UART1 RX na RP0- pin 4
-    RPOR0bits.RP1R = 3;			//UART1 TX na RP1- pin 5
-    RPINR14bits.QEA1R = 2;		//QEI1A na RP2
-    RPINR14bits.QEB1R = 3;		//QEI1B na RP3
-
-    RPINR16bits.QEA2R = 4;		//QEI2A na RP4
-    RPINR16bits.QEB2R = 7;		//QEI2B na RP7
+    // TODO: assign defines to those    pins
+    RPINR18bits.U1RXR   = PIN_UART1_RX;		
+    RPOR0bits.RP1R      = PIN_UART1_TX;		
+    RPINR14bits.QEA1R   = PIN_QEA1;		    
+    RPINR14bits.QEB1R   = PIN_QEB1;		    
+    RPINR16bits.QEA2R   = PIN_QEA2;		    
+    RPINR16bits.QEB2R   = PIN_QEB2;		    
     
     // init CAN BUS
     //CAN_init(DRIVER_IDENTIFICATOR); 
