@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=../main.c ../init.c ../uart.c ../timer.c ../pwm.c ../kretanje.c ../can.c
+SOURCEFILES_QUOTED_IF_SPACED=../main.c ../init.c ../uart.c ../timer.c ../kretanje.c ../can.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1472/main.o ${OBJECTDIR}/_ext/1472/init.o ${OBJECTDIR}/_ext/1472/uart.o ${OBJECTDIR}/_ext/1472/timer.o ${OBJECTDIR}/_ext/1472/pwm.o ${OBJECTDIR}/_ext/1472/kretanje.o ${OBJECTDIR}/_ext/1472/can.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1472/main.o.d ${OBJECTDIR}/_ext/1472/init.o.d ${OBJECTDIR}/_ext/1472/uart.o.d ${OBJECTDIR}/_ext/1472/timer.o.d ${OBJECTDIR}/_ext/1472/pwm.o.d ${OBJECTDIR}/_ext/1472/kretanje.o.d ${OBJECTDIR}/_ext/1472/can.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1472/main.o ${OBJECTDIR}/_ext/1472/init.o ${OBJECTDIR}/_ext/1472/uart.o ${OBJECTDIR}/_ext/1472/timer.o ${OBJECTDIR}/_ext/1472/kretanje.o ${OBJECTDIR}/_ext/1472/can.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1472/main.o.d ${OBJECTDIR}/_ext/1472/init.o.d ${OBJECTDIR}/_ext/1472/uart.o.d ${OBJECTDIR}/_ext/1472/timer.o.d ${OBJECTDIR}/_ext/1472/kretanje.o.d ${OBJECTDIR}/_ext/1472/can.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/1472/main.o ${OBJECTDIR}/_ext/1472/init.o ${OBJECTDIR}/_ext/1472/uart.o ${OBJECTDIR}/_ext/1472/timer.o ${OBJECTDIR}/_ext/1472/pwm.o ${OBJECTDIR}/_ext/1472/kretanje.o ${OBJECTDIR}/_ext/1472/can.o
+OBJECTFILES=${OBJECTDIR}/_ext/1472/main.o ${OBJECTDIR}/_ext/1472/init.o ${OBJECTDIR}/_ext/1472/uart.o ${OBJECTDIR}/_ext/1472/timer.o ${OBJECTDIR}/_ext/1472/kretanje.o ${OBJECTDIR}/_ext/1472/can.o
 
 # Source Files
-SOURCEFILES=../main.c ../init.c ../uart.c ../timer.c ../pwm.c ../kretanje.c ../can.c
+SOURCEFILES=../main.c ../init.c ../uart.c ../timer.c ../kretanje.c ../can.c
 
 
 
@@ -123,13 +123,6 @@ ${OBJECTDIR}/_ext/1472/timer.o: ../timer.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../timer.c  -o ${OBJECTDIR}/_ext/1472/timer.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1472/timer.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -fast-math -DXPRJ_default=$(CND_CONF)  -no-legacy-libc  $(COMPARISON_BUILD)  -O0 -I".." -msmart-io=1 -Wall -msfr-warn=off   
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1472/timer.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
-${OBJECTDIR}/_ext/1472/pwm.o: ../pwm.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1472" 
-	@${RM} ${OBJECTDIR}/_ext/1472/pwm.o.d 
-	@${RM} ${OBJECTDIR}/_ext/1472/pwm.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../pwm.c  -o ${OBJECTDIR}/_ext/1472/pwm.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1472/pwm.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PICKIT2=1    -omf=elf -fast-math -DXPRJ_default=$(CND_CONF)  -no-legacy-libc  $(COMPARISON_BUILD)  -O0 -I".." -msmart-io=1 -Wall -msfr-warn=off   
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1472/pwm.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
 ${OBJECTDIR}/_ext/1472/kretanje.o: ../kretanje.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/_ext/1472" 
 	@${RM} ${OBJECTDIR}/_ext/1472/kretanje.o.d 
@@ -172,13 +165,6 @@ ${OBJECTDIR}/_ext/1472/timer.o: ../timer.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/_ext/1472/timer.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../timer.c  -o ${OBJECTDIR}/_ext/1472/timer.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1472/timer.o.d"        -g -omf=elf -fast-math -DXPRJ_default=$(CND_CONF)  -no-legacy-libc  $(COMPARISON_BUILD)  -O0 -I".." -msmart-io=1 -Wall -msfr-warn=off   
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1472/timer.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
-${OBJECTDIR}/_ext/1472/pwm.o: ../pwm.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1472" 
-	@${RM} ${OBJECTDIR}/_ext/1472/pwm.o.d 
-	@${RM} ${OBJECTDIR}/_ext/1472/pwm.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../pwm.c  -o ${OBJECTDIR}/_ext/1472/pwm.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1472/pwm.o.d"        -g -omf=elf -fast-math -DXPRJ_default=$(CND_CONF)  -no-legacy-libc  $(COMPARISON_BUILD)  -O0 -I".." -msmart-io=1 -Wall -msfr-warn=off   
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1472/pwm.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1472/kretanje.o: ../kretanje.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/_ext/1472" 

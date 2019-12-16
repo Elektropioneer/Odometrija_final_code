@@ -9,6 +9,7 @@
 #define PIN_QEB2 7          // QEI2B na RP7
 
 void UARTinit();
+void CloseMCPWM(void);
 void PWMinit();
 void TimerInit();
 void QEIinit();

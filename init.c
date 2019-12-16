@@ -1,5 +1,4 @@
 #include    "init.h"
-#include    "pwm.h"
 
 void UARTinit()
 {
@@ -12,6 +11,25 @@ void UARTinit()
     U1MODEbits.UARTEN = 1;  // Enable UART
     U1STAbits.UTXEN = 1;
     IFS0bits.U1RXIF = 0;
+}
+
+
+void CloseMCPWM(void)
+{
+    // clear the Interrupt enables 
+    IEC3bits.PWM1IE = 0;	
+    IEC3bits.FLTA1IE = 0;	
+
+    // clear the Interrupt flags 
+    IFS3bits.PWM1IF = 0;	
+    IFS3bits.FLTA1IF = 0;	
+
+    // clear the PWM control registers 
+    PTCON       =       0;
+    PWMCON1     =       0;
+    PWMCON2     =       0;
+
+    P1TCONbits.PTEN = P2TCONbits.PTEN = 0;
 }
 
 void PWMinit()
@@ -37,6 +55,8 @@ void PWMinit()
     P2DC1 = 0;
     P2TCONbits.PTEN = 1;
 }
+
+
 
 void TimerInit()
 {
@@ -116,3 +136,43 @@ void PinsInit() {
     RPINR16bits.QEB2R   = PIN_QEB2;		
 }
 
+
+
+
+
+
+// PWM function not being used but reference here
+/*
+void OpenMCPWM(unsigned int period, unsigned int sptime, unsigned int 
+               config1, unsigned int config2, unsigned int config3)
+{
+    PTPER   = period;
+    SEVTCMP = sptime;
+    PWMCON1 = config2;
+    PWMCON2 = config3;
+    PTCON   = config1;
+}
+void OverrideMCPWM(unsigned int config)
+{
+    OVDCON = config;
+}
+void SetDCMCPWM(unsigned int dutycyclereg, unsigned int dutycycle,
+                char updatedisable)
+{
+    PWMCON2bits.UDIS = updatedisable & 0x1;
+    
+    // Assign dutycycle to the duty cycle register 
+    *(&PDC1+dutycyclereg -1) = dutycycle; 
+}
+void SetMCPWMDeadTimeAssignment(unsigned int config)
+{
+    DTCON2 = config ; 
+}
+void SetMCPWMDeadTimeGeneration (unsigned int config)
+{
+    DTCON1 = config;
+}
+void SetMCPWMFaultA(unsigned int config)
+{
+    FLTACON = config;
+}*/

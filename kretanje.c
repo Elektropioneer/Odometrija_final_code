@@ -5,7 +5,6 @@
 #include "globals.h"
 #include "kretanje.h"
 #include "uart.h"
-#include "pwm.h"
 #include "can.h"
 #include <math.h>
 
