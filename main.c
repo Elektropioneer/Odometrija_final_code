@@ -170,20 +170,20 @@ void __attribute__((__interrupt__)) _T1Interrupt(void)
         // depending on the PWM value, send the motor forward/backward
         // left motor
         if(PWML >= 0) {
-                LEVI_NAPRED;
-                LeviPWM(PWML);
+                motor_leftForward;
+                motor_leftPWM(PWML);
         } else {
-                LEVI_NAZAD;
-                LeviPWM(-PWML);
+                motor_leftBackward;
+                motor_leftPWM(-PWML);
         }
 
         // right motor
         if (PWMD >= 0) {
-                DESNI_NAPRED;
-                DesniPWM(PWMD);
+                motor_rightForward;
+                motor_rightPWM(PWMD);
         } else {
-                DESNI_NAZAD;
-                DesniPWM(-PWMD);
+                motor_rightBackward;
+                motor_rightPWM(-PWMD);
         }
     } // end of regulation
 

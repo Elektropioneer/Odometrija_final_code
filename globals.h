@@ -1,14 +1,7 @@
 #include    <p33FJ128MC802.h>
 
-/* 
- * File:   globals.h
- * Author: mrmot
- *
- * Created on November 24, 2012, 3:25 PM
- */
-
 #ifndef GLOBALS_H
-#define	GLOBALS_H
+#define GLOBALS_H
 
 
 /*
@@ -55,9 +48,19 @@
 
 //#define BIG_ROBOT
 #define SMALL_ROBOT
+
+
+
 #define PI	3.1415926535897932384626433832795
 
-#define ROBOT_ACCEL_NUMBER 1500 // ovo se manje od zavisnosti koliko brzo da da gas robot (sto veci to sporije)
+
+
+// misc defines (global)
+#define ROBOT_ACCEL_NUMBER 1500 // the acceleration parameter, the higher the number it slower accelerates
+
+
+
+
 
 #ifdef BIG_ROBOT 
 #define d_tocka	82.26           // precnik odometrijskog tocka odometrijskih
@@ -77,7 +80,7 @@
 
 
 #ifdef SMALL_ROBOT
-//42.4
+
 #define d_tocka	65 //79.8            // precnik odometrijskog tocka
 #define D_tocka	255//207.5           //rastojanje izmedju tockova
 #define K1 	64276//41785               //(43841long)(0.5 + 8*2048.0f * D_tocka / d_tocka)  //broj ikremenata po krugu
@@ -88,6 +91,9 @@
 #define Gp_T	0.70
 #define Gd_T	4.1
 #endif
+
+
+
 
 //POMOCNE PROMENLJIVE:
 extern char brint;

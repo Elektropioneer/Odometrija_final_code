@@ -171,7 +171,7 @@ section                    address      alignment gaps    total length  (dec)
 .ndata                       0x86c                   0             0x2  (2)
 .nbss                        0x86e                   0             0x2  (2)
 .bss                         0x870                   0           0x1a8  (424)
-_0xf72a1a6c5df7b091         0x47c0                   0            0x40  (64)
+_0xf72b1a6c5df7b724         0x47c0                   0            0x40  (64)
 
                  Total "data" memory used (bytes):          0x258  (600) 3%
 
@@ -369,8 +369,8 @@ External Symbols in Program Memory (by address):
                   0x0076d6                  _OscillatorInit
                   0x00772a                  _main
                   0x0078b0                  ___delay32
-                  0x0078cc                  _LeviPWM
-                  0x0078d8                  _DesniPWM
+                  0x0078cc                  _motor_leftPWM
+                  0x0078d8                  _motor_rightPWM
 
 External Symbols in Program Memory (by name):
 
@@ -384,9 +384,7 @@ External Symbols in Program Memory (by name):
                   0x00739c                  _CloseUART1
                   0x0073ac                  _ConfigIntUART1
                   0x00741a                  _DataRdyUART1
-                  0x0078d8                  _DesniPWM
                   0x007574                  _FlushUART1
-                  0x0078cc                  _LeviPWM
                   0x00748a                  _OpenUART1
                   0x0076d6                  _OscillatorInit
                   0x0075d0                  _PWMinit
@@ -474,6 +472,8 @@ External Symbols in Program Memory (by name):
                   0x0063aa                  _kretanje_pravo
                   0x006b88                  _kurva
                   0x00772a                  _main
+                  0x0078cc                  _motor_leftPWM
+                  0x0078d8                  _motor_rightPWM
                   0x0068b2                  _okret
                   0x00754a                  _putch
                   0x00755e                  _putch_16bit
@@ -735,14 +735,14 @@ __FUID3
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x786d
+.debug_info       0x000000       0x7879
  *(.debug_info)
  .debug_info      0x000000        0xaa6 build/default/production/_ext/1472/main.o
  .debug_info      0x000aa6       0x23b5 build/default/production/_ext/1472/init.o
  .debug_info      0x002e5b        0xfdc build/default/production/_ext/1472/uart.o
  .debug_info      0x003e37        0xde5 build/default/production/_ext/1472/kretanje.o
  .debug_info      0x004c1c       0x2a77 build/default/production/_ext/1472/can.o
- .debug_info      0x007693        0x1da build/default/production/_ext/1472/motor.o
+ .debug_info      0x007693        0x1e6 build/default/production/_ext/1472/motor.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x820
@@ -787,7 +787,7 @@ __FUID3
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x49c
+                  0x000000        0x4a8
  *(.debug_pubnames)
  .debug_pubnames
                   0x000000        0x1a4 build/default/production/_ext/1472/main.o
@@ -800,7 +800,7 @@ __FUID3
  .debug_pubnames
                   0x0003d9         0x98 build/default/production/_ext/1472/can.o
  .debug_pubnames
-                  0x000471         0x2b build/default/production/_ext/1472/motor.o
+                  0x000471         0x37 build/default/production/_ext/1472/motor.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -1980,9 +1980,9 @@ __c30_signature
  __c30_signature
                   0x000943          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umuldi3.eo)
 
-_0xf72a1a6c5df7b091
+_0xf72b1a6c5df7b724
                     0x47c0         0x40
- _0xf72a1a6c5df7b091
+ _0xf72b1a6c5df7b724
                     0x47c0         0x40 build/default/production/_ext/1472/can.o
 
 .nbss               0x0800         0x6c
@@ -2116,5 +2116,5 @@ libmxconst          0xd9da         0x94 load address 0x0059da
 
 .text             0x0078cc         0x18
  .text            0x0078cc         0x18 build/default/production/_ext/1472/motor.o
-                  0x0078cc                  _LeviPWM
-                  0x0078d8                  _DesniPWM
+                  0x0078cc                  _motor_leftPWM
+                  0x0078d8                  _motor_rightPWM
