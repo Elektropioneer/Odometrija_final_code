@@ -1,5 +1,9 @@
 #include    "init.h"
 
+/**
+ * @brief Initialize uart at 57600 Baud
+ * 
+ */
 void UARTinit()
 {
     CloseUART1();
@@ -11,9 +15,12 @@ void UARTinit()
     U1MODEbits.UARTEN = 1;  // Enable UART
     U1STAbits.UTXEN = 1;
     IFS0bits.U1RXIF = 0;
-}
+} // end of UARTinit()
 
-
+/**
+ * @brief Clear the PWM interrupts and PWM control registers (turn off motors)
+ * 
+ */
 void CloseMCPWM(void)
 {
     // clear the Interrupt enables 
@@ -30,8 +37,12 @@ void CloseMCPWM(void)
     PWMCON2     =       0;
 
     P1TCONbits.PTEN = P2TCONbits.PTEN = 0;
-}
+} // end of CloseMCPWM(...)
 
+/**
+ * @brief Init both PWMs at 18.4kHz
+ * 
+ */
 void PWMinit()
 {	
     CloseMCPWM();
@@ -54,10 +65,12 @@ void PWMinit()
     P2TPER = 1627;              // PWM frquenecy: 18425Hz
     P2DC1 = 0;
     P2TCONbits.PTEN = 1;
-}
+} // end of PWMinit()
 
-
-
+/**
+ * @brief inits the timer1 used to interrupt at 1ms
+ * 
+ */
 void TimerInit()
 {
     IEC0bits.T1IE = 0;          // Disable the Timer1 interrupt 
@@ -69,13 +82,17 @@ void TimerInit()
     T1CONbits.TCS = 0;
 
     TMR1 = 0;
-    PR1 = 30000;
+    PR1 = 30000;                // 1ms
 
     IFS0bits.T1IF = 0;          // Clear Timer1 Interrupt Flag
     IEC0bits.T1IE = 1;          // Enable Timer1 interrupt
     T1CONbits.TON = 1;
-}
+} // end of TimerInit(...)
 
+/**
+ * @brief init the registers for the encoders
+ * 
+ */
 void QEIinit()
 {
 
@@ -96,8 +113,12 @@ void QEIinit()
 
     MAX2CNT=0000;
     POS2CNT=0;
-}
+} // end of QEIInit(...)
 
+/**
+ * @brief init all ports to input
+ * 
+ */
 void PortInit()
 {
 
@@ -122,8 +143,12 @@ void PortInit()
     LATBbits.LATB13 = 0;
     LATBbits.LATB14 = 0;
     LATBbits.LATB15 = 0;
-}
+} // end of PortInit()
 
+/**
+ * @brief setup pins to digital; uart and encoder
+ * 
+ */
 void PinsInit() {
     
     AD1PCFGL = 0xFFFF;// all PORT Digital
@@ -134,8 +159,7 @@ void PinsInit() {
     RPINR14bits.QEB1R   = PIN_QEB1;		    
     RPINR16bits.QEA2R   = PIN_QEA2;		    
     RPINR16bits.QEB2R   = PIN_QEB2;		
-}
-
+} // end of PinsInit(...)
 
 
 
