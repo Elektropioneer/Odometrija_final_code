@@ -13,3 +13,4 @@ void PWMinit();
 void TimerInit();
 void QEIinit();
 void PortInit();
+void PinsInit();

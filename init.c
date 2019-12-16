@@ -104,3 +104,15 @@ void PortInit()
     LATBbits.LATB15 = 0;
 }
 
+void PinsInit() {
+    
+    AD1PCFGL = 0xFFFF;// all PORT Digital
+
+    RPINR18bits.U1RXR   = PIN_UART1_RX;		
+    RPOR0bits.RP1R      = PIN_UART1_TX;		
+    RPINR14bits.QEA1R   = PIN_QEA1;		    
+    RPINR14bits.QEB1R   = PIN_QEB1;		    
+    RPINR16bits.QEA2R   = PIN_QEA2;		    
+    RPINR16bits.QEB2R   = PIN_QEB2;		
+}
+
