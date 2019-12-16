@@ -8,25 +8,32 @@
 #include "can.h"
 #include <math.h>
 
-
+// set the beinning state
 static enum States currentStatus = STATUS_IDLE;
 
-
+/**
+ * @brief reset the driver parameters
+ * 
+ */
 void resetDriver(void)
 {
-    //inicijalizacija parametara:
     positionR = positionL = 0;
     L = orientation = 0;
     vR = vL = 0;
 
     setSpeed(0x80);
-    setSpeedAccel(K2);	//K2 je za 1m/s /bilo je 2
+    setSpeedAccel(K2);
 
     setPosition(0, 0, 0);
     currentStatus = STATUS_IDLE;
-}
 
-//zadavanje X koordinate
+} // end of resetDriver(...)
+
+/**
+ * @brief set the X position of the robot
+ * 
+ * @param tmp the X value
+ */
 static void setX(int tmp)
 {
     unsigned long t;
@@ -37,9 +44,13 @@ static void setX(int tmp)
 
     t = sys_time;
     while(sys_time == t);
-}
+} // end of setX(...)
 
-//zadavanje Y koordinate
+/**
+ * @brief set the Y position of the robot
+ * 
+ * @param tmp the Y value
+ */
 static void setY(int tmp)
 {
     unsigned long t;
@@ -50,9 +61,13 @@ static void setY(int tmp)
 
     t = sys_time;
     while(sys_time == t);
-}
+} // end of setY(...)
 
-//zadavanje orjentacije
+/**
+ * @brief set the orientation of the robot
+ * 
+ * @param tmp the angle
+ */
 static void setO(int tmp)
 {
     unsigned long t;
@@ -68,8 +83,15 @@ static void setO(int tmp)
 
     t = sys_time;
     while(sys_time == t);
-}
+} // end of setO(...)
 
+/**
+ * @brief Set the Position of the robot
+ * 
+ * @param X the X position
+ * @param Y the Y position
+ * @param orientation the orientation
+ */
 void setPosition(int X, int Y, int orientation)
 {
     setX(X);
@@ -77,8 +99,12 @@ void setPosition(int X, int Y, int orientation)
     setO(orientation);
 
     currentStatus = STATUS_IDLE;
-}
+} // end of setPosition(...)
 
+/**
+ * @brief get the current status/position and send it back
+ * 
+ */
 void sendStatusAndPosition(void)
 {
     long tmpO = orientation;
@@ -102,33 +128,52 @@ void sendStatusAndPosition(void)
     tmpO = ((double)orientation * 360) / K1 + 0.5;
     putch_16bit(tmpO);
     
-}
+} // end of sendStatusAndPosition(...)
 
+/**
+ * @brief set the acceleration parameters
+ * 
+ * @param v acceleration parameter
+ */
 void setSpeedAccel(float v)
 {
-    vmax = v;	//K2 je za 1m/s
+    vmax = v;	
     omega = 2 * vmax;
-    accel = vmax / ROBOT_ACCEL_NUMBER;	// ako je losa mehanika (ilija molim te nemoj) povecaj
+    accel = vmax / ROBOT_ACCEL_NUMBER;
     alfa = 2.5 * accel;
-}
+} // end of setSpeedAccel(...)
 
+/**
+ * @brief helper function for getting the state
+ * 
+ * @return enum States 
+ */
 enum States getStatus(void)
 {
     return currentStatus;
-}
+} // end of getStatus(...)
 
+/**
+ * @brief force a status
+ * 
+ * @param newStatus the new forced status
+ */
 void forceStatus(enum States newStatus)
 {
-    currentStatus = newStatus;
-}
+    currentStatus = newStatus; 
+} // end of forceStatus(...)
 
-//citanje serijskog porta tokom kretanja
+/**
+ * @brief Function for reading command while moving
+ * 
+ * @return char 
+ */
 static char getCommand(void)
 {
     char command;
 
-   // U1STAbits.OERR = 0;       //skrnavac usrani mora rucno da se resetuje
-    if(DataRdyUART1() > 0)    //proverava jel stigao karakter preko serijskog porta
+   // U1STAbits.OERR = 0;       
+    if(DataRdyUART1() > 0)   
     {
         command = getch();
 
@@ -139,7 +184,7 @@ static char getCommand(void)
                 break;
 
             case 'S':
-                //ukopaj se u mestu
+                // hard stop
                 d_ref = L;
                 t_ref = orientation;
                 v_ref = 0;
@@ -150,7 +195,7 @@ static char getCommand(void)
                 return 0;
 
             case 's':
-                //stani i ugasi PWM
+                // stop and turn off PWM (stop stop)
                 d_ref = L;
                 t_ref = orientation;
                 v_ref = 0;
@@ -181,8 +226,14 @@ static char getCommand(void)
     }
 
     return 1;
-}
 
+} // end of getCommand(...)
+
+/**
+ * @brief checks if we are stuck (needs testing)
+ * 
+ * @return char 
+ */
 static char checkStuckCondition(void)
 {
 
@@ -199,9 +250,16 @@ static char checkStuckCondition(void)
     }
 */
     return 1;
-}
+} // end of checkStuckCondition(...)
 
-//gadjaj tacku (Xd, Yd)
+/**
+ * @brief goes to XY position at a max speed and in a direction
+ * 
+ * @param Xd X position
+ * @param Yd Y position 
+ * @param krajnja_brzina end speed 
+ * @param smer direction
+ */
 void gotoXY(int Xd, int Yd, unsigned char krajnja_brzina, char smer)
 {
     long t, t0, t1, t2, t3;
@@ -235,7 +293,6 @@ void gotoXY(int Xd, int Yd, unsigned char krajnja_brzina, char smer)
     if(duzina < 500)
         setSpeedAccel(K2/3);
 
-    //kretanje_pravo(duzina, krajnja_brzina);
     v_end = vmax * krajnja_brzina / 256;
     L_dist = (long)duzina * K2;
 
@@ -311,10 +368,15 @@ void gotoXY(int Xd, int Yd, unsigned char krajnja_brzina, char smer)
         }
 
     currentStatus = STATUS_IDLE;
-}
+} // end of gotoXY(...)
 
 
-//funkcija za kretanje pravo s trapezoidnim profilom brzine
+/**
+ * @brief move the robot forward/backward
+ * 
+ * @param duzina the length in [mm]
+ * @param krajnja_brzina end speed
+ */
 void kretanje_pravo(int duzina, unsigned char krajnja_brzina)
 {
     long t, t0, t1, t2, t3;
@@ -395,9 +457,13 @@ void kretanje_pravo(int duzina, unsigned char krajnja_brzina)
         }
 
     currentStatus = STATUS_IDLE;
-}
+} // end of kretanje_pravo(...)
 
-//funkcija za dovodjenje robota u zeljenu apsolutnu orjentaciju
+/**
+ * @brief Absolute angle
+ * 
+ * @param ugao the angle we want it to send it to
+ */
 void apsolutni_ugao(int ugao)
 {
     int tmp = ugao - orientation * 360 / K1;
@@ -408,9 +474,14 @@ void apsolutni_ugao(int ugao)
         tmp += 360;
 
     okret(tmp);
-}
+} // end of apsolutni_ugao(...)
 
-//funkcija za okretanje oko svoje ose s trapezoidnim profilom brzine
+/**
+ * @brief turn the robot at a specific angle (relative)
+ * 
+ * @param ugao the angle
+ * @return char 
+ */
 char okret(int ugao)
 {
     long t, t0, t1, t2, t3;
@@ -476,8 +547,16 @@ char okret(int ugao)
 
     currentStatus = STATUS_IDLE;
     return 0;
-}
+} // end of okret(...)
 
+/**
+ * @brief do a kurva motion
+ * 
+ * @param Xc 
+ * @param Yc 
+ * @param Fi 
+ * @param smer 
+ */
 void kurva(long Xc, long Yc, int Fi, char smer)
 {
     float R, Fi_pocetno, delta, luk;
@@ -592,19 +671,27 @@ void kurva(long Xc, long Yc, int Fi, char smer)
 
     setSpeedAccel(v_poc);
     currentStatus = STATUS_IDLE;
-}
-
+} // end of kurva(...)
+ 
+/**
+ * @brief stop the robot at the current point
+ * 
+ */
 void stop(void)
 {
     d_ref = L;
     t_ref = orientation;
 
     currentStatus = STATUS_IDLE;
-}
+} // end of stop(...)
 
+/**
+ * @brief Set the max speed of the robot
+ * 
+ * @param tmp the max speed
+ */
 void setSpeed(unsigned char tmp)
 {
     brzinaL = tmp;
     setSpeedAccel(K2  * (unsigned char)brzinaL / 256);
-}
-
+} // end of setSpeed(...)
