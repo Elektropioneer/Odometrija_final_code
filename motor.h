@@ -9,6 +9,8 @@
 #define motor_rightForward 	    LATBbits.LATB11=1; LATBbits.LATB8=0
 #define motor_rightBackward 	LATBbits.LATB11=0; LATBbits.LATB8=1
 
+#define motor_saturationPWMValue   3200
+
 void motor_leftPWM(unsigned int PWM);
 void motor_rightPWM(unsigned int PWM);
 

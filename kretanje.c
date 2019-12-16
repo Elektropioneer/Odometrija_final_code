@@ -6,6 +6,7 @@
 #include "kretanje.h"
 #include "uart.h"
 #include "can.h"
+#include "init.h"
 #include <math.h>
 
 // set the beinning state
@@ -17,9 +18,9 @@ static enum States currentStatus = STATUS_IDLE;
  */
 void resetDriver(void)
 {
-    positionR = positionL = 0;
-    L = orientation = 0;
-    vR = vL = 0;
+    encoder_rightIncrements = encoder_leftIncrements = 0;
+    odometry_incrementsDistance = odometry_incrementsOrientation = 0;
+    encoder_rightCurrentIncrements = encoder_leftCurrentIncrements = 0;
 
     setSpeed(0x80);
     setSpeedAccel(K2);
@@ -30,41 +31,41 @@ void resetDriver(void)
 } // end of resetDriver(...)
 
 /**
- * @brief set the X position of the robot
+ * @brief set the odometry_milliX position of the robot
  * 
- * @param tmp the X value
+ * @param tmp the odometry_milliX value
  */
 static void setX(int tmp)
 {
     unsigned long t;
 
-    Xlong = (long long)tmp * 65534 * K2;
-    d_ref = L;
-    t_ref = orientation;
+    odometry_incrementsX = (long long)tmp * 65534 * K2;
+    d_ref = odometry_incrementsDistance;
+    t_ref = odometry_incrementsOrientation;
 
     t = sys_time;
     while(sys_time == t);
 } // end of setX(...)
 
 /**
- * @brief set the Y position of the robot
+ * @brief set the odometry_milliY position of the robot
  * 
- * @param tmp the Y value
+ * @param tmp the odometry_milliY value
  */
 static void setY(int tmp)
 {
     unsigned long t;
 
-    Ylong = (long long)tmp * 65534 * K2;
-    d_ref = L;
-    t_ref = orientation;
+    odometry_incrementsY = (long long)tmp * 65534 * K2;
+    d_ref = odometry_incrementsDistance;
+    t_ref = odometry_incrementsOrientation;
 
     t = sys_time;
     while(sys_time == t);
 } // end of setY(...)
 
 /**
- * @brief set the orientation of the robot
+ * @brief set the odometry_incrementsOrientation of the robot
  * 
  * @param tmp the angle
  */
@@ -72,14 +73,14 @@ static void setO(int tmp)
 {
     unsigned long t;
 
-    positionL = -(tmp * K1 / 360) / 2;
-    positionR = (tmp * K1 / 360) / 2;
+    encoder_leftIncrements = -(tmp * K1 / 360) / 2;
+    encoder_rightIncrements = (tmp * K1 / 360) / 2;
 
-    L = (positionR + positionL) / 2;
-    orientation = (positionR - positionL) % K1;
+    odometry_incrementsDistance = (encoder_rightIncrements + encoder_leftIncrements) / 2;
+    odometry_incrementsOrientation = (encoder_rightIncrements - encoder_leftIncrements) % K1;
 
-    d_ref = L;
-    t_ref = orientation;
+    d_ref = odometry_incrementsDistance;
+    t_ref = odometry_incrementsOrientation;
 
     t = sys_time;
     while(sys_time == t);
@@ -88,15 +89,15 @@ static void setO(int tmp)
 /**
  * @brief Set the Position of the robot
  * 
- * @param X the X position
- * @param Y the Y position
- * @param orientation the orientation
+ * @param odometry_milliX the odometry_milliX position
+ * @param odometry_milliY the odometry_milliY position
+ * @param odometry_incrementsOrientation the odometry_incrementsOrientation
  */
-void setPosition(int X, int Y, int orientation)
+void setPosition(int odometry_milliX, int odometry_milliY, int odometry_incrementsOrientation)
 {
-    setX(X);
-    setY(Y);
-    setO(orientation);
+    setX(odometry_milliX);
+    setY(odometry_milliY);
+    setO(odometry_incrementsOrientation);
 
     currentStatus = STATUS_IDLE;
 } // end of setPosition(...)
@@ -107,7 +108,7 @@ void setPosition(int X, int Y, int orientation)
  */
 void sendStatusAndPosition(void)
 {
-    long tmpO = orientation;
+    long tmpO = odometry_incrementsOrientation;
     if(currentStatus == STATUS_ERROR)
         putch('E');
     else if(currentStatus == STATUS_MOVING)
@@ -122,10 +123,10 @@ void sendStatusAndPosition(void)
     U1STAbits.OERR = 0;
     
     
-    putch_16bit(X);
-    putch_16bit(Y);
+    putch_16bit(odometry_milliX);
+    putch_16bit(odometry_milliY);
 
-    tmpO = ((double)orientation * 360) / K1 + 0.5;
+    tmpO = ((double)odometry_incrementsOrientation * 360) / K1 + 0.5;
     putch_16bit(tmpO);
     
 } // end of sendStatusAndPosition(...)
@@ -185,8 +186,8 @@ static char getCommand(void)
 
             case 'S':
                 // hard stop
-                d_ref = L;
-                t_ref = orientation;
+                d_ref = odometry_incrementsDistance;
+                t_ref = odometry_incrementsOrientation;
                 v_ref = 0;
 
                 currentStatus = STATUS_IDLE;
@@ -196,8 +197,8 @@ static char getCommand(void)
 
             case 's':
                 // stop and turn off PWM (stop stop)
-                d_ref = L;
-                t_ref = orientation;
+                d_ref = odometry_incrementsDistance;
+                t_ref = odometry_incrementsOrientation;
                 v_ref = 0;
 
                 CloseMCPWM();
@@ -214,8 +215,8 @@ static char getCommand(void)
                 
                 // stop, status ostaje MOVING
 
-                d_ref = L;
-                t_ref = orientation;
+                d_ref = odometry_incrementsDistance;
+                t_ref = odometry_incrementsOrientation;
                 v_ref = 0;
 
                 __delay_ms(100);
@@ -237,11 +238,11 @@ static char getCommand(void)
 static char checkStuckCondition(void)
 {
 
-    /*if ((zaglavL / 128 > brzinaL) || (zaglavR / 128 > brzinaL)) //16,32
+    /*if ((odometry_stuckDistance / 128 > brzinaL) || (odometry_stuckOrientation / 128 > brzinaL)) //16,32
     {
         //ukopaj se u mestu
-        d_ref = L;
-        t_ref = orientation;
+        d_ref = odometry_incrementsDistance;
+        t_ref = odometry_incrementsOrientation;
         v_ref = 0;
 
         currentStatus = STATUS_STUCK;
@@ -255,8 +256,8 @@ static char checkStuckCondition(void)
 /**
  * @brief goes to XY position at a max speed and in a direction
  * 
- * @param Xd X position
- * @param Yd Y position 
+ * @param Xd odometry_milliX position
+ * @param Yd odometry_milliY position 
  * @param krajnja_brzina end speed 
  * @param smer direction
  */
@@ -266,7 +267,7 @@ void gotoXY(int Xd, int Yd, unsigned char krajnja_brzina, char smer)
     long T1, T2, T3;
     long L_dist, L0, L1, L2, L3;
     long D0, D1, D2;
-    float v_vrh, v_end, v0;
+    float v_encoder_rightCurrentIncrementsh, v_end, v0;
     int duzina, ugao;
     long long int Xdlong, Ydlong;
 
@@ -277,7 +278,7 @@ void gotoXY(int Xd, int Yd, unsigned char krajnja_brzina, char smer)
     smer = (smer > 0 ? 1 : -1);
 
     //okreni se prema krajnjoj tacki
-    ugao = atan2(Ydlong-Ylong, Xdlong-Xlong) * (180 / PI) - orientation * 360 / K1;
+    ugao = atan2(Ydlong-odometry_incrementsY, Xdlong-odometry_incrementsX) * (180 / PI) - odometry_incrementsOrientation * 360 / K1;
     if(smer < 0)
         ugao += 180;
     while(ugao > 180)
@@ -288,7 +289,7 @@ void gotoXY(int Xd, int Yd, unsigned char krajnja_brzina, char smer)
     if(okret(ugao))
         return;
 
-    duzina = sqrt((X - Xd) * (X - Xd) + (Y - Yd) * (Y - Yd));
+    duzina = sqrt((odometry_milliX - Xd) * (odometry_milliX - Xd) + (odometry_milliY - Yd) * (odometry_milliY - Yd));
 
     if(duzina < 500)
         setSpeedAccel(K2/3);
@@ -297,7 +298,7 @@ void gotoXY(int Xd, int Yd, unsigned char krajnja_brzina, char smer)
     L_dist = (long)duzina * K2;
 
     T1 = (vmax - v_ref) / accel;
-    L0 = L;
+    L0 = odometry_incrementsDistance;
     L1 = v_ref * T1 + accel * T1 * T1 / 2;
 
     T3 = (vmax - v_end) / accel;
@@ -313,15 +314,15 @@ void gotoXY(int Xd, int Yd, unsigned char krajnja_brzina, char smer)
     {
         //ne moze da dostigne vmax
         T2 = 0;
-        v_vrh = sqrt(accel * L_dist + (v_ref * v_ref + v_end * v_end) / 2);
-        if( (v_vrh < v_ref) || (v_vrh < v_end) )
+        v_encoder_rightCurrentIncrementsh = sqrt(accel * L_dist + (v_ref * v_ref + v_end * v_end) / 2);
+        if( (v_encoder_rightCurrentIncrementsh < v_ref) || (v_encoder_rightCurrentIncrementsh < v_end) )
         {
             currentStatus = STATUS_ERROR;
             return; //mission impossible
         }
 
-        T1 = (v_vrh - v_ref) / accel;
-        T3 = (v_vrh - v_end) / accel;
+        T1 = (v_encoder_rightCurrentIncrementsh - v_ref) / accel;
+        T3 = (v_encoder_rightCurrentIncrementsh - v_end) / accel;
     }
 
     t = t0 = sys_time;
@@ -345,9 +346,9 @@ void gotoXY(int Xd, int Yd, unsigned char krajnja_brzina, char smer)
             if(t <= t2)
             {
                 if(smer > 0)
-                    t_ref = atan2(Ydlong-Ylong, Xdlong-Xlong) / (2 * PI) * K1;
+                    t_ref = atan2(Ydlong-odometry_incrementsY, Xdlong-odometry_incrementsX) / (2 * PI) * K1;
                 else
-                    t_ref = atan2(Ylong-Ydlong, Xlong-Xdlong) / (2 * PI) * K1;
+                    t_ref = atan2(odometry_incrementsY-Ydlong, odometry_incrementsX-Xdlong) / (2 * PI) * K1;
             }
 
             if(t <= t1)
@@ -383,7 +384,7 @@ void kretanje_pravo(int duzina, unsigned char krajnja_brzina)
     long T1, T2, T3;
     long L_dist, L0, L1, L2, L3;
     long D0, D1, D2;
-    float v_vrh, v_end, v0;
+    float v_encoder_rightCurrentIncrementsh, v_end, v0;
     char predznak;
 
    // if((duzina < 500) && (duzina > -500))
@@ -395,7 +396,7 @@ void kretanje_pravo(int duzina, unsigned char krajnja_brzina)
     L_dist = (long)duzina * K2; // konverzija u inkremente
 
     T1 = (vmax - v_ref) / accel;
-    L0 = L;
+    L0 = odometry_incrementsDistance;
     L1 = v_ref * T1 + accel * T1 * (T1 / 2);
 
     T3 = (vmax - v_end) / accel;
@@ -411,15 +412,15 @@ void kretanje_pravo(int duzina, unsigned char krajnja_brzina)
     {
         //ne moze da dostigne vmax
         T2 = 0;
-        v_vrh = sqrt(accel * predznak * L_dist + (v_ref * v_ref + v_end * v_end) / 2);
-        if((v_vrh < v_ref) || (v_vrh < v_end))
+        v_encoder_rightCurrentIncrementsh = sqrt(accel * predznak * L_dist + (v_ref * v_ref + v_end * v_end) / 2);
+        if((v_encoder_rightCurrentIncrementsh < v_ref) || (v_encoder_rightCurrentIncrementsh < v_end))
         {
             currentStatus = STATUS_ERROR;
             return; //mission impossible
         }
 
-        T1 = (v_vrh - v_ref) / accel;
-        T3 = (v_vrh - v_end) / accel;
+        T1 = (v_encoder_rightCurrentIncrementsh - v_ref) / accel;
+        T3 = (v_encoder_rightCurrentIncrementsh - v_end) / accel;
     }
 
     t = t0 = sys_time;
@@ -466,7 +467,7 @@ void kretanje_pravo(int duzina, unsigned char krajnja_brzina)
  */
 void apsolutni_ugao(int ugao)
 {
-    int tmp = ugao - orientation * 360 / K1;
+    int tmp = ugao - odometry_incrementsOrientation * 360 / K1;
 
     if(tmp > 180)
         tmp -= 360;
@@ -521,7 +522,7 @@ char okret(int ugao)
             t = sys_time;
             if(!getCommand())
                 return 1;
-            //if (t % 16 == 0) putch ((char)(zaglavR / 16));
+            //if (t % 16 == 0) putch ((char)(zaglaencoder_rightCurrentIncrements / 16));
             if(!checkStuckCondition())
                 return 1;
 
@@ -568,8 +569,8 @@ void kurva(long Xc, long Yc, int Fi, char smer)
     int ugao;
 
     predznak = (Fi >= 0 ? 1 : -1);
-    R = sqrt(((X-Xc) * (X-Xc) + (Y-Yc) * (Y-Yc)));
-    Fi_pocetno = atan2(((int)Y-(int)Yc), ((int)X-(int)Xc));
+    R = sqrt(((odometry_milliX-Xc) * (odometry_milliX-Xc) + (odometry_milliY-Yc) * (odometry_milliY-Yc)));
+    Fi_pocetno = atan2(((int)odometry_milliY-(int)Yc), ((int)odometry_milliX-(int)Xc));
     ugao = Fi_pocetno * 180 / PI;
     smer = (smer >= 0 ? 1 : -1);
 
@@ -579,7 +580,7 @@ void kurva(long Xc, long Yc, int Fi, char smer)
     if(ugao < -180)
         ugao += 360;
 
-    ugao -= orientation * 360 / K1;
+    ugao -= odometry_incrementsOrientation * 360 / K1;
     ugao %= 360;
 
     if(ugao > 180)
@@ -679,8 +680,8 @@ void kurva(long Xc, long Yc, int Fi, char smer)
  */
 void stop(void)
 {
-    d_ref = L;
-    t_ref = orientation;
+    d_ref = odometry_incrementsDistance;
+    t_ref = odometry_incrementsOrientation;
 
     currentStatus = STATUS_IDLE;
 } // end of stop(...)

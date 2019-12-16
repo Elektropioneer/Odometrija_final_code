@@ -3,4 +3,5 @@ build/default/production/_ext/1472/kretanje.o:  \
 ../globals.h  \
  ../kretanje.h  \
 ../uart.h  \
-../can.h 
+../can.h  \
+../init.h 

@@ -15,12 +15,12 @@
  6. Check if everything works
  7. Measure d_tocka and D_tocka
  8. Calculate K1, K2
- 9.  PWML = commande_distance
-        PWMD = commande_distance
+ 9.   = odometry_regulatorDistance
+        motor_currentRightPWM = odometry_regulatorDistance
  10. Pid Gp_D & Gd_D
  11. Same for the rotation, just leave the commande_rotate in (dont forget -)
  12. Pid Gp_T & Gd_T
- 13. Combine everything (original PWML, PWMD)
+ 13. Combine everything (original , motor_currentRightPWM)
  14. Go back to 9. and reconfigure until you go fucking insane
  15. Add kretanje_pravo for 1000 and -1000. 
  -> K2 (K1) to adjust for 1000mm. 
@@ -96,20 +96,20 @@
 
 
 //POMOCNE PROMENLJIVE:
-extern char brint;
-extern long positionR, positionL;               //trenutne pozicije na enkoderima
-extern int vR, vL, greska_pred, greska_pred_R;  //trenutne brzine na motorima
-extern int zaglavL, zaglavR;                    //detekcija zaglavljivanja
+extern char odometry_loop_counter;
+extern long encoder_rightIncrements, encoder_leftIncrements;               //trenutne pozicije na enkoderima
+extern int encoder_rightCurrentIncrements, encoder_leftCurrentIncrements, greska_pred, greska_pred_R;  //trenutne brzine na motorima
+extern int odometry_stuckDistance, odometry_stuckOrientation;                    
 extern unsigned char brzinaL;
-extern long L, orientation, teta;
-extern long long int Xlong, Ylong;
+extern long odometry_incrementsDistance, odometry_incrementsOrientation, odometry_orientationTeta;
+extern long long int odometry_incrementsX, odometry_incrementsY;
 extern float vmax, accel;
 extern float omega, alfa;
-extern long X, Y;
+extern long odometry_milliX, odometry_milliY;
 extern long brojac,i;
 extern unsigned long sys_time;
 //PROMENLJIVE POTREBNE ZA REGULACIJU
-extern int PWML, PWMD;
+extern int motor_currentLeftPWM, motor_currentRightPWM;
 extern long t_ref, d_ref;
 extern float v_ref;
 
