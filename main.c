@@ -192,25 +192,38 @@ void __attribute__((__interrupt__)) _T1Interrupt(void)
 
     // clear interrupt flag
     IFS0bits.T1IF = 0;    
-}
+} // end of interrupt
 
+/**
+ * @brief reset the regulation parameters
+ * 
+ */
 void ResetDriver()
 {
-    //inicijalizacija parametara:
-    positionR = positionL=0;
-    L = orientation = 0;
-    vR = vL = 0;
-}
+    positionR = positionL=0;        // encoder sum position
+    L = orientation = 0;            // distance/orientation
+    vR = vL = 0;                    // encoder position
+} // end of ResetDriver(...)
 
+/**
+ * @brief update the left motor PWM channel
+ * 
+ * @param PWM 0-255 value to update the pwm to
+ */
 void LeviPWM(unsigned int PWM)
 {
     P1DC1 = PWM;
-}
+} // end of LeviPWM(...)
 
+/**
+ * @brief update the right motor PWM channel
+ * 
+ * @param PWM 0-255 value to update the pwm to
+ */
 void DesniPWM(unsigned int PWM)
 {
     P2DC1 = PWM;
-}
+} // end of DesniPWM(...)
 
 static void uart_flush() {
     SRbits.IPL = 7;
@@ -218,32 +231,26 @@ static void uart_flush() {
 }
 int main(void)
 {
-	
-    /* Configure Oscillator to operate the device at 30Mhz
-       Fosc= Fin*M/(N1*N2), Fcy=Fosc/2
-       Fosc= 7.37*(32)/(2*2)=58.96Mhz for Fosc, Fcy = 29.48Mhz */
-
-    /* Configure PLL prescaler, PLL postscaler, PLL divisor */
-    //PLLFBDbits.PLLDIV=38;   /* M = PLLFBD + 2 */ // izlazna frekvencija = 30Mhz
-    //Fin=8MHz, Fcy=30MHz 
-	// Configure PLL prescaler, PLL postscaler, PLL divisor
-	PLLFBD = 28; 				// M=40    ---> PLLFBD + 2 = M
-	CLKDIVbits.PLLPOST = 0; 	// N2=2    ---> 2x(PLLPOST + 2) = N2
-	CLKDIVbits.PLLPRE = 0; 	// N1=2    ---> PLLPRE + 2 = N1
+	// set the oscillator to 30MHz
+	PLLFBD = 28; 				
+	CLKDIVbits.PLLPOST = 0; 	
+	CLKDIVbits.PLLPRE = 0; 	
 
 	//new oscillator selection
-	__builtin_write_OSCCONH(0b011);  				//0b011 ---> XT with PLL
+	__builtin_write_OSCCONH(0b011); 
+
 	//enable oscillator source switch
-	__builtin_write_OSCCONL (OSCCONL | (1<<0)); 	//OSWEN 
+	__builtin_write_OSCCONL (OSCCONL | (1<<0));
 
 	//wait for PLL lock -> wait to new settings become available
 	while (OSCCONbits.COSC != 0b011); 
+
 	//wait for PLL lock
 	while (OSCCONbits.LOCK != 0b1); 
     
     AD1PCFGL = 0xFFFF;// all PORT Digital
 
-   
+    // TODO: assign defines to those pins
     RPINR18bits.U1RXR = 0;		//UART1 RX na RP0- pin 4
     RPOR0bits.RP1R = 3;			//UART1 TX na RP1- pin 5
     RPINR14bits.QEA1R = 2;		//QEI1A na RP2
@@ -252,7 +259,8 @@ int main(void)
     RPINR16bits.QEA2R = 4;		//QEI2A na RP4
     RPINR16bits.QEB2R = 7;		//QEI2B na RP7
     
-    //CAN_init(DRIVER_IDENTIFICATOR); // inicijalizacija CAN BUS- a-> argument je adresa drajvera
+    // init CAN BUS
+    //CAN_init(DRIVER_IDENTIFICATOR); 
 
     int tmp;
     char komanda, v, smer;
@@ -275,66 +283,50 @@ int main(void)
     // podesis maximalni speed (najbolje je kad ukljucis robota da to uradis preko glavne)
     setSpeed(70);
     
-    __delay_ms(500);
-
-    while(1) {
-        kretanje_pravo(1000, 100);
-        __delay_ms(1000);
-        
-        kretanje_pravo(-1000, 100);
-        __delay_ms(1000);
-    }
-    /*while(1) {
-     okret(360);
-        __delay_ms(1000);
-    }*/
-    
     
     while(1)
     {
-        // proverava da li ima nes na uartu
+        // if data has arrived
         if(DataRdyUART1() > 0) {
             
-            // ako ima pogleda sta je prvi byte
+            // check the first byte
             komanda = getch();
             
+            // select the function depending on the first byte
             switch(komanda)
             {
-                // zadavanje pozicije
+                // set position
                 case 'I':
                     tmpX = getch_16bit();
-                  //  tmpX = -tmpX;
                     tmpY = getch_16bit();
-                    //tmpY = -tmpY;
                     tmpO = getch_16bit();
                     
                     
                     setPosition(tmpX, tmpY, tmpO);
                     break;
 
-                // citanje pozicije i statusa
+                // send back status and position
                 case 'P':
                     sendStatusAndPosition();
                     break;
 
-                //zadavanje max. brzine (default K2/2)
+                // set the max speed
                 case 'V':
                     tmp = getch();
                     setSpeed(tmp);
 
                     break;
 
-                //kretanje pravo [mm]
+                // move robot forward/backward
                 case 'D':
                     tmp = getch_16bit();
-                    //tmp = -tmp;
                     v = getch();            // maximal speed
                     PWMinit();              // ako je predhodno bio soft stop da opet inituje
                     kretanje_pravo(tmp, v);
 
                     break;
 
-                //relativni ugao [stepen]
+                // relative angle
                 case 'T':
                     tmp = getch_16bit();
                     PWMinit();
@@ -342,7 +334,7 @@ int main(void)
 
                     break;
 
-                //apsolutni ugao [stepen]
+                // absolute angle
                 case 'A':
                     tmp = getch_16bit();
                     PWMinit();
@@ -350,7 +342,7 @@ int main(void)
 
                     break;
 
-                //idi u tacku (Xc, Yc) [mm]
+                // goto xy
                 case 'G':
                     tmpX = getch_16bit();
                     tmpY = getch_16bit();
@@ -361,7 +353,7 @@ int main(void)
 
                     break;
 
-                //kurva
+                // kurva
                 case 'Q':
                     tmpX = getch_16bit();
                     tmpY = getch_16bit();
@@ -372,14 +364,14 @@ int main(void)
 
                     break;
 
-                //ukopaj se u mestu (hard stop)
+                // hard stop
                 case 'S':
                    
                     stop();
 
                     break;
 
-                //stani i ugasi PWM (soft stop)
+                // stop and turn off PWM
                 case 's':
                     
                     stop();
@@ -387,21 +379,17 @@ int main(void)
 
                     break;
 
-                // kralj meca da se iskljuci pwm
+                // only turn off PWM
                 case 'K':
                     
                     CloseMCPWM();
                     break;
-                /*
+                
                 default:
                     forceStatus(STATUS_ERROR);
-                    break;*/
+                    break;
             }
-            
-            
         } 
-        
-        
     }
 
     return 0;
