@@ -5,4 +5,5 @@ build/default/production/_ext/1472/main.o:  \
  ../sinus.h  \
 ../kretanje.h  \
 ../globals.h  \
-../can.h 
+../can.h  \
+../motor.h 

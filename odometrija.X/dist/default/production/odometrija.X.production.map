@@ -21,6 +21,7 @@ Command:
   build/default/production/_ext/1472/uart.o \
   build/default/production/_ext/1472/kretanje.o \
   build/default/production/_ext/1472/can.o \
+  build/default/production/_ext/1472/motor.o \
   --defsym=__MPLAB_BUILD=1 \
   -Tp33FJ128MC802.gld.00 \
   --stack=16 \
@@ -154,11 +155,12 @@ section                    address   length (PC units)   length (bytes) (dec)
 .text                        0x200              0x17da          0x23c7  (9159)
 .const                      0x19da              0x4000          0x6000  (24576)
 libmxconst                  0x59da                0x94            0xde  (222)
-.text                       0x5a6e              0x1e54          0x2d7e  (11646)
-.dinit                      0x78c2                0x2e            0x45  (69)
-.init.delay32               0x78f0                0x1c            0x2a  (42)
+.text                       0x5a6e              0x1e14          0x2d1e  (11550)
+.dinit                      0x7882                0x2e            0x45  (69)
+.init.delay32               0x78b0                0x1c            0x2a  (42)
+.text                       0x78cc                0x18            0x24  (36)
 
-                 Total "program" memory used (bytes):         0xb292  (45714) 34%
+                 Total "program" memory used (bytes):         0xb256  (45654) 34%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x4000]
@@ -169,7 +171,7 @@ section                    address      alignment gaps    total length  (dec)
 .ndata                       0x86c                   0             0x2  (2)
 .nbss                        0x86e                   0             0x2  (2)
 .bss                         0x870                   0           0x1a8  (424)
-_0xf72d3a6c5df748a9         0x47c0                   0            0x40  (64)
+_0xf72a1a6c5df7b091         0x47c0                   0            0x40  (64)
 
                  Total "data" memory used (bytes):          0x258  (600) 3%
 
@@ -356,19 +358,19 @@ External Symbols in Program Memory (by address):
                   0x007532                  _getch_16bit
                   0x00754a                  _putch
                   0x00755e                  _putch_16bit
-                  0x007574                  _ResetDriver
-                  0x007598                  _LeviPWM
-                  0x0075a4                  _DesniPWM
-                  0x0075c6                  _main
-                  0x007722                  _UARTinit
-                  0x007740                  _CloseMCPWM
-                  0x007768                  _PWMinit
-                  0x007794                  _TimerInit
-                  0x0077b8                  _QEIinit
-                  0x0077fa                  _PortInit
-                  0x007824                  _PinsInit
-                  0x00786e                  _OscillatorInit
-                  0x0078f0                  ___delay32
+                  0x007574                  _FlushUART1
+                  0x00758a                  _UARTinit
+                  0x0075a8                  _CloseMCPWM
+                  0x0075d0                  _PWMinit
+                  0x0075fc                  _TimerInit
+                  0x007620                  _QEIinit
+                  0x007662                  _PortInit
+                  0x00768c                  _PinsInit
+                  0x0076d6                  _OscillatorInit
+                  0x00772a                  _main
+                  0x0078b0                  ___delay32
+                  0x0078cc                  _LeviPWM
+                  0x0078d8                  _DesniPWM
 
 External Symbols in Program Memory (by name):
 
@@ -378,22 +380,22 @@ External Symbols in Program Memory (by name):
                   0x00724c                  _CAN_init
                   0x0071c0                  _CAN_read
                   0x007124                  _CAN_write
-                  0x007740                  _CloseMCPWM
+                  0x0075a8                  _CloseMCPWM
                   0x00739c                  _CloseUART1
                   0x0073ac                  _ConfigIntUART1
                   0x00741a                  _DataRdyUART1
-                  0x0075a4                  _DesniPWM
-                  0x007598                  _LeviPWM
+                  0x0078d8                  _DesniPWM
+                  0x007574                  _FlushUART1
+                  0x0078cc                  _LeviPWM
                   0x00748a                  _OpenUART1
-                  0x00786e                  _OscillatorInit
-                  0x007768                  _PWMinit
-                  0x007824                  _PinsInit
-                  0x0077fa                  _PortInit
-                  0x0077b8                  _QEIinit
+                  0x0076d6                  _OscillatorInit
+                  0x0075d0                  _PWMinit
+                  0x00768c                  _PinsInit
+                  0x007662                  _PortInit
+                  0x007620                  _QEIinit
                   0x0074ec                  _ReadUART1
-                  0x007574                  _ResetDriver
-                  0x007794                  _TimerInit
-                  0x007722                  _UARTinit
+                  0x0075fc                  _TimerInit
+                  0x00758a                  _UARTinit
                   0x007504                  _WriteUART1
                   0x000854                  __C1Interrupt
                   0x000778                  __DMA1Interrupt
@@ -402,7 +404,7 @@ External Symbols in Program Memory (by name):
                   0x0002c8                  __T1Interrupt
                   0x000b1e                  ___addsf3
                   0x000b1e                  ___addsf3x
-                  0x0078f0                  ___delay32
+                  0x0078b0                  ___delay32
                   0x001182                  ___divsf3
                   0x001182                  ___divsf3x
                   0x0008b8                  ___divsi3
@@ -471,7 +473,7 @@ External Symbols in Program Memory (by name):
                   0x005d40                  _gotoXY
                   0x0063aa                  _kretanje_pravo
                   0x006b88                  _kurva
-                  0x0075c6                  _main
+                  0x00772a                  _main
                   0x0068b2                  _okret
                   0x00754a                  _putch
                   0x00755e                  _putch_16bit
@@ -516,6 +518,7 @@ LOAD build/default/production/_ext/1472/init.o
 LOAD build/default/production/_ext/1472/uart.o
 LOAD build/default/production/_ext/1472/kretanje.o
 LOAD build/default/production/_ext/1472/can.o
+LOAD build/default/production/_ext/1472/motor.o
                     0x0001                  __MPLAB_BUILD = 0x1
 LOAD p33FJ128MC802
 LOAD /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfx-elf.a
@@ -732,38 +735,42 @@ __FUID3
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x7730
+.debug_info       0x000000       0x786d
  *(.debug_info)
- .debug_info      0x000000        0xce5 build/default/production/_ext/1472/main.o
- .debug_info      0x000ce5       0x23b5 build/default/production/_ext/1472/init.o
- .debug_info      0x00309a        0xe3a build/default/production/_ext/1472/uart.o
- .debug_info      0x003ed4        0xde5 build/default/production/_ext/1472/kretanje.o
- .debug_info      0x004cb9       0x2a77 build/default/production/_ext/1472/can.o
+ .debug_info      0x000000        0xaa6 build/default/production/_ext/1472/main.o
+ .debug_info      0x000aa6       0x23b5 build/default/production/_ext/1472/init.o
+ .debug_info      0x002e5b        0xfdc build/default/production/_ext/1472/uart.o
+ .debug_info      0x003e37        0xde5 build/default/production/_ext/1472/kretanje.o
+ .debug_info      0x004c1c       0x2a77 build/default/production/_ext/1472/can.o
+ .debug_info      0x007693        0x1da build/default/production/_ext/1472/motor.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x7f1
+.debug_abbrev     0x000000        0x820
  *(.debug_abbrev)
- .debug_abbrev    0x000000        0x1f1 build/default/production/_ext/1472/main.o
- .debug_abbrev    0x0001f1         0xed build/default/production/_ext/1472/init.o
- .debug_abbrev    0x0002de        0x16e build/default/production/_ext/1472/uart.o
- .debug_abbrev    0x00044c        0x22a build/default/production/_ext/1472/kretanje.o
- .debug_abbrev    0x000676        0x17b build/default/production/_ext/1472/can.o
+ .debug_abbrev    0x000000        0x154 build/default/production/_ext/1472/main.o
+ .debug_abbrev    0x000154         0xed build/default/production/_ext/1472/init.o
+ .debug_abbrev    0x000241        0x1d0 build/default/production/_ext/1472/uart.o
+ .debug_abbrev    0x000411        0x22a build/default/production/_ext/1472/kretanje.o
+ .debug_abbrev    0x00063b        0x17b build/default/production/_ext/1472/can.o
+ .debug_abbrev    0x0007b6         0x6a build/default/production/_ext/1472/motor.o
 
-.debug_line       0x000000        0x833
+.debug_line       0x000000        0x8e0
  *(.debug_line)
- .debug_line      0x000000        0x1bd build/default/production/_ext/1472/main.o
- .debug_line      0x0001bd        0x129 build/default/production/_ext/1472/init.o
- .debug_line      0x0002e6        0x129 build/default/production/_ext/1472/uart.o
- .debug_line      0x00040f        0x2d3 build/default/production/_ext/1472/kretanje.o
- .debug_line      0x0006e2        0x151 build/default/production/_ext/1472/can.o
+ .debug_line      0x000000        0x1ac build/default/production/_ext/1472/main.o
+ .debug_line      0x0001ac        0x129 build/default/production/_ext/1472/init.o
+ .debug_line      0x0002d5        0x123 build/default/production/_ext/1472/uart.o
+ .debug_line      0x0003f8        0x2d3 build/default/production/_ext/1472/kretanje.o
+ .debug_line      0x0006cb        0x151 build/default/production/_ext/1472/can.o
+ .debug_line      0x00081c         0xc4 build/default/production/_ext/1472/motor.o
 
-.debug_frame      0x000000        0x6b2
+.debug_frame      0x000000        0x6aa
  *(.debug_frame)
- .debug_frame     0x000000         0xee build/default/production/_ext/1472/main.o
- .debug_frame     0x0000ee         0xf4 build/default/production/_ext/1472/init.o
- .debug_frame     0x0001e2        0x186 build/default/production/_ext/1472/uart.o
- .debug_frame     0x000368        0x232 build/default/production/_ext/1472/kretanje.o
- .debug_frame     0x00059a        0x118 build/default/production/_ext/1472/can.o
+ .debug_frame     0x000000         0x7e build/default/production/_ext/1472/main.o
+ .debug_frame     0x00007e         0xf4 build/default/production/_ext/1472/init.o
+ .debug_frame     0x000172        0x1a2 build/default/production/_ext/1472/uart.o
+ .debug_frame     0x000314        0x232 build/default/production/_ext/1472/kretanje.o
+ .debug_frame     0x000546        0x118 build/default/production/_ext/1472/can.o
+ .debug_frame     0x00065e         0x4c build/default/production/_ext/1472/motor.o
 
 .debug_str        0x000000        0x2ed
  *(.debug_str)
@@ -780,23 +787,25 @@ __FUID3
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x48b
+                  0x000000        0x49c
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000        0x1cd build/default/production/_ext/1472/main.o
+                  0x000000        0x1a4 build/default/production/_ext/1472/main.o
  .debug_pubnames
-                  0x0001cd         0x81 build/default/production/_ext/1472/init.o
+                  0x0001a4         0x81 build/default/production/_ext/1472/init.o
  .debug_pubnames
-                  0x00024e         0xce build/default/production/_ext/1472/uart.o
+                  0x000225         0xdd build/default/production/_ext/1472/uart.o
  .debug_pubnames
-                  0x00031c         0xd7 build/default/production/_ext/1472/kretanje.o
+                  0x000302         0xd7 build/default/production/_ext/1472/kretanje.o
  .debug_pubnames
-                  0x0003f3         0x98 build/default/production/_ext/1472/can.o
+                  0x0003d9         0x98 build/default/production/_ext/1472/can.o
+ .debug_pubnames
+                  0x000471         0x2b build/default/production/_ext/1472/motor.o
 
 .debug_ranges
  *(.debug_ranges)
 
-.debug_aranges    0x000000         0x78
+.debug_aranges    0x000000         0x90
  *(.debug_aranges)
  .debug_aranges
                   0x000000         0x18 build/default/production/_ext/1472/main.o
@@ -808,6 +817,8 @@ __FUID3
                   0x000048         0x18 build/default/production/_ext/1472/kretanje.o
  .debug_aranges
                   0x000060         0x18 build/default/production/_ext/1472/can.o
+ .debug_aranges
+                  0x000078         0x18 build/default/production/_ext/1472/motor.o
                     0x0000                  WREG0 = 0x0
                     0x0000                  _WREG0 = 0x0
                     0x0002                  WREG1 = 0x2
@@ -1898,76 +1909,80 @@ LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x000078        0x7f8
+                  0x000090        0x817
  .debug_pubtypes
-                  0x000078         0x7d build/default/production/_ext/1472/main.o
+                  0x000090         0x64 build/default/production/_ext/1472/main.o
  .debug_pubtypes
-                  0x0000f5        0x312 build/default/production/_ext/1472/init.o
+                  0x0000f4        0x312 build/default/production/_ext/1472/init.o
  .debug_pubtypes
-                  0x000407         0xd3 build/default/production/_ext/1472/uart.o
+                  0x000406         0xec build/default/production/_ext/1472/uart.o
  .debug_pubtypes
-                  0x0004da         0x49 build/default/production/_ext/1472/kretanje.o
+                  0x0004f2         0x49 build/default/production/_ext/1472/kretanje.o
  .debug_pubtypes
-                  0x000523        0x34d build/default/production/_ext/1472/can.o
+                  0x00053b        0x34d build/default/production/_ext/1472/can.o
+ .debug_pubtypes
+                  0x000888         0x1f build/default/production/_ext/1472/motor.o
 
 __c30_signature
-                  0x000870         0x9c
+                  0x0008a7         0xa2
  __c30_signature
-                  0x000870          0x6 build/default/production/_ext/1472/main.o
+                  0x0008a7          0x6 build/default/production/_ext/1472/main.o
  __c30_signature
-                  0x000876          0x6 build/default/production/_ext/1472/init.o
+                  0x0008ad          0x6 build/default/production/_ext/1472/init.o
  __c30_signature
-                  0x00087c          0x6 build/default/production/_ext/1472/uart.o
+                  0x0008b3          0x6 build/default/production/_ext/1472/uart.o
  __c30_signature
-                  0x000882          0x6 build/default/production/_ext/1472/kretanje.o
+                  0x0008b9          0x6 build/default/production/_ext/1472/kretanje.o
  __c30_signature
-                  0x000888          0x6 build/default/production/_ext/1472/can.o
+                  0x0008bf          0x6 build/default/production/_ext/1472/can.o
  __c30_signature
-                  0x00088e          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(crt0_standard.o)
+                  0x0008c5          0x6 build/default/production/_ext/1472/motor.o
  __c30_signature
-                  0x000894          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(data_init_standard.o)
+                  0x0008cb          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(crt0_standard.o)
  __c30_signature
-                  0x00089a          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(delay32.eo)
+                  0x0008d1          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(data_init_standard.o)
  __c30_signature
-                  0x0008a0          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atan2f.eo)
+                  0x0008d7          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(delay32.eo)
  __c30_signature
-                  0x0008a6          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(divsi3.eo)
+                  0x0008dd          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atan2f.eo)
  __c30_signature
-                  0x0008ac          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(errno.eo)
+                  0x0008e3          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(divsi3.eo)
  __c30_signature
-                  0x0008b2          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(feqltle.eo)
+                  0x0008e9          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(errno.eo)
  __c30_signature
-                  0x0008b8          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fgtge.eo)
+                  0x0008ef          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(feqltle.eo)
  __c30_signature
-                  0x0008be          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixsfdi.eo)
+                  0x0008f5          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fgtge.eo)
  __c30_signature
-                  0x0008c4          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixsfsi.eo)
+                  0x0008fb          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixsfdi.eo)
  __c30_signature
-                  0x0008ca          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatdisf.eo)
+                  0x000901          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixsfsi.eo)
  __c30_signature
-                  0x0008d0          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatsisf.eo)
+                  0x000907          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatdisf.eo)
  __c30_signature
-                  0x0008d6          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatundisf.eo)
+                  0x00090d          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatsisf.eo)
  __c30_signature
-                  0x0008dc          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fpack.eo)
+                  0x000913          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatundisf.eo)
  __c30_signature
-                  0x0008e2          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack.eo)
+                  0x000919          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fpack.eo)
  __c30_signature
-                  0x0008e8          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack2.eo)
+                  0x00091f          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack.eo)
  __c30_signature
-                  0x0008ee          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(futil.eo)
+                  0x000925          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack2.eo)
  __c30_signature
-                  0x0008f4          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(modsi3.eo)
+                  0x00092b          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(futil.eo)
  __c30_signature
-                  0x0008fa          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(muldi3.eo)
+                  0x000931          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(modsi3.eo)
  __c30_signature
-                  0x000900          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fcompare.eo)
+                  0x000937          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(muldi3.eo)
  __c30_signature
-                  0x000906          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umuldi3.eo)
+                  0x00093d          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fcompare.eo)
+ __c30_signature
+                  0x000943          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umuldi3.eo)
 
-_0xf72d3a6c5df748a9
+_0xf72a1a6c5df7b091
                     0x47c0         0x40
- _0xf72d3a6c5df748a9
+ _0xf72a1a6c5df7b091
                     0x47c0         0x40 build/default/production/_ext/1472/can.o
 
 .nbss               0x0800         0x6c
@@ -2044,7 +2059,7 @@ libmxconst          0xd9da         0x94 load address 0x0059da
  libmxconst         0xd9da         0x64 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atanfx.eo)
  libmxconst         0xda3e         0x30 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(ssqrtfx.eo)
 
-.text             0x005a6e       0x1e54
+.text             0x005a6e       0x1e14
  .text            0x005a6e       0x16ae build/default/production/_ext/1472/kretanje.o
                   0x005a6e                  _resetDriver
                   0x005bdc                  _setPosition
@@ -2065,7 +2080,7 @@ libmxconst          0xd9da         0x94 load address 0x0059da
                   0x0071c0                  _CAN_read
                   0x00721e                  _CAN_getLastMessage
                   0x00724c                  _CAN_init
- .text            0x007386        0x1ee build/default/production/_ext/1472/uart.o
+ .text            0x007386        0x204 build/default/production/_ext/1472/uart.o
                   0x007386                  _BusyUART1
                   0x00739c                  _CloseUART1
                   0x0073ac                  _ConfigIntUART1
@@ -2079,24 +2094,27 @@ libmxconst          0xd9da         0x94 load address 0x0059da
                   0x007532                  _getch_16bit
                   0x00754a                  _putch
                   0x00755e                  _putch_16bit
- .text            0x007574        0x1ae build/default/production/_ext/1472/main.o
-                  0x007574                  _ResetDriver
-                  0x007598                  _LeviPWM
-                  0x0075a4                  _DesniPWM
-                  0x0075c6                  _main
- .text            0x007722        0x1a0 build/default/production/_ext/1472/init.o
-                  0x007722                  _UARTinit
-                  0x007740                  _CloseMCPWM
-                  0x007768                  _PWMinit
-                  0x007794                  _TimerInit
-                  0x0077b8                  _QEIinit
-                  0x0077fa                  _PortInit
-                  0x007824                  _PinsInit
-                  0x00786e                  _OscillatorInit
+                  0x007574                  _FlushUART1
+ .text            0x00758a        0x1a0 build/default/production/_ext/1472/init.o
+                  0x00758a                  _UARTinit
+                  0x0075a8                  _CloseMCPWM
+                  0x0075d0                  _PWMinit
+                  0x0075fc                  _TimerInit
+                  0x007620                  _QEIinit
+                  0x007662                  _PortInit
+                  0x00768c                  _PinsInit
+                  0x0076d6                  _OscillatorInit
+ .text            0x00772a        0x158 build/default/production/_ext/1472/main.o
+                  0x00772a                  _main
 
-.dinit            0x0078c2         0x2e
- .dinit           0x0078c2         0x2e data_init
+.dinit            0x007882         0x2e
+ .dinit           0x007882         0x2e data_init
 
-.init.delay32     0x0078f0         0x1c
- .init.delay32    0x0078f0         0x1c /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(delay32.eo)
-                  0x0078f0                  ___delay32
+.init.delay32     0x0078b0         0x1c
+ .init.delay32    0x0078b0         0x1c /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(delay32.eo)
+                  0x0078b0                  ___delay32
+
+.text             0x0078cc         0x18
+ .text            0x0078cc         0x18 build/default/production/_ext/1472/motor.o
+                  0x0078cc                  _LeviPWM
+                  0x0078d8                  _DesniPWM

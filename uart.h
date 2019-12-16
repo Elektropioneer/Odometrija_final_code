@@ -14,5 +14,6 @@ unsigned char getch();
 void putch(unsigned int c);
 int getch_16bit();
 void putch_16bit(int data);
+void FlushUART1();
 
 #endif	/* UART_H */

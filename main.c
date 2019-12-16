@@ -7,6 +7,7 @@
 #include "globals.h"
 #include "uart.h"
 #include "can.h"
+#include "motor.h"
 
 
 _FOSCSEL(FNOSC_PRI);	// primary oscillator without PLL
@@ -14,9 +15,6 @@ _FOSCSEL(FNOSC_PRI);	// primary oscillator without PLL
 _FOSC(FCKSM_CSECMD & OSCIOFNC_ON & POSCMD_XT & IOL1WAY_OFF); 
 _FWDT(FWDTEN_OFF);      // kill watchdog
 _FPOR(PWMPIN_ON &/* & BOREN_OFF & */HPOL_ON & LPOL_ON & FPWRT_PWR2 & ALTI2C_ON); // assign pins
-
-void LeviPWM(unsigned int PWM);
-void DesniPWM(unsigned int PWM);
 
 unsigned char rxData[8];
 unsigned char txData[8];
@@ -193,41 +191,6 @@ void __attribute__((__interrupt__)) _T1Interrupt(void)
     IFS0bits.T1IF = 0;    
 } // end of interrupt
 
-/**
- * @brief reset the regulation parameters
- * 
- */
-void ResetDriver()
-{
-    positionR = positionL=0;        // encoder sum position
-    L = orientation = 0;            // distance/orientation
-    vR = vL = 0;                    // encoder position
-} // end of ResetDriver(...)
-
-/**
- * @brief update the left motor PWM channel
- * 
- * @param PWM 0-255 value to update the pwm to
- */
-void LeviPWM(unsigned int PWM)
-{
-    P1DC1 = PWM;
-} // end of LeviPWM(...)
-
-/**
- * @brief update the right motor PWM channel
- * 
- * @param PWM 0-255 value to update the pwm to
- */
-void DesniPWM(unsigned int PWM)
-{
-    P2DC1 = PWM;
-} // end of DesniPWM(...)
-
-static void uart_flush() {
-    SRbits.IPL = 7;
-    SRbits.IPL = 0;
-}
 
 int main(void)
 {
@@ -237,10 +200,6 @@ int main(void)
     
     // init CAN BUS
     //CAN_init(DRIVER_IDENTIFICATOR); 
-
-    int tmp;
-    char komanda, v, smer;
-    int Xc, Yc, ugao;
 
     PortInit();
     UARTinit();
@@ -252,13 +211,13 @@ int main(void)
 
     setSpeed(0x80);
     setSpeedAccel(K2);	//K2 je za 1m/s /bilo je 2
-    
-    int tmpX, tmpY, tmpO;               // vrednosti X,Y, orientation koji dobijes preko komunikacije
-    unsigned char rxBuffer[8];          // buffer gde stavis sve   
 
-    // podesis maximalni speed (najbolje je kad ukljucis robota da to uradis preko glavne)
+    // default max speed
     setSpeed(70);
     
+    int data_tmp, data_tmpX, data_tmpY, data_tmpO;
+    unsigned char uart_command, data_tmpSpeed, data_tmpDirection;
+    unsigned char uc_data_tmp;
     
     while(1)
     {
@@ -266,19 +225,19 @@ int main(void)
         if(DataRdyUART1() > 0) {
             
             // check the first byte
-            komanda = getch();
+            uart_command = getch();
             
             // select the function depending on the first byte
-            switch(komanda)
+            switch(uart_command)
             {
                 // set position
                 case 'I':
-                    tmpX = getch_16bit();
-                    tmpY = getch_16bit();
-                    tmpO = getch_16bit();
+                    data_tmpX = getch_16bit();
+                    data_tmpY = getch_16bit();
+                    data_tmpO = getch_16bit();
                     
                     
-                    setPosition(tmpX, tmpY, tmpO);
+                    setPosition(data_tmpX, data_tmpY, data_tmpO);
                     break;
 
                 // send back status and position
@@ -288,55 +247,55 @@ int main(void)
 
                 // set the max speed
                 case 'V':
-                    tmp = getch();
-                    setSpeed(tmp);
+                    uc_data_tmp = getch();
+                    setSpeed(uc_data_tmp);
 
                     break;
 
                 // move robot forward/backward
                 case 'D':
-                    tmp = getch_16bit();
-                    v = getch();            // maximal speed
-                    PWMinit();              // ako je predhodno bio soft stop da opet inituje
-                    kretanje_pravo(tmp, v);
+                    data_tmp = getch_16bit();
+                    data_tmpSpeed = getch();            
+                    PWMinit();             
+                    kretanje_pravo(data_tmp, data_tmpSpeed);
 
                     break;
 
                 // relative angle
                 case 'T':
-                    tmp = getch_16bit();
+                    data_tmp = getch_16bit();
                     PWMinit();
-                    okret(tmp);
+                    okret(data_tmp);
 
                     break;
 
                 // absolute angle
                 case 'A':
-                    tmp = getch_16bit();
+                    data_tmp = getch_16bit();
                     PWMinit();
-                    apsolutni_ugao(tmp);
+                    apsolutni_ugao(data_tmp);
 
                     break;
 
                 // goto xy
                 case 'G':
-                    tmpX = getch_16bit();
-                    tmpY = getch_16bit();
-                    v = getch();
-                    smer = getch();
+                    data_tmpX = getch_16bit();
+                    data_tmpY = getch_16bit();
+                    data_tmpSpeed = getch();
+                    data_tmpDirection = getch();
                     PWMinit();
-                    gotoXY(tmpX, tmpY, v, smer);
+                    gotoXY(data_tmpX, data_tmpY, data_tmpSpeed, data_tmpDirection);
 
                     break;
 
                 // kurva
                 case 'Q':
-                    tmpX = getch_16bit();
-                    tmpY = getch_16bit();
-                    tmpO = getch_16bit();
-                    smer = getch();
+                    data_tmpX = getch_16bit();
+                    data_tmpY = getch_16bit();
+                    data_tmpO = getch_16bit();
+                    data_tmpDirection = getch();
                     PWMinit();
-                    kurva(tmpX, tmpY, tmpO, smer);
+                    kurva(data_tmpX, data_tmpY, data_tmpO, data_tmpDirection);
 
                     break;
 

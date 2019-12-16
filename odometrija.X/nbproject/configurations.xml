@@ -10,6 +10,7 @@
       <itemPath>../uart.h</itemPath>
       <itemPath>../globals.h</itemPath>
       <itemPath>../can.h</itemPath>
+      <itemPath>../motor.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -23,6 +24,7 @@
       <itemPath>../uart.c</itemPath>
       <itemPath>../kretanje.c</itemPath>
       <itemPath>../can.c</itemPath>
+      <itemPath>../motor.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

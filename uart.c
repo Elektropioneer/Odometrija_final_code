@@ -211,3 +211,12 @@ void putch_16bit(int data) {
     WriteUART1(data >> 8);
     WriteUART1(data & 0xFF);
 } // end of putch_16bit(...)
+
+/**
+ * @brief flush buffer
+ * 
+ */
+void FlushUART1() {
+    SRbits.IPL = 7;
+    SRbits.IPL = 0;
+} // end of FlushUART1(...)

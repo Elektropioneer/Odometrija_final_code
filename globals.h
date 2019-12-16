@@ -89,12 +89,6 @@
 #define Gd_T	4.1
 #endif
 
-//makroi za zadavanje smera motora:
-#define LEVI_NAPRED	LATBbits.LATB14=0; LATBbits.LATB12=1
-#define LEVI_NAZAD	LATBbits.LATB14=1; LATBbits.LATB12=0
-#define DESNI_NAPRED 	LATBbits.LATB11=1; LATBbits.LATB8=0
-#define DESNI_NAZAD 	LATBbits.LATB11=0; LATBbits.LATB8=1
-
 //POMOCNE PROMENLJIVE:
 extern char brint;
 extern long positionR, positionL;               //trenutne pozicije na enkoderima
