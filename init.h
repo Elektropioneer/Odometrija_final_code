@@ -1,4 +1,6 @@
 #include	<p33FJ128MC802.h>
+#include    <libpic30.h>
+#include    <xc.h>
 #include	"uart.h"
 
 #define PIN_UART1_RX 0      // UART1 RX na RP0- pin 4
@@ -15,3 +17,4 @@ void TimerInit();
 void QEIinit();
 void PortInit();
 void PinsInit();
+void OscillatorInit();

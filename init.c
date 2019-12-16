@@ -161,7 +161,28 @@ void PinsInit() {
     RPINR16bits.QEB2R   = PIN_QEB2;		
 } // end of PinsInit(...)
 
+/**
+ * @brief setup registers for PLL and oscillator
+ * 
+ */
+void OscillatorInit() {
+    // set the oscillator to 30MHz
+	PLLFBD = 28; 				
+	CLKDIVbits.PLLPOST = 0; 	
+	CLKDIVbits.PLLPRE = 0; 	
 
+	//new oscillator selection
+	__builtin_write_OSCCONH(0b011); 
+
+	//enable oscillator source switch
+	__builtin_write_OSCCONL (OSCCONL | (1<<0));
+
+	//wait for PLL lock -> wait to new settings become available
+	while (OSCCONbits.COSC != 0b011); 
+
+	//wait for PLL lock
+	while (OSCCONbits.LOCK != 0b1);
+} // end of OscillatorInit(...)
 
 
 
