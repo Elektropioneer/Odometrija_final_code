@@ -60,7 +60,7 @@
 #define motor_saturationPWMValue   3200                 // max/min PWM value
 #define odometry_shortDistance 500                      // a short distance for acceleration modification
 #define odometry_accelerationShorterDistance K2/3       // in gotoXY/kretanje_pravo if there is a distance <500mm it will accelerate with this number
-
+#define odometry_accelerationKurva K2 / 32              // the max acceleration the kurva function will do
 
 
 #ifdef BIG_ROBOT 

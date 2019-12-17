@@ -171,7 +171,7 @@ section                    address      alignment gaps    total length  (dec)
 .ndata                       0x864                   0             0x2  (2)
 .nbss                        0x866                   0             0x2  (2)
 .bss                         0x868                   0           0x1a8  (424)
-_0xf7244a6c5df88c61         0x47c0                   0            0x40  (64)
+_0xf72fba6c5df8a6b6         0x47c0                   0            0x40  (64)
 
                  Total "data" memory used (bytes):          0x250  (592) 3%
 
@@ -731,14 +731,14 @@ __FUID3
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x7946
+.debug_info       0x000000       0x7959
  *(.debug_info)
  .debug_info      0x000000        0xb14 build/default/production/_ext/1472/main.o
  .debug_info      0x000b14       0x23b5 build/default/production/_ext/1472/init.o
  .debug_info      0x002ec9        0xfdc build/default/production/_ext/1472/uart.o
- .debug_info      0x003ea5        0xe44 build/default/production/_ext/1472/kretanje.o
- .debug_info      0x004ce9       0x2a77 build/default/production/_ext/1472/can.o
- .debug_info      0x007760        0x1e6 build/default/production/_ext/1472/motor.o
+ .debug_info      0x003ea5        0xe57 build/default/production/_ext/1472/kretanje.o
+ .debug_info      0x004cfc       0x2a77 build/default/production/_ext/1472/can.o
+ .debug_info      0x007773        0x1e6 build/default/production/_ext/1472/motor.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x80c
@@ -750,14 +750,14 @@ __FUID3
  .debug_abbrev    0x000627        0x17b build/default/production/_ext/1472/can.o
  .debug_abbrev    0x0007a2         0x6a build/default/production/_ext/1472/motor.o
 
-.debug_line       0x000000        0x8f1
+.debug_line       0x000000        0x8f2
  *(.debug_line)
  .debug_line      0x000000        0x1ac build/default/production/_ext/1472/main.o
  .debug_line      0x0001ac        0x129 build/default/production/_ext/1472/init.o
  .debug_line      0x0002d5        0x123 build/default/production/_ext/1472/uart.o
- .debug_line      0x0003f8        0x2e4 build/default/production/_ext/1472/kretanje.o
- .debug_line      0x0006dc        0x151 build/default/production/_ext/1472/can.o
- .debug_line      0x00082d         0xc4 build/default/production/_ext/1472/motor.o
+ .debug_line      0x0003f8        0x2e5 build/default/production/_ext/1472/kretanje.o
+ .debug_line      0x0006dd        0x151 build/default/production/_ext/1472/can.o
+ .debug_line      0x00082e         0xc4 build/default/production/_ext/1472/motor.o
 
 .debug_frame      0x000000        0x6aa
  *(.debug_frame)
@@ -1976,9 +1976,9 @@ __c30_signature
  __c30_signature
                   0x000943          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umuldi3.eo)
 
-_0xf7244a6c5df88c61
+_0xf72fba6c5df8a6b6
                     0x47c0         0x40
- _0xf7244a6c5df88c61
+ _0xf72fba6c5df8a6b6
                     0x47c0         0x40 build/default/production/_ext/1472/can.o
 
 .nbss               0x0800         0x64
