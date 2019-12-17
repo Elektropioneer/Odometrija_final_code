@@ -27,15 +27,15 @@ int odometry_stuckOrientation, odometry_stuckDistance;
 unsigned char brzinaL;
 long odometry_incrementsDistance=0, odometry_incrementsOrientation=0, odometry_orientationTeta=0;
 long long int odometry_incrementsX=0, odometry_incrementsY=0;
-float vmax, accel;
-float omega, alfa;
+float odometry_speedMax, odometry_acceleration;
+float odometry_speedOmega, odometry_accelerationAlpha;
 long odometry_milliX=0, odometry_milliY=0;
 long brojac,i;
 unsigned long sys_time = 0;
 //PROMENLJIVE POTREBNE ZA REGULACIJU
 int motor_currentLeftPWM, motor_currentRightPWM;
-long t_ref=0, d_ref=0;
-float v_ref;
+long odometry_refrenceOrientation=0, odometry_refrenceDistance=0;
+float odometry_refrenceSpeed;
 
 
 /**
@@ -44,7 +44,7 @@ float v_ref;
  */
 void __attribute__((__interrupt__)) _T1Interrupt(void)
 {
-    long long odometry_incrementsCurrentDistance, t;
+    long long odometry_incrementsCurrentDistance, odometry_orientationArea;
     long long odometry_sint, odometry_cost;
     long odometry_regulatorError;
     int odometry_currentIncrementSpeed, odometry_regulatorDistance, odometry_regulatorRotation;
@@ -86,25 +86,25 @@ void __attribute__((__interrupt__)) _T1Interrupt(void)
         // add together the distance (encoder increments) - will be divided later
         odometry_incrementsCurrentDistance = encoder_rightCurrentIncrements + encoder_leftCurrentIncrements;
 
-        // based on the theta calculate theta, sin and cos
+        // based on the theta calculate theta, sin and cos (depending on the theta get the sinus in one of the four areas)
         if(odometry_orientationTeta < 8192) {
-            t = odometry_orientationTeta;
-            odometry_sint = sinus[t];
-            odometry_cost = sinus[8191 - t];
+            odometry_orientationArea = odometry_orientationTeta;
+            odometry_sint = sinus[odometry_orientationArea];
+            odometry_cost = sinus[8191 - odometry_orientationArea];
         } else {
             if (odometry_orientationTeta < 16384) {
-                t = odometry_orientationTeta - 8192;
-                odometry_sint = sinus[8191 - t];
-                odometry_cost = -sinus[t];
+                odometry_orientationArea = odometry_orientationTeta - 8192;
+                odometry_sint = sinus[8191 - odometry_orientationArea];
+                odometry_cost = -sinus[odometry_orientationArea];
             } else {
                 if (odometry_orientationTeta < 24576) {
-                    t = odometry_orientationTeta - 16384;
-                    odometry_sint = -sinus[t];
-                    odometry_cost = -sinus[8191 - t];
+                    odometry_orientationArea = odometry_orientationTeta - 16384;
+                    odometry_sint = -sinus[odometry_orientationArea];
+                    odometry_cost = -sinus[8191 - odometry_orientationArea];
                 } else {
-                    t = odometry_orientationTeta - 24576;
-                    odometry_sint = -sinus[8191 - t];
-                    odometry_cost = sinus[t];
+                    odometry_orientationArea = odometry_orientationTeta - 24576;
+                    odometry_sint = -sinus[8191 - odometry_orientationArea];
+                    odometry_cost = sinus[odometry_orientationArea];
                 }
             }
         }
@@ -122,17 +122,17 @@ void __attribute__((__interrupt__)) _T1Interrupt(void)
 
         // PID regulator - distance regulator
         odometry_currentIncrementSpeed = (encoder_leftCurrentIncrements + encoder_rightCurrentIncrements) / 2;                         // get the speed based on the increments it got 
-        odometry_regulatorError = d_ref - odometry_incrementsDistance;                             // d_ref -> where we want it to be; odometry_incrementsDistance -> where we are                           
+        odometry_regulatorError = odometry_refrenceDistance - odometry_incrementsDistance;                             // odometry_refrenceDistance -> where we want it to be; odometry_incrementsDistance -> where we are                           
         odometry_stuckDistance = encoder_leftCurrentIncrements = odometry_regulatorError >= 0 ? odometry_regulatorError : -odometry_regulatorError;       // stuck variable, checks if we totally stuck and fucked
 
         // with the help of PD we calculate the PWM speed for distance (forward/backward)
-        odometry_regulatorDistance = odometry_regulatorError * Gp_D - Gd_D * odometry_currentIncrementSpeed;
+        odometry_regulatorDistance = odometry_regulatorError * regulator_distanceP - regulator_distanceD * odometry_currentIncrementSpeed;
 
         // PID regulator - rotation regulator
         odometry_currentIncrementSpeed = encoder_leftCurrentIncrements - encoder_rightCurrentIncrements;                               // get the speed based on the increments it got
 
         // calculate the error between where we are and where we want to be
-        odometry_regulatorError = (odometry_incrementsOrientation - t_ref) % K1;            // odometry_incrementsOrientation -> where we are; t_ref -> where we want to be;
+        odometry_regulatorError = (odometry_incrementsOrientation - odometry_refrenceOrientation) % K1;            // odometry_incrementsOrientation -> where we are; odometry_refrenceOrientation -> where we want to be;
         
         // the error depends if it's positive/negative
         if (odometry_regulatorError > K1/2) {
@@ -146,7 +146,7 @@ void __attribute__((__interrupt__)) _T1Interrupt(void)
         odometry_stuckOrientation = encoder_rightCurrentIncrements = odometry_regulatorError >= 0 ? odometry_regulatorError : -odometry_regulatorError;
         
         // with the help of PD we calculate the PWM speed for distance (rotation)
-        odometry_regulatorRotation = odometry_regulatorError * Gp_T - odometry_currentIncrementSpeed * Gd_T;
+        odometry_regulatorRotation = odometry_regulatorError * regulator_rotationP - odometry_currentIncrementSpeed * regulator_rotationD;
 
         // calculate the summed PWM for the motors 
         // for left it's minus the rotation because one motors turn the other way

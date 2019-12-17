@@ -17,9 +17,9 @@
  8. Calculate K1, K2
  9.   = odometry_regulatorDistance
         motor_currentRightPWM = odometry_regulatorDistance
- 10. Pid Gp_D & Gd_D
+ 10. Pid regulator_distanceP & regulator_distanceD
  11. Same for the rotation, just leave the commande_rotate in (dont forget -)
- 12. Pid Gp_T & Gd_T
+ 12. Pid regulator_rotationP & regulator_rotationD
  13. Combine everything (original , motor_currentRightPWM)
  14. Go back to 9. and reconfigure until you go fucking insane
  15. Add kretanje_pravo for 1000 and -1000. 
@@ -69,12 +69,12 @@
 #define K2	15.873              //(long)(0.5 + 4*2048.0f / (d_tocka * PI))  //za konverziju mm u inkremente == 121.26
 
 // napred/nazad P(I)D
-#define Gp_D	6.6             
-#define Gd_D	18.6
+#define regulator_distanceP	6.6             
+#define regulator_distanceD	18.6
 
 // rotacija P(I)D
-#define Gp_T	3.25 
-#define Gd_T	15
+#define regulator_rotationP	3.25 
+#define regulator_rotationD	15
 #endif
 
 
@@ -85,11 +85,11 @@
 #define D_tocka	255//207.5           //rastojanje izmedju tockova
 #define K1 	64276//41785               //(43841long)(0.5 + 8*2048.0f * D_tocka / d_tocka)  //broj ikremenata po krugu
 #define K2	40.64//32.400              //(long)(0.5 + 4*2048.0f / (d_tocka * PI))  //za konverziju mm u inkremente == 121.26
-#define Gp_D	2.25         
-#define Gd_D	23.06       
+#define regulator_distanceP	2.25         
+#define regulator_distanceD	23.06       
 
-#define Gp_T	0.70
-#define Gd_T	4.1
+#define regulator_rotationP	0.70
+#define regulator_rotationD	4.1
 #endif
 
 
@@ -103,15 +103,15 @@ extern int odometry_stuckDistance, odometry_stuckOrientation;
 extern unsigned char brzinaL;
 extern long odometry_incrementsDistance, odometry_incrementsOrientation, odometry_orientationTeta;
 extern long long int odometry_incrementsX, odometry_incrementsY;
-extern float vmax, accel;
-extern float omega, alfa;
+extern float odometry_speedMax, odometry_acceleration;
+extern float odometry_speedOmega, odometry_accelerationAlpha;
 extern long odometry_milliX, odometry_milliY;
 extern long brojac,i;
 extern unsigned long sys_time;
 //PROMENLJIVE POTREBNE ZA REGULACIJU
 extern int motor_currentLeftPWM, motor_currentRightPWM;
-extern long t_ref, d_ref;
-extern float v_ref;
+extern long odometry_refrenceOrientation, odometry_refrenceDistance;
+extern float odometry_refrenceSpeed;
 
 
 #endif	/* GLOBALS_H */
