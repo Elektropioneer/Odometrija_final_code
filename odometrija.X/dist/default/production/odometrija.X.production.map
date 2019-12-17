@@ -171,7 +171,7 @@ section                    address      alignment gaps    total length  (dec)
 .ndata                       0x864                   0             0x2  (2)
 .nbss                        0x866                   0             0x2  (2)
 .bss                         0x868                   0           0x1a8  (424)
-_0xf72fba6c5df8a6b6         0x47c0                   0            0x40  (64)
+_0xf72d0a6c5df8a84e         0x47c0                   0            0x40  (64)
 
                  Total "data" memory used (bytes):          0x250  (592) 3%
 
@@ -731,14 +731,14 @@ __FUID3
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x7959
+.debug_info       0x000000       0x797f
  *(.debug_info)
  .debug_info      0x000000        0xb14 build/default/production/_ext/1472/main.o
  .debug_info      0x000b14       0x23b5 build/default/production/_ext/1472/init.o
  .debug_info      0x002ec9        0xfdc build/default/production/_ext/1472/uart.o
- .debug_info      0x003ea5        0xe57 build/default/production/_ext/1472/kretanje.o
- .debug_info      0x004cfc       0x2a77 build/default/production/_ext/1472/can.o
- .debug_info      0x007773        0x1e6 build/default/production/_ext/1472/motor.o
+ .debug_info      0x003ea5        0xe7d build/default/production/_ext/1472/kretanje.o
+ .debug_info      0x004d22       0x2a77 build/default/production/_ext/1472/can.o
+ .debug_info      0x007799        0x1e6 build/default/production/_ext/1472/motor.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x80c
@@ -1976,9 +1976,9 @@ __c30_signature
  __c30_signature
                   0x000943          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umuldi3.eo)
 
-_0xf72fba6c5df8a6b6
+_0xf72d0a6c5df8a84e
                     0x47c0         0x40
- _0xf72fba6c5df8a6b6
+ _0xf72d0a6c5df8a84e
                     0x47c0         0x40 build/default/production/_ext/1472/can.o
 
 .nbss               0x0800         0x64

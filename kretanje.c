@@ -664,7 +664,7 @@ char okret(int robot_orientation)
  */
 void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
 {
-    float R, Fi_pocetno, delta, luk;
+    float kurva_radius, kurva_startingAngle, kurva_currentAngleDelta, kurva_arc;
     long current_time, current_time0, time_stage1, time_stage2, time_stage3;
     long time_calculatedStage1, time_calculatedStage2, time_calculatedStage3;
     long rotation_fullAngle, rotation_angleStage1;
@@ -672,10 +672,19 @@ void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
     char calculation_sign;
     int robot_orientation;
 
+    // calculate the CW/CCW
     calculation_sign = (Fi >= 0 ? 1 : -1);
-    R = sqrt(((odometry_milliX-Xc) * (odometry_milliX-Xc) + (odometry_milliY-Yc) * (odometry_milliY-Yc)));
-    Fi_pocetno = atan2(((int)odometry_milliY-(int)Yc), ((int)odometry_milliX-(int)Xc));
-    robot_orientation = Fi_pocetno * 180 / PI;
+
+    // calculate the radius 
+    kurva_radius = sqrt(((odometry_milliX-Xc) * (odometry_milliX-Xc) + (odometry_milliY-Yc) * (odometry_milliY-Yc)));
+   
+    // calculate the starting angle
+    kurva_startingAngle = atan2(((int)odometry_milliY-(int)Yc), ((int)odometry_milliX-(int)Xc));
+    
+    // get the orientation 
+    robot_orientation = kurva_startingAngle * 180 / PI;
+
+    // get the moving direction
     robot_movingDirection = (robot_movingDirection >= 0 ? 1 : -1);
 
     // depending on the direction get the rotation that robot needs to make
@@ -692,10 +701,12 @@ void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
     robot_orientation %= 360;
 
     // move the orientation between -180 and 180
-    if(robot_orientation > 180)
+    if(robot_orientation > 180) {
         robot_orientation -= 360;
-    if(robot_orientation < -180)
+    }
+    if(robot_orientation < -180) {
         robot_orientation += 360;
+    }
 
     // move the robot
     okret(robot_orientation);
@@ -774,38 +785,38 @@ void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
             // stage 1 - speedup
             if(current_time <= time_stage1)
             {
-                rotation_accelerationRefrence += odometry_accelerationAlpha;                                        // increment the acceleration
-                odometry_refrenceSpeed += odometry_acceleration;                                                    // increment the speed with acceleration
-                delta = calculation_sign * (rotation_accelerationRefrence - odometry_accelerationAlpha / 2);        // this is the current angle we are at 
-                luk = calculation_sign * R * delta / D_encoderWheel;                                                // this is the arc we are following (hence the distance factor)
-                rotation_refrence += delta;                                                                         // add the delta angle to the rotation
-                dist_ref += robot_movingDirection * luk;                                                            // add the arc to the distance 
-                odometry_refrenceOrientation = rotation_refrence;                                                   // update the global rotation refrence 
-                odometry_refrenceDistance = dist_ref;                                                               // update the global distance refrence
+                rotation_accelerationRefrence += odometry_accelerationAlpha;                                                            // increment the acceleration
+                odometry_refrenceSpeed += odometry_acceleration;                                                                        // increment the speed with acceleration
+                kurva_currentAngleDelta = calculation_sign * (rotation_accelerationRefrence - odometry_accelerationAlpha / 2);          // this is the current angle we are at 
+                kurva_arc = calculation_sign * kurva_radius * kurva_currentAngleDelta / D_encoderWheel;                                 // this is the arc we are following (hence the distance factor)
+                rotation_refrence += kurva_currentAngleDelta;                                                                           // add the kurva_currentAngleDelta angle to the rotation
+                dist_ref += robot_movingDirection * kurva_arc;                                                                          // add the arc to the distance 
+                odometry_refrenceOrientation = rotation_refrence;                                                                       // update the global rotation refrence 
+                odometry_refrenceDistance = dist_ref;                                                                                   // update the global distance refrence
             }
             // stage 2 - keep the speed
             else if(current_time <= time_stage2)
             {
-                rotation_accelerationRefrence = odometry_speedOmega;                                                 // stable speed
-                odometry_refrenceSpeed = odometry_speedMax;                                                          // set the pre-calc max speed
-                delta = calculation_sign * odometry_speedOmega;                                                      // this is the current angle we are at
-                luk = calculation_sign * R * delta / D_encoderWheel;                                                 // do the arcing
-                rotation_refrence += delta;                                                                          // update the orientation
-                dist_ref += robot_movingDirection * luk;                                                             // update the distance based on the distance
-                odometry_refrenceOrientation = rotation_refrence;                                                    // update the global orientation refrence
-                odometry_refrenceDistance = dist_ref;                                                                // update the global distance refrence
+                rotation_accelerationRefrence = odometry_speedOmega;                                                                    // stable speed
+                odometry_refrenceSpeed = odometry_speedMax;                                                                             // set the pre-calc max speed
+                kurva_currentAngleDelta = calculation_sign * odometry_speedOmega;                                                       // this is the current angle we are at
+                kurva_arc = calculation_sign * kurva_radius * kurva_currentAngleDelta / D_encoderWheel;                                 // do the arcing
+                rotation_refrence += kurva_currentAngleDelta;                                                                           // update the orientation
+                dist_ref += robot_movingDirection * kurva_arc;                                                                          // update the distance based on the distance
+                odometry_refrenceOrientation = rotation_refrence;                                                                       // update the global orientation refrence
+                odometry_refrenceDistance = dist_ref;                                                                                   // update the global distance refrence
             }
             // stage 3 - slow down baby
             else if(current_time <= time_stage3)
             {
-                rotation_accelerationRefrence -= odometry_accelerationAlpha;                                          // decrease the acceleration
-                odometry_refrenceSpeed -= odometry_acceleration;                                                      // update the refrence speed based on the acceleration
-                delta = calculation_sign * (rotation_accelerationRefrence + odometry_accelerationAlpha / 2);          // calculate the angle wit decreasing speed
-                luk = calculation_sign * R * delta / D_encoderWheel;                                                  // do the arc
-                rotation_refrence += delta;                                                                           // update the rotation refrence
-                dist_ref += robot_movingDirection * luk;                                                              // update the distance refrence
-                odometry_refrenceOrientation = rotation_refrence;                                                     // update the global rotation refrence
-                odometry_refrenceDistance = dist_ref;                                                                 // update the global distance refrence
+                rotation_accelerationRefrence -= odometry_accelerationAlpha;                                                            // decrease the acceleration
+                odometry_refrenceSpeed -= odometry_acceleration;                                                                        // update the refrence speed based on the acceleration
+                kurva_currentAngleDelta = calculation_sign * (rotation_accelerationRefrence + odometry_accelerationAlpha / 2);          // calculate the angle wit decreasing speed
+                kurva_arc = calculation_sign * kurva_radius * kurva_currentAngleDelta / D_encoderWheel;                                 // do the arc
+                rotation_refrence += kurva_currentAngleDelta;                                                                           // update the rotation refrence
+                dist_ref += robot_movingDirection * kurva_arc;                                                                          // update the distance refrence
+                odometry_refrenceOrientation = rotation_refrence;                                                                       // update the global rotation refrence
+                odometry_refrenceDistance = dist_ref;                                                                                   // update the global distance refrence
             }
         }
     }
