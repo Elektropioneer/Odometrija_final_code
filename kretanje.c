@@ -427,34 +427,45 @@ void kretanje_pravo(int robot_distance, unsigned char robot_maxSpeed)
     float speed_max, speed_end, current_speed;
     char calculation_sign;
 
+    // depending on the distance we will travel, setup the acceleration
     if((robot_distance < odometry_shortDistance) && (robot_distance > -odometry_shortDistance)) {
         setSpeedAccel(odometry_accelerationShorterDistance);
     } else {
         setSpeedAccel(K2);
     }
 
-    current_speed = odometry_refrenceSpeed;
-    speed_end = odometry_speedMax * robot_maxSpeed / 255;
-    calculation_sign = (robot_distance >= 0 ? 1 : -1);
-    distance_Total = (long)robot_distance * K2; // konverzija u inkremente
+    current_speed = odometry_refrenceSpeed;                             // get the current speed
+    speed_end = odometry_speedMax * robot_maxSpeed / 255;               // calculate the end speed
+    calculation_sign = (robot_distance >= 0 ? 1 : -1);                  // calculate if we are going forward/backward
+    distance_Total = (long)robot_distance * K2;                         // convert [mm] -> increments | full distance
 
-    time_calculatedStage1 = (odometry_speedMax - odometry_refrenceSpeed) / odometry_acceleration;
-    distance_currentIncrements = odometry_incrementsDistance;
+    // calculate the time needed for stage 1 - speed up
+    time_calculatedStage1 = (odometry_speedMax - odometry_refrenceSpeed) / odometry_acceleration;       
+    distance_currentIncrements = odometry_incrementsDistance;           // our current position
+    // the distance it will take to speed up
     distance_stage1Increments = odometry_refrenceSpeed * time_calculatedStage1 + odometry_acceleration * time_calculatedStage1 * (time_calculatedStage1 / 2);
 
+    // calculate the time needed for stage 3 - slowing down
     time_calculatedStage3 = (odometry_speedMax - speed_end) / odometry_acceleration;
+    // the distance it will take to slow down
     distance_stage3Increments = odometry_speedMax * time_calculatedStage3 - odometry_acceleration * time_calculatedStage3 * (time_calculatedStage3 / 2);
 
+    // depending on the distance, check if we can achieve/hold max speed
     if((distance_stage1Increments + distance_stage3Increments) < calculation_sign * distance_Total)
     {
-        //moze da dostigne odometry_speedMax
+        // we can achieve max speed
+        // calculate the distance we can do with max speed
         distance_stage2Increments = calculation_sign * distance_Total - distance_stage1Increments - distance_stage3Increments;
+        // calculate the time we will do max speed
         time_calculatedStage2 = distance_stage2Increments / odometry_speedMax;
     }
     else
     {
-        //ne moze da dostigne odometry_speedMax
+        // we can't achieve max speed
+        // stage 2 time is 0
         time_calculatedStage2 = 0;
+
+        // calculate the max speed we can achieve
         speed_max = sqrt(odometry_acceleration * calculation_sign * distance_Total + (odometry_refrenceSpeed * odometry_refrenceSpeed + speed_end * speed_end) / 2);
         if((speed_max < odometry_refrenceSpeed) || (speed_max < speed_end))
         {
@@ -462,44 +473,69 @@ void kretanje_pravo(int robot_distance, unsigned char robot_maxSpeed)
             return; //mission impossible
         }
 
+        // get the new time for acceleration
         time_calculatedStage1 = (speed_max - odometry_refrenceSpeed) / odometry_acceleration;
+
+        // get the new time for deacceleration
         time_calculatedStage3 = (speed_max - speed_end) / odometry_acceleration;
     }
 
-    current_time = current_time0 = sys_time;
-    time_stage1 = current_time0 + time_calculatedStage1;
-    time_stage2 = time_stage1 + time_calculatedStage2;
-    time_stage3 = time_stage2 + time_calculatedStage3;
-    distance_stage1 = odometry_refrenceDistance;
+    current_time = current_time0 = sys_time;                    // get the current time
+    time_stage1 = current_time0 + time_calculatedStage1;        // get the time for stage 1
+    time_stage2 = time_stage1 + time_calculatedStage2;          // get the time for stage 2
+    time_stage3 = time_stage2 + time_calculatedStage3;          // get the time for stage 3
+    distance_stage1 = odometry_refrenceDistance;                // get the current distance
 
+    // set the robot into moving status
     robot_currentStatus = STATUS_MOVING;
+
+    // while the time is less than stage 3
     while(current_time < time_stage3) {
+        // execute every 1ms
         if(current_time != sys_time)
         {
+            // update the current time
             current_time = sys_time;
+
+            // check for communication
             if(!getCommand())
                 return;
 
+            // check if robot is stuck
             if (!checkStuckCondition())
                 return;
 
+            // stage 1 - speed up stage
             if(current_time <= time_stage1)
             {
+                // update the speed 
                 odometry_refrenceSpeed = current_speed + odometry_acceleration * (current_time-current_time0);
+                
+                // update the distance
                 distance_stage2 = distance_stage3 = odometry_refrenceDistance = distance_stage1 + calculation_sign * (current_speed * (current_time-current_time0) + odometry_acceleration * (current_time-current_time0)*(current_time-current_time0)/2);
             }
+            // stage 2  - hold max speed
             else if(current_time <= time_stage2)
             {
+                // update the speed (hold it)
                 odometry_refrenceSpeed = odometry_speedMax;
+
+                // update the distance
                 distance_stage3 = odometry_refrenceDistance = distance_stage2 + calculation_sign * odometry_speedMax * (current_time-time_stage1);
             }
+            // stage 3 - slow down stage
             else if(current_time <= time_stage3)
             {
+                // update the speed
                 odometry_refrenceSpeed = odometry_speedMax - odometry_acceleration * (current_time-time_stage2);
+                
+                // update the distance
                 odometry_refrenceDistance = distance_stage3 + calculation_sign * (odometry_speedMax * (current_time-time_stage2) - odometry_acceleration * (current_time-time_stage2) * (current_time-time_stage2) / 2);
             }
         }
     }
+
+    // arrived to destination, idle it
     robot_currentStatus = STATUS_IDLE;
 } // end of kretanje_pravo(...)
 
@@ -510,6 +546,7 @@ void kretanje_pravo(int robot_distance, unsigned char robot_maxSpeed)
  */
 void apsolutni_ugao(int robot_orientation)
 {
+    // calculate the orientation we want to achieve
     int tmp = robot_orientation - odometry_incrementsOrientation * 360 / K1;
 
     if(tmp > 180)
