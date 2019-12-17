@@ -784,9 +784,13 @@ void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
  */
 void stop(void)
 {
+    // set the refrence distance/rotation in the position we are in now 
     odometry_refrenceDistance = odometry_incrementsDistance;
     odometry_refrenceOrientation = odometry_incrementsOrientation;
 
+    // set the status to idle
+    /* TODO: come up with another status (STATUS_HARDBREAK) where the robot takes a second to stabilize 
+        before going into idle mode*/
     robot_currentStatus = STATUS_IDLE;
 } // end of stop(...)
 
