@@ -298,9 +298,9 @@ void gotoXY(int Xd, int Yd, unsigned char robot_maxSpeed, char robot_movingDirec
     // calculate the distance we need to go forward to achiveve our position
     robot_distance = sqrt((odometry_milliX - Xd) * (odometry_milliX - Xd) + (odometry_milliY - Yd) * (odometry_milliY - Yd));
 
-    // if the distance is less than 500mm, don't accelerate so hard
-    if(robot_distance < 500) {
-        setSpeedAccel(K2/3);
+    // if the distance is less than odometry_shortDistance, don't accelerate so hard
+    if(robot_distance < odometry_shortDistance) {
+        setSpeedAccel(odometry_accelerationShorterDistance);
     } else {
         setSpeedAccel(K2);
     }
