@@ -56,9 +56,10 @@
 
 
 // misc defines (global)
-#define ROBOT_ACCEL_NUMBER 1500 // the acceleration parameter, the higher the number it slower accelerates
+#define odometry_accelerationParameter 1500             // the acceleration parameter, the higher the number it slower accelerates
 #define motor_saturationPWMValue   3200                 // max/min PWM value
-
+#define odometry_shortDistance 500                      // a short distance for acceleration modification
+#define odometry_accelerationShorterDistance K2/3       // in gotoXY/kretanje_pravo if there is a distance <500mm it will accelerate with this number
 
 
 

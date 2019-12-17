@@ -140,7 +140,7 @@ void setSpeedAccel(float v)
 {
     odometry_speedMax = v;	
     odometry_speedOmega = 2 * odometry_speedMax;
-    odometry_acceleration = odometry_speedMax / ROBOT_ACCEL_NUMBER;
+    odometry_acceleration = odometry_speedMax / odometry_accelerationParameter;
     odometry_accelerationAlpha = 2.5 * odometry_acceleration;
 } // end of setSpeedAccel(...)
 
@@ -267,7 +267,7 @@ void gotoXY(int Xd, int Yd, unsigned char robot_maxSpeed, char robot_movingDirec
     long time_calculatedStage1, time_calculatedStage2, time_calculatedStage3;
     long distance_Total, distance_currentIncrements, distance_stage1Increments, distance_stage2Increments, distance_stage3Increments;
     long distance_stage1, distance_stage2, distance_stage3;
-    float v_vrh, v_end, current_speed;
+    float speed_max, speed_end, current_speed;
     int robot_distance,  robot_orientation,   t_orientation;
     long long int position_futureIncrementsX, position_futureIncrementsY;
 
@@ -298,19 +298,22 @@ void gotoXY(int Xd, int Yd, unsigned char robot_maxSpeed, char robot_movingDirec
     // calculate the distance we need to go forward to achiveve our position
     robot_distance = sqrt((odometry_milliX - Xd) * (odometry_milliX - Xd) + (odometry_milliY - Yd) * (odometry_milliY - Yd));
 
-    // if the distance is less than 500mm, don'current_time accelerate so hard
-    if(robot_distance < 500)
+    // if the distance is less than 500mm, don't accelerate so hard
+    if(robot_distance < 500) {
         setSpeedAccel(K2/3);
+    } else {
+        setSpeedAccel(K2);
+    }
 
     // calculate the end speed we should have
-    v_end = odometry_speedMax * robot_maxSpeed / 256;
+    speed_end = odometry_speedMax * robot_maxSpeed / 256;
     distance_Total = (long)robot_distance * K2;                     // calculate the distance we will conver [increments]
 
     time_calculatedStage1 = (odometry_speedMax - odometry_refrenceSpeed) / odometry_acceleration;  // calculate the time it will take to speed up
     distance_currentIncrements = odometry_incrementsDistance;                                           // the whole distance to cover
     distance_stage1Increments = odometry_refrenceSpeed * time_calculatedStage1 + odometry_acceleration * time_calculatedStage1 * time_calculatedStage1 / 2;     // calculate the distance to speed up
 
-    time_calculatedStage3 = (odometry_speedMax - v_end) / odometry_acceleration;                   // the time it will take to deaccelerate
+    time_calculatedStage3 = (odometry_speedMax - speed_end) / odometry_acceleration;                   // the time it will take to deaccelerate
     distance_stage3Increments = odometry_speedMax * time_calculatedStage3 - odometry_acceleration * time_calculatedStage3 * time_calculatedStage3 / 2;          // the distance it will take to stop
 
     // can we achieve max speed
@@ -326,17 +329,17 @@ void gotoXY(int Xd, int Yd, unsigned char robot_maxSpeed, char robot_movingDirec
         time_calculatedStage2 = 0;                                     // the time we will hold max speed = 0
         
         // calculate the new possible max speed we can achieve
-        v_vrh = sqrt(odometry_acceleration * distance_Total + (odometry_refrenceSpeed * odometry_refrenceSpeed + v_end * v_end) / 2);
+        speed_max = sqrt(odometry_acceleration * distance_Total + (odometry_refrenceSpeed * odometry_refrenceSpeed + speed_end * speed_end) / 2);
         
-        if( (v_vrh < odometry_refrenceSpeed) || (v_vrh < v_end) )
+        if( (speed_max < odometry_refrenceSpeed) || (speed_max < speed_end) )
         {
             robot_currentStatus = STATUS_ERROR;
             return; //mission impossible
         }
 
         // change the time of speed up/down depending on the new max speed
-        time_calculatedStage1 = (v_vrh - odometry_refrenceSpeed) / odometry_acceleration;
-        time_calculatedStage3 = (v_vrh - v_end) / odometry_acceleration;
+        time_calculatedStage1 = (speed_max - odometry_refrenceSpeed) / odometry_acceleration;
+        time_calculatedStage3 = (speed_max - speed_end) / odometry_acceleration;
     }
 
     current_time = current_time0 = sys_time;                      // get the current time
@@ -421,43 +424,46 @@ void kretanje_pravo(int robot_distance, unsigned char robot_maxSpeed)
     long time_calculatedStage1, time_calculatedStage2, time_calculatedStage3;
     long distance_Total, distance_currentIncrements, distance_stage1Increments, distance_stage2Increments, distance_stage3Increments;
     long distance_stage1, distance_stage2, distance_stage3;
-    float v_vrh, v_end, current_speed;
-    char predznak;
+    float speed_max, speed_end, current_speed;
+    char calculation_sign;
 
-   // if((robot_distance < 500) && (robot_distance > -500))
-    //    setSpeedAccel(K2 / 3);
+    if((robot_distance < odometry_shortDistance) && (robot_distance > -odometry_shortDistance)) {
+        setSpeedAccel(odometry_accelerationShorterDistance);
+    } else {
+        setSpeed(K2);
+    }
 
     current_speed = odometry_refrenceSpeed;
-    v_end = odometry_speedMax * robot_maxSpeed / 255;
-    predznak = (robot_distance >= 0 ? 1 : -1);
+    speed_end = odometry_speedMax * robot_maxSpeed / 255;
+    calculation_sign = (robot_distance >= 0 ? 1 : -1);
     distance_Total = (long)robot_distance * K2; // konverzija u inkremente
 
     time_calculatedStage1 = (odometry_speedMax - odometry_refrenceSpeed) / odometry_acceleration;
     distance_currentIncrements = odometry_incrementsDistance;
     distance_stage1Increments = odometry_refrenceSpeed * time_calculatedStage1 + odometry_acceleration * time_calculatedStage1 * (time_calculatedStage1 / 2);
 
-    time_calculatedStage3 = (odometry_speedMax - v_end) / odometry_acceleration;
+    time_calculatedStage3 = (odometry_speedMax - speed_end) / odometry_acceleration;
     distance_stage3Increments = odometry_speedMax * time_calculatedStage3 - odometry_acceleration * time_calculatedStage3 * (time_calculatedStage3 / 2);
 
-    if((distance_stage1Increments + distance_stage3Increments) < predznak * distance_Total)
+    if((distance_stage1Increments + distance_stage3Increments) < calculation_sign * distance_Total)
     {
         //moze da dostigne odometry_speedMax
-        distance_stage2Increments = predznak * distance_Total - distance_stage1Increments - distance_stage3Increments;
+        distance_stage2Increments = calculation_sign * distance_Total - distance_stage1Increments - distance_stage3Increments;
         time_calculatedStage2 = distance_stage2Increments / odometry_speedMax;
     }
     else
     {
         //ne moze da dostigne odometry_speedMax
         time_calculatedStage2 = 0;
-        v_vrh = sqrt(odometry_acceleration * predznak * distance_Total + (odometry_refrenceSpeed * odometry_refrenceSpeed + v_end * v_end) / 2);
-        if((v_vrh < odometry_refrenceSpeed) || (v_vrh < v_end))
+        speed_max = sqrt(odometry_acceleration * calculation_sign * distance_Total + (odometry_refrenceSpeed * odometry_refrenceSpeed + speed_end * speed_end) / 2);
+        if((speed_max < odometry_refrenceSpeed) || (speed_max < speed_end))
         {
             robot_currentStatus = STATUS_ERROR;
             return; //mission impossible
         }
 
-        time_calculatedStage1 = (v_vrh - odometry_refrenceSpeed) / odometry_acceleration;
-        time_calculatedStage3 = (v_vrh - v_end) / odometry_acceleration;
+        time_calculatedStage1 = (speed_max - odometry_refrenceSpeed) / odometry_acceleration;
+        time_calculatedStage3 = (speed_max - speed_end) / odometry_acceleration;
     }
 
     current_time = current_time0 = sys_time;
@@ -480,17 +486,17 @@ void kretanje_pravo(int robot_distance, unsigned char robot_maxSpeed)
             if(current_time <= time_stage1)
             {
                 odometry_refrenceSpeed = current_speed + odometry_acceleration * (current_time-current_time0);
-                distance_stage2 = distance_stage3 = odometry_refrenceDistance = distance_stage1 + predznak * (current_speed * (current_time-current_time0) + odometry_acceleration * (current_time-current_time0)*(current_time-current_time0)/2);
+                distance_stage2 = distance_stage3 = odometry_refrenceDistance = distance_stage1 + calculation_sign * (current_speed * (current_time-current_time0) + odometry_acceleration * (current_time-current_time0)*(current_time-current_time0)/2);
             }
             else if(current_time <= time_stage2)
             {
                 odometry_refrenceSpeed = odometry_speedMax;
-                distance_stage3 = odometry_refrenceDistance = distance_stage2 + predznak * odometry_speedMax * (current_time-time_stage1);
+                distance_stage3 = odometry_refrenceDistance = distance_stage2 + calculation_sign * odometry_speedMax * (current_time-time_stage1);
             }
             else if(current_time <= time_stage3)
             {
                 odometry_refrenceSpeed = odometry_speedMax - odometry_acceleration * (current_time-time_stage2);
-                odometry_refrenceDistance = distance_stage3 + predznak * (odometry_speedMax * (current_time-time_stage2) - odometry_acceleration * (current_time-time_stage2) * (current_time-time_stage2) / 2);
+                odometry_refrenceDistance = distance_stage3 + calculation_sign * (odometry_speedMax * (current_time-time_stage2) - odometry_acceleration * (current_time-time_stage2) * (current_time-time_stage2) / 2);
             }
         }
     }
@@ -526,24 +532,24 @@ char okret(int robot_orientation)
     long time_calculatedStage1, time_calculatedStage2, time_calculatedStage3;
     long Fi_total, Fi1;
     float ugao_ref, w_ref = 0;
-    char predznak;
+    char calculation_sign;
 
-    predznak = (robot_orientation >= 0 ? 1 : -1);
+    calculation_sign = (robot_orientation >= 0 ? 1 : -1);
     Fi_total = (long)robot_orientation * K1 / 360;
 
     time_calculatedStage1 = time_calculatedStage3 = odometry_speedOmega / odometry_accelerationAlpha;
     Fi1 = odometry_accelerationAlpha * time_calculatedStage1 * time_calculatedStage1 / 2;
-    if(Fi1 > (predznak * Fi_total / 2))
+    if(Fi1 > (calculation_sign * Fi_total / 2))
     {
         //trougaoni profil
-        Fi1 = predznak  * Fi_total / 2;
+        Fi1 = calculation_sign  * Fi_total / 2;
         time_calculatedStage1 = time_calculatedStage3 = sqrt(2 * Fi1 / odometry_accelerationAlpha);
         time_calculatedStage2 = 0;
     }
     else
     {
         //trapezni profil
-        time_calculatedStage2 = (predznak * Fi_total - 2 * Fi1) / odometry_speedOmega;
+        time_calculatedStage2 = (calculation_sign * Fi_total - 2 * Fi1) / odometry_speedOmega;
     }
 
     ugao_ref = odometry_refrenceOrientation;
@@ -566,19 +572,19 @@ char okret(int robot_orientation)
             if(current_time <= time_stage1)
             {
                 w_ref += odometry_accelerationAlpha;
-                ugao_ref += predznak * (w_ref - odometry_accelerationAlpha / 2);
+                ugao_ref += calculation_sign * (w_ref - odometry_accelerationAlpha / 2);
                 odometry_refrenceOrientation = ugao_ref;
             }
             else if(current_time <= time_stage2)
             {
                 w_ref = odometry_speedOmega;
-                ugao_ref += predznak * odometry_speedOmega;
+                ugao_ref += calculation_sign * odometry_speedOmega;
                 odometry_refrenceOrientation = ugao_ref;
             }
             else if(current_time <= time_stage3)
             {
                 w_ref -= odometry_accelerationAlpha;
-                ugao_ref += predznak * (w_ref + odometry_accelerationAlpha / 2);
+                ugao_ref += calculation_sign * (w_ref + odometry_accelerationAlpha / 2);
                 odometry_refrenceOrientation = ugao_ref;
             }
         }
@@ -602,16 +608,16 @@ void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
     long time_calculatedStage1, time_calculatedStage2, time_calculatedStage3;
     long Fi_total, Fi1;
     float v_poc, dist_ref, ugao_ref, w_ref = 0, odometry_refrenceSpeed = 0;
-    char predznak;
+    char calculation_sign;
     int robot_orientation;
 
-    predznak = (Fi >= 0 ? 1 : -1);
+    calculation_sign = (Fi >= 0 ? 1 : -1);
     R = sqrt(((odometry_milliX-Xc) * (odometry_milliX-Xc) + (odometry_milliY-Yc) * (odometry_milliY-Yc)));
     Fi_pocetno = atan2(((int)odometry_milliY-(int)Yc), ((int)odometry_milliX-(int)Xc));
     robot_orientation = Fi_pocetno * 180 / PI;
     robot_movingDirection = (robot_movingDirection >= 0 ? 1 : -1);
 
-    robot_orientation = (robot_orientation + robot_movingDirection * predznak * 90) % 360;
+    robot_orientation = (robot_orientation + robot_movingDirection * calculation_sign * 90) % 360;
     if(robot_orientation > 180)
         robot_orientation -= 360;
     if(robot_orientation < -180)
@@ -635,17 +641,17 @@ void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
 
     time_calculatedStage1 = time_calculatedStage3 = odometry_speedOmega / odometry_accelerationAlpha;
     Fi1 = odometry_accelerationAlpha * time_calculatedStage1 * time_calculatedStage1 / 2;
-    if(Fi1 > (predznak * Fi_total / 2))
+    if(Fi1 > (calculation_sign * Fi_total / 2))
     {
         //trougaoni profil
-        Fi1 = predznak  * Fi_total / 2;
+        Fi1 = calculation_sign  * Fi_total / 2;
         time_calculatedStage1 = time_calculatedStage3 = sqrt(2 * Fi1 / odometry_accelerationAlpha);
         time_calculatedStage2 = 0;
     }
     else
     {
         //trapezni profil
-        time_calculatedStage2 = (predznak * Fi_total - 2 * Fi1) / odometry_speedOmega;
+        time_calculatedStage2 = (calculation_sign * Fi_total - 2 * Fi1) / odometry_speedOmega;
     }
 
     current_time = current_time0 = sys_time;
@@ -676,8 +682,8 @@ void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
             {
                 w_ref += odometry_accelerationAlpha;
                 odometry_refrenceSpeed += odometry_acceleration;
-                delta = predznak * (w_ref - odometry_accelerationAlpha / 2);
-                luk = predznak * R * delta / D_encoderWheel;
+                delta = calculation_sign * (w_ref - odometry_accelerationAlpha / 2);
+                luk = calculation_sign * R * delta / D_encoderWheel;
                 ugao_ref += delta;
                 dist_ref += robot_movingDirection * luk;
                 odometry_refrenceOrientation = ugao_ref;
@@ -687,8 +693,8 @@ void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
             {
                 w_ref = odometry_speedOmega;
                 odometry_refrenceSpeed = odometry_speedMax;
-                delta = predznak * odometry_speedOmega;
-                luk = predznak * R * delta / D_encoderWheel;
+                delta = calculation_sign * odometry_speedOmega;
+                luk = calculation_sign * R * delta / D_encoderWheel;
                 ugao_ref += delta;
                 dist_ref += robot_movingDirection * luk;
                 odometry_refrenceOrientation = ugao_ref;
@@ -698,8 +704,8 @@ void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
             {
                 w_ref -= odometry_accelerationAlpha;
                 odometry_refrenceSpeed -= odometry_acceleration;
-                delta = predznak * (w_ref + odometry_accelerationAlpha / 2);
-                luk = predznak * R * delta / D_encoderWheel;
+                delta = calculation_sign * (w_ref + odometry_accelerationAlpha / 2);
+                luk = calculation_sign * R * delta / D_encoderWheel;
                 ugao_ref += delta;
                 dist_ref += robot_movingDirection * luk;
                 odometry_refrenceOrientation = ugao_ref;
