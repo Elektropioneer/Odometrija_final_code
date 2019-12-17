@@ -171,7 +171,7 @@ section                    address      alignment gaps    total length  (dec)
 .ndata                       0x864                   0             0x2  (2)
 .nbss                        0x866                   0             0x2  (2)
 .bss                         0x868                   0           0x198  (408)
-_0xf7266a6c5df92228         0x47c0                   0            0x40  (64)
+_0xf724da6c5df9438a         0x47c0                   0            0x40  (64)
 
                  Total "data" memory used (bytes):          0x240  (576) 3%
 
@@ -727,14 +727,14 @@ __FUID3
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x7978
+.debug_info       0x000000       0x7954
  *(.debug_info)
- .debug_info      0x000000        0xada build/default/production/_ext/1472/main.o
- .debug_info      0x000ada       0x23b5 build/default/production/_ext/1472/init.o
- .debug_info      0x002e8f        0xfdc build/default/production/_ext/1472/uart.o
- .debug_info      0x003e6b       0x2a77 build/default/production/_ext/1472/can.o
- .debug_info      0x0068e2        0x1e6 build/default/production/_ext/1472/motor.o
- .debug_info      0x006ac8        0xeb0 build/default/production/_ext/1472/movement.o
+ .debug_info      0x000000        0xad4 build/default/production/_ext/1472/main.o
+ .debug_info      0x000ad4       0x23af build/default/production/_ext/1472/init.o
+ .debug_info      0x002e83        0xfd6 build/default/production/_ext/1472/uart.o
+ .debug_info      0x003e59       0x2a71 build/default/production/_ext/1472/can.o
+ .debug_info      0x0068ca        0x1e0 build/default/production/_ext/1472/motor.o
+ .debug_info      0x006aaa        0xeaa build/default/production/_ext/1472/movement.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x7f6
@@ -1972,9 +1972,9 @@ __c30_signature
  __c30_signature
                   0x000943          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umuldi3.eo)
 
-_0xf7266a6c5df92228
+_0xf724da6c5df9438a
                     0x47c0         0x40
- _0xf7266a6c5df92228
+ _0xf724da6c5df9438a
                     0x47c0         0x40 build/default/production/_ext/1472/can.o
 
 .nbss               0x0800         0x64
