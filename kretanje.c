@@ -797,6 +797,9 @@ void stop(void)
  */
 void setSpeed(unsigned char tmp)
 {
+    // set the global value
     odometry_maxSpeedSet = tmp;
+
+    // based on te 0-255 value calculate it into acceleration
     setSpeedAccel(K2  * (unsigned char)odometry_maxSpeedSet / 256);
 } // end of setSpeed(...)
