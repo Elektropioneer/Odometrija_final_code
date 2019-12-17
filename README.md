@@ -14,5 +14,11 @@ Compiler: MPLAB XC16 Compiler
 
 - Stavljena funkcija za gasenje PWM-a preko CAN
 
+## Update 2.0
+- converted to english
+- commented code 99%
+- same functionality as v1.x, just with clearer names/defines
+- removed files/function that were not in use
+
 ### Version
-1.1
+2.0
