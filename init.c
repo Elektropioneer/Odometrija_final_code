@@ -13,8 +13,8 @@ void UARTinit()
     U1MODEbits.BRGH = 0;    // Low-Speed mode 
     U1BRG = 31;             // BAUD Rate Setting for 57600
     U1MODEbits.UARTEN = 1;  // Enable UART
-    U1STAbits.UTXEN = 1;
-    IFS0bits.U1RXIF = 0;
+    U1STAbits.UTXEN = 1;    // Enable TX
+    IFS0bits.U1RXIF = 0;    // disable rx interrupt
      
 } // end of UARTinit()
 

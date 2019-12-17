@@ -155,12 +155,12 @@ section                    address   length (PC units)   length (bytes) (dec)
 .text                        0x200              0x17ca          0x23af  (9135)
 .const                      0x19ca              0x4000          0x6000  (24576)
 libmxconst                  0x59ca                0x94            0xde  (222)
-.text                       0x5a5e              0x1e3a          0x2d57  (11607)
-.dinit                      0x7898                0x2e            0x45  (69)
-.init.delay32               0x78c6                0x1c            0x2a  (42)
-.text                       0x78e2                0x18            0x24  (36)
+.text                       0x5a5e              0x1e36          0x2d51  (11601)
+.dinit                      0x7894                0x28            0x3c  (60)
+.init.delay32               0x78bc                0x1c            0x2a  (42)
+.text                       0x78d8                0x18            0x24  (36)
 
-                 Total "program" memory used (bytes):         0xb277  (45687) 34%
+                 Total "program" memory used (bytes):         0xb268  (45672) 34%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x4000]
@@ -170,10 +170,10 @@ section                    address      alignment gaps    total length  (dec)
 .nbss                        0x800                   0            0x64  (100)
 .ndata                       0x864                   0             0x2  (2)
 .nbss                        0x866                   0             0x2  (2)
-.bss                         0x868                   0           0x1a8  (424)
-_0xf72d0a6c5df8a84e         0x47c0                   0            0x40  (64)
+.bss                         0x868                   0           0x198  (408)
+_0xf725ba6c5df8bb75         0x47c0                   0            0x40  (64)
 
-                 Total "data" memory used (bytes):          0x250  (592) 3%
+                 Total "data" memory used (bytes):          0x240  (576) 3%
 
 
 Dynamic Memory Usage
@@ -181,9 +181,9 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0xa10                              0x3db0  (15792)
+stack                        0xa00                              0x3dc0  (15808)
 
-                 Maximum dynamic memory (bytes):         0x3db0  (15792)
+                 Maximum dynamic memory (bytes):         0x3dc0  (15808)
 
 Note: Project is using a large data memory model when small data memory model is sufficient.
 
@@ -217,8 +217,6 @@ External Symbols in Data Memory (by address):
                     0x0854                  _odometry_refrenceOrientation
                     0x0858                  _odometry_refrenceDistance
                     0x085c                  _odometry_refrenceSpeed
-                    0x0a00                  _rxData
-                    0x0a08                  _txData
 
 External Symbols in Data Memory (by name):
 
@@ -248,9 +246,7 @@ External Symbols in Data Memory (by name):
                     0x083c                  _odometry_speedOmega
                     0x0814                  _odometry_stuckDistance
                     0x0812                  _odometry_stuckOrientation
-                    0x0a00                  _rxData
                     0x084c                  _sys_time
-                    0x0a08                  _txData
 
 External Symbols in Program Memory (by address):
 
@@ -330,67 +326,67 @@ External Symbols in Program Memory (by address):
                   0x005ca0                  _getStatus
                   0x005ca8                  _forceStatus
                   0x005d30                  _gotoXY
-                  0x0063a2                  _kretanje_pravo
-                  0x00687a                  _apsolutni_ugao
-                  0x0068c8                  _okret
-                  0x006b9e                  _kurva
-                  0x0070f4                  _stop
-                  0x00710e                  _setSpeed
-                  0x007132                  _CAN_checkRX
-                  0x00713a                  _CAN_write
-                  0x0071d6                  _CAN_read
-                  0x007234                  _CAN_getLastMessage
-                  0x007262                  _CAN_init
-                  0x00739c                  _BusyUART1
-                  0x0073b2                  _CloseUART1
-                  0x0073c2                  _ConfigIntUART1
-                  0x007430                  _DataRdyUART1
-                  0x00743c                  _getsUART1
-                  0x0074a0                  _OpenUART1
-                  0x0074b8                  _putsUART1
-                  0x007502                  _ReadUART1
-                  0x00751a                  _WriteUART1
-                  0x007536                  _getch
-                  0x007548                  _getch_16bit
-                  0x007560                  _putch
-                  0x007574                  _putch_16bit
-                  0x00758a                  _FlushUART1
-                  0x0075a0                  _UARTinit
-                  0x0075be                  _CloseMCPWM
-                  0x0075e6                  _PWMinit
-                  0x007612                  _TimerInit
-                  0x007636                  _QEIinit
-                  0x007678                  _PortInit
-                  0x0076a2                  _PinsInit
-                  0x0076ec                  _OscillatorInit
-                  0x007740                  _main
-                  0x0078c6                  ___delay32
-                  0x0078e2                  _motor_leftPWM
-                  0x0078ee                  _motor_rightPWM
+                  0x00639e                  _kretanje_pravo
+                  0x006876                  _apsolutni_ugao
+                  0x0068c4                  _okret
+                  0x006b9a                  _kurva
+                  0x0070f0                  _stop
+                  0x00710a                  _setSpeed
+                  0x00712e                  _CAN_checkRX
+                  0x007136                  _CAN_write
+                  0x0071d2                  _CAN_read
+                  0x007230                  _CAN_getLastMessage
+                  0x00725e                  _CAN_init
+                  0x007398                  _BusyUART1
+                  0x0073ae                  _CloseUART1
+                  0x0073be                  _ConfigIntUART1
+                  0x00742c                  _DataRdyUART1
+                  0x007438                  _getsUART1
+                  0x00749c                  _OpenUART1
+                  0x0074b4                  _putsUART1
+                  0x0074fe                  _ReadUART1
+                  0x007516                  _WriteUART1
+                  0x007532                  _getch
+                  0x007544                  _getch_16bit
+                  0x00755c                  _putch
+                  0x007570                  _putch_16bit
+                  0x007586                  _FlushUART1
+                  0x00759c                  _UARTinit
+                  0x0075ba                  _CloseMCPWM
+                  0x0075e2                  _PWMinit
+                  0x00760e                  _TimerInit
+                  0x007632                  _QEIinit
+                  0x007674                  _PortInit
+                  0x00769e                  _PinsInit
+                  0x0076e8                  _OscillatorInit
+                  0x00773c                  _main
+                  0x0078bc                  ___delay32
+                  0x0078d8                  _motor_leftPWM
+                  0x0078e4                  _motor_rightPWM
 
 External Symbols in Program Memory (by name):
 
-                  0x00739c                  _BusyUART1
-                  0x007132                  _CAN_checkRX
-                  0x007234                  _CAN_getLastMessage
-                  0x007262                  _CAN_init
-                  0x0071d6                  _CAN_read
-                  0x00713a                  _CAN_write
-                  0x0075be                  _CloseMCPWM
-                  0x0073b2                  _CloseUART1
-                  0x0073c2                  _ConfigIntUART1
-                  0x007430                  _DataRdyUART1
-                  0x00758a                  _FlushUART1
-                  0x0074a0                  _OpenUART1
-                  0x0076ec                  _OscillatorInit
-                  0x0075e6                  _PWMinit
-                  0x0076a2                  _PinsInit
-                  0x007678                  _PortInit
-                  0x007636                  _QEIinit
-                  0x007502                  _ReadUART1
-                  0x007612                  _TimerInit
-                  0x0075a0                  _UARTinit
-                  0x00751a                  _WriteUART1
+                  0x007398                  _BusyUART1
+                  0x00712e                  _CAN_checkRX
+                  0x007230                  _CAN_getLastMessage
+                  0x00725e                  _CAN_init
+                  0x0071d2                  _CAN_read
+                  0x007136                  _CAN_write
+                  0x0075ba                  _CloseMCPWM
+                  0x0073ae                  _CloseUART1
+                  0x0073be                  _ConfigIntUART1
+                  0x00742c                  _DataRdyUART1
+                  0x007586                  _FlushUART1
+                  0x00749c                  _OpenUART1
+                  0x0076e8                  _OscillatorInit
+                  0x0075e2                  _PWMinit
+                  0x00769e                  _PinsInit
+                  0x007674                  _PortInit
+                  0x007632                  _QEIinit
+                  0x0074fe                  _ReadUART1
+                  0x00760e                  _TimerInit
+                  0x00759c                  _UARTinit
+                  0x007516                  _WriteUART1
                   0x000844                  __C1Interrupt
                   0x000768                  __DMA1Interrupt
                   0x000830                  __DMA2Interrupt
@@ -398,7 +394,7 @@ External Symbols in Program Memory (by name):
                   0x0002c8                  __T1Interrupt
                   0x000b0e                  ___addsf3
                   0x000b0e                  ___addsf3x
-                  0x0078c6                  ___delay32
+                  0x0078bc                  ___delay32
                   0x001172                  ___divsf3
                   0x001172                  ___divsf3x
                   0x0008a8                  ___divsi3
@@ -455,34 +451,34 @@ External Symbols in Program Memory (by name):
                   0x0017b8                  __typef
                   0x001114                  __unpackdnrmf
                   0x001414                  __unpackf
-                  0x00687a                  _apsolutni_ugao
+                  0x006876                  _apsolutni_ugao
                   0x00086e                  _atan2f
                   0x000ec4                  _atanf
                   0x000ec4                  _atanfx
                   0x005ca8                  _forceStatus
                   0x005ca0                  _getStatus
-                  0x007536                  _getch
-                  0x007548                  _getch_16bit
-                  0x00743c                  _getsUART1
+                  0x007532                  _getch
+                  0x007544                  _getch_16bit
+                  0x007438                  _getsUART1
                   0x005d30                  _gotoXY
-                  0x0063a2                  _kretanje_pravo
-                  0x006b9e                  _kurva
-                  0x007740                  _main
-                  0x0078e2                  _motor_leftPWM
-                  0x0078ee                  _motor_rightPWM
-                  0x0068c8                  _okret
-                  0x007560                  _putch
-                  0x007574                  _putch_16bit
-                  0x0074b8                  _putsUART1
+                  0x00639e                  _kretanje_pravo
+                  0x006b9a                  _kurva
+                  0x00773c                  _main
+                  0x0078d8                  _motor_leftPWM
+                  0x0078e4                  _motor_rightPWM
+                  0x0068c4                  _okret
+                  0x00755c                  _putch
+                  0x007570                  _putch_16bit
+                  0x0074b4                  _putsUART1
                   0x005a5e                  _resetDriver
                   0x005be8                  _sendStatusAndPosition
                   0x005bcc                  _setPosition
-                  0x00710e                  _setSpeed
+                  0x00710a                  _setSpeed
                   0x005c6a                  _setSpeedAccel
                   0x0019ca                  _sinus
                   0x001398                  _sqrtf
                   0x001398                  _sqrtfx
-                  0x0070f4                  _stop
+                  0x0070f0                  _stop
 
 Memory Configuration
 
@@ -731,33 +727,33 @@ __FUID3
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x797f
+.debug_info       0x000000       0x794b
  *(.debug_info)
- .debug_info      0x000000        0xb14 build/default/production/_ext/1472/main.o
- .debug_info      0x000b14       0x23b5 build/default/production/_ext/1472/init.o
- .debug_info      0x002ec9        0xfdc build/default/production/_ext/1472/uart.o
- .debug_info      0x003ea5        0xe7d build/default/production/_ext/1472/kretanje.o
- .debug_info      0x004d22       0x2a77 build/default/production/_ext/1472/can.o
- .debug_info      0x007799        0x1e6 build/default/production/_ext/1472/motor.o
+ .debug_info      0x000000        0xada build/default/production/_ext/1472/main.o
+ .debug_info      0x000ada       0x23b5 build/default/production/_ext/1472/init.o
+ .debug_info      0x002e8f        0xfdc build/default/production/_ext/1472/uart.o
+ .debug_info      0x003e6b        0xe83 build/default/production/_ext/1472/kretanje.o
+ .debug_info      0x004cee       0x2a77 build/default/production/_ext/1472/can.o
+ .debug_info      0x007765        0x1e6 build/default/production/_ext/1472/motor.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x80c
+.debug_abbrev     0x000000        0x803
  *(.debug_abbrev)
- .debug_abbrev    0x000000        0x154 build/default/production/_ext/1472/main.o
- .debug_abbrev    0x000154         0xed build/default/production/_ext/1472/init.o
- .debug_abbrev    0x000241        0x1d0 build/default/production/_ext/1472/uart.o
- .debug_abbrev    0x000411        0x216 build/default/production/_ext/1472/kretanje.o
- .debug_abbrev    0x000627        0x17b build/default/production/_ext/1472/can.o
- .debug_abbrev    0x0007a2         0x6a build/default/production/_ext/1472/motor.o
+ .debug_abbrev    0x000000        0x14b build/default/production/_ext/1472/main.o
+ .debug_abbrev    0x00014b         0xed build/default/production/_ext/1472/init.o
+ .debug_abbrev    0x000238        0x1d0 build/default/production/_ext/1472/uart.o
+ .debug_abbrev    0x000408        0x216 build/default/production/_ext/1472/kretanje.o
+ .debug_abbrev    0x00061e        0x17b build/default/production/_ext/1472/can.o
+ .debug_abbrev    0x000799         0x6a build/default/production/_ext/1472/motor.o
 
-.debug_line       0x000000        0x8f2
+.debug_line       0x000000        0x8ee
  *(.debug_line)
  .debug_line      0x000000        0x1ac build/default/production/_ext/1472/main.o
  .debug_line      0x0001ac        0x129 build/default/production/_ext/1472/init.o
- .debug_line      0x0002d5        0x123 build/default/production/_ext/1472/uart.o
- .debug_line      0x0003f8        0x2e5 build/default/production/_ext/1472/kretanje.o
- .debug_line      0x0006dd        0x151 build/default/production/_ext/1472/can.o
- .debug_line      0x00082e         0xc4 build/default/production/_ext/1472/motor.o
+ .debug_line      0x0002d5        0x121 build/default/production/_ext/1472/uart.o
+ .debug_line      0x0003f6        0x2e3 build/default/production/_ext/1472/kretanje.o
+ .debug_line      0x0006d9        0x151 build/default/production/_ext/1472/can.o
+ .debug_line      0x00082a         0xc4 build/default/production/_ext/1472/motor.o
 
 .debug_frame      0x000000        0x6aa
  *(.debug_frame)
@@ -783,20 +779,20 @@ __FUID3
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x640
+                  0x000000        0x62a
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000        0x33c build/default/production/_ext/1472/main.o
+                  0x000000        0x326 build/default/production/_ext/1472/main.o
  .debug_pubnames
-                  0x00033c         0x81 build/default/production/_ext/1472/init.o
+                  0x000326         0x81 build/default/production/_ext/1472/init.o
  .debug_pubnames
-                  0x0003bd         0xdd build/default/production/_ext/1472/uart.o
+                  0x0003a7         0xdd build/default/production/_ext/1472/uart.o
  .debug_pubnames
-                  0x00049a         0xd7 build/default/production/_ext/1472/kretanje.o
+                  0x000484         0xd7 build/default/production/_ext/1472/kretanje.o
  .debug_pubnames
-                  0x000571         0x98 build/default/production/_ext/1472/can.o
+                  0x00055b         0x98 build/default/production/_ext/1472/can.o
  .debug_pubnames
-                  0x000609         0x37 build/default/production/_ext/1472/motor.o
+                  0x0005f3         0x37 build/default/production/_ext/1472/motor.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -1976,9 +1972,9 @@ __c30_signature
  __c30_signature
                   0x000943          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umuldi3.eo)
 
-_0xf72d0a6c5df8a84e
+_0xf725ba6c5df8bb75
                     0x47c0         0x40
- _0xf72d0a6c5df8a84e
+ _0xf725ba6c5df8bb75
                     0x47c0         0x40 build/default/production/_ext/1472/can.o
 
 .nbss               0x0800         0x64
@@ -2019,11 +2015,8 @@ _0xf72d0a6c5df8a84e
  .nbss              0x0866          0x2 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(errno.eo)
                     0x0866                  _errno
 
-.bss                0x0868        0x1a8
+.bss                0x0868        0x198
  .bss               0x0868        0x198 build/default/production/_ext/1472/can.o
- .bss               0x0a00         0x10 build/default/production/_ext/1472/main.o
-                    0x0a00                  _rxData
-                    0x0a08                  _txData
 
 .ivt._T1Interrupt
                   0x00001a          0x2
@@ -2053,8 +2046,8 @@ libmxconst          0xd9ca         0x94 load address 0x0059ca
  libmxconst         0xd9ca         0x64 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atanfx.eo)
  libmxconst         0xda2e         0x30 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(ssqrtfx.eo)
 
-.text             0x005a5e       0x1e3a
- .text            0x005a5e       0x16d4 build/default/production/_ext/1472/kretanje.o
+.text             0x005a5e       0x1e36
+ .text            0x005a5e       0x16d0 build/default/production/_ext/1472/kretanje.o
                   0x005a5e                  _resetDriver
                   0x005bcc                  _setPosition
                   0x005be8                  _sendStatusAndPosition
@@ -2062,53 +2055,53 @@ libmxconst          0xd9ca         0x94 load address 0x0059ca
                   0x005ca0                  _getStatus
                   0x005ca8                  _forceStatus
                   0x005d30                  _gotoXY
-                  0x0063a2                  _kretanje_pravo
-                  0x00687a                  _apsolutni_ugao
-                  0x0068c8                  _okret
-                  0x006b9e                  _kurva
-                  0x0070f4                  _stop
-                  0x00710e                  _setSpeed
- .text            0x007132        0x26a build/default/production/_ext/1472/can.o
-                  0x007132                  _CAN_checkRX
-                  0x00713a                  _CAN_write
-                  0x0071d6                  _CAN_read
-                  0x007234                  _CAN_getLastMessage
-                  0x007262                  _CAN_init
- .text            0x00739c        0x204 build/default/production/_ext/1472/uart.o
-                  0x00739c                  _BusyUART1
-                  0x0073b2                  _CloseUART1
-                  0x0073c2                  _ConfigIntUART1
-                  0x007430                  _DataRdyUART1
-                  0x00743c                  _getsUART1
-                  0x0074a0                  _OpenUART1
-                  0x0074b8                  _putsUART1
-                  0x007502                  _ReadUART1
-                  0x00751a                  _WriteUART1
-                  0x007536                  _getch
-                  0x007548                  _getch_16bit
-                  0x007560                  _putch
-                  0x007574                  _putch_16bit
-                  0x00758a                  _FlushUART1
- .text            0x0075a0        0x1a0 build/default/production/_ext/1472/init.o
-                  0x0075a0                  _UARTinit
-                  0x0075be                  _CloseMCPWM
-                  0x0075e6                  _PWMinit
-                  0x007612                  _TimerInit
-                  0x007636                  _QEIinit
-                  0x007678                  _PortInit
-                  0x0076a2                  _PinsInit
-                  0x0076ec                  _OscillatorInit
- .text            0x007740        0x158 build/default/production/_ext/1472/main.o
-                  0x007740                  _main
+                  0x00639e                  _kretanje_pravo
+                  0x006876                  _apsolutni_ugao
+                  0x0068c4                  _okret
+                  0x006b9a                  _kurva
+                  0x0070f0                  _stop
+                  0x00710a                  _setSpeed
+ .text            0x00712e        0x26a build/default/production/_ext/1472/can.o
+                  0x00712e                  _CAN_checkRX
+                  0x007136                  _CAN_write
+                  0x0071d2                  _CAN_read
+                  0x007230                  _CAN_getLastMessage
+                  0x00725e                  _CAN_init
+ .text            0x007398        0x204 build/default/production/_ext/1472/uart.o
+                  0x007398                  _BusyUART1
+                  0x0073ae                  _CloseUART1
+                  0x0073be                  _ConfigIntUART1
+                  0x00742c                  _DataRdyUART1
+                  0x007438                  _getsUART1
+                  0x00749c                  _OpenUART1
+                  0x0074b4                  _putsUART1
+                  0x0074fe                  _ReadUART1
+                  0x007516                  _WriteUART1
+                  0x007532                  _getch
+                  0x007544                  _getch_16bit
+                  0x00755c                  _putch
+                  0x007570                  _putch_16bit
+                  0x007586                  _FlushUART1
+ .text            0x00759c        0x1a0 build/default/production/_ext/1472/init.o
+                  0x00759c                  _UARTinit
+                  0x0075ba                  _CloseMCPWM
+                  0x0075e2                  _PWMinit
+                  0x00760e                  _TimerInit
+                  0x007632                  _QEIinit
+                  0x007674                  _PortInit
+                  0x00769e                  _PinsInit
+                  0x0076e8                  _OscillatorInit
+ .text            0x00773c        0x158 build/default/production/_ext/1472/main.o
+                  0x00773c                  _main
 
-.dinit            0x007898         0x2e
- .dinit           0x007898         0x2e data_init
+.dinit            0x007894         0x28
+ .dinit           0x007894         0x28 data_init
 
-.init.delay32     0x0078c6         0x1c
- .init.delay32    0x0078c6         0x1c /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(delay32.eo)
-                  0x0078c6                  ___delay32
+.init.delay32     0x0078bc         0x1c
+ .init.delay32    0x0078bc         0x1c /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(delay32.eo)
+                  0x0078bc                  ___delay32
 
-.text             0x0078e2         0x18
- .text            0x0078e2         0x18 build/default/production/_ext/1472/motor.o
-                  0x0078e2                  _motor_leftPWM
-                  0x0078ee                  _motor_rightPWM
+.text             0x0078d8         0x18
+ .text            0x0078d8         0x18 build/default/production/_ext/1472/motor.o
+                  0x0078d8                  _motor_leftPWM
+                  0x0078e4                  _motor_rightPWM

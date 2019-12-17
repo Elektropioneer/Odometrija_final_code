@@ -4,11 +4,11 @@
 #include "globals.h"
 enum States
 {
-    STATUS_IDLE = 'I',
-    STATUS_MOVING = 'M',
-    STATUS_STUCK = 'S',
-    STATUS_ROTATING = 'R',
-    STATUS_ERROR = 'E'
+    STATUS_IDLE         = 'I',
+    STATUS_MOVING       = 'M',
+    STATUS_STUCK        = 'S',
+    STATUS_ROTATING     = 'R',
+    STATUS_ERROR        = 'E'
 };
 
 void resetDriver(void);

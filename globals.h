@@ -56,18 +56,21 @@
 
 
 // misc defines (global)
-#define odometry_accelerationParameter 1500             // the acceleration parameter, the higher the number it slower accelerates
-#define motor_saturationPWMValue   3200                 // max/min PWM value
-#define odometry_shortDistance 500                      // a short distance for acceleration modification
-#define odometry_accelerationShorterDistance K2/3       // in gotoXY/kretanje_pravo if there is a distance <500mm it will accelerate with this number
-#define odometry_accelerationKurva K2 / 32              // the max acceleration the kurva function will do
+#define odometry_accelerationParameter           1500                        // the acceleration parameter, the higher the number it slower accelerates
+#define motor_saturationPWMValue                 3200                        // max/min PWM value
+#define odometry_shortDistance                   500                         // a short distance for acceleration modification
+#define odometry_accelerationShorterDistance     K2/3                        // in gotoXY/kretanje_pravo if there is a distance <500mm it will accelerate with this number
+#define odometry_accelerationKurva               K2 / 32                     // the max acceleration the kurva function will do
 
 
 #ifdef BIG_ROBOT 
-#define d_encoderWheel	82.26           // precnik odometrijskog tocka odometrijskih
-#define D_encoderWheel	347.26          //rastojanje izmedju tockova odometrijskih
-#define K1	34620               //(0.5 + 8*2048.0f * D_encoderWheel / d_encoderWheel)  // broj ikremenata po krugu
-#define K2	15.873              //(long)(0.5 + 4*2048.0f / (d_encoderWheel * PI))  //za konverziju mm u inkremente == 121.26
+#define d_encoderWheel	82.26            // precnik odometrijskog tocka odometrijskih
+#define D_encoderWheel	347.26           // rastojanje izmedju tockova odometrijskih
+
+// calculate with (0.5 + 8*2048 * D_encoderWheel / d_encoderWheel) - used for rotation calib
+#define K1	34620               
+// calculate with (0.5 + 4*2048.0f / (d_encoderWheel * PI)) - used for distance calib
+#define K2	15.873             
 
 // napred/nazad P(I)D
 #define regulator_distanceP	6.6             
@@ -83,10 +86,14 @@
 
 #ifdef SMALL_ROBOT
 
-#define d_encoderWheel	65 //79.8            // precnik odometrijskog tocka
-#define D_encoderWheel	255//207.5           //rastojanje izmedju tockova
-#define K1 	64276//41785               //(43841long)(0.5 + 8*2048.0f * D_encoderWheel / d_encoderWheel)  //broj ikremenata po krugu
-#define K2	40.64//32.400              //(long)(0.5 + 4*2048.0f / (d_encoderWheel * PI))  //za konverziju mm u inkremente == 121.26
+#define d_encoderWheel	65                   // precnik odometrijskog tocka
+#define D_encoderWheel	255                  // rastojanje izmedju tockova
+
+// calculate with (0.5 + 8*2048 * D_encoderWheel / d_encoderWheel) - used for rotation calib
+#define K1	34620               
+// calculate with (0.5 + 4*2048.0f / (d_encoderWheel * PI)) - used for distance calib
+#define K2	15.873      
+
 #define regulator_distanceP	2.25         
 #define regulator_distanceD	23.06       
 
@@ -100,8 +107,8 @@
 
 //POMOCNE PROMENLJIVE:
 extern char odometry_loop_counter;
-extern long encoder_rightIncrements, encoder_leftIncrements;               //trenutne pozicije na enkoderima
-extern int encoder_rightCurrentIncrements, encoder_leftCurrentIncrements, greska_pred, greska_pred_R;  //trenutne brzine na motorima
+extern long encoder_rightIncrements, encoder_leftIncrements;               
+extern int encoder_rightCurrentIncrements, encoder_leftCurrentIncrements, greska_pred, greska_pred_R;  
 extern int odometry_stuckDistance, odometry_stuckOrientation;                    
 extern unsigned char odometry_maxSpeedSet;
 extern long odometry_incrementsDistance, odometry_incrementsOrientation, odometry_orientationTeta;

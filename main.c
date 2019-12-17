@@ -16,9 +16,6 @@ _FOSC(FCKSM_CSECMD & OSCIOFNC_ON & POSCMD_XT & IOL1WAY_OFF);
 _FWDT(FWDTEN_OFF);      // kill watchdog
 _FPOR(PWMPIN_ON &/* & BOREN_OFF & */HPOL_ON & LPOL_ON & FPWRT_PWR2 & ALTI2C_ON); // assign pins
 
-unsigned char rxData[8];
-unsigned char txData[8];
-
 //POMOCNE PROMENLJIVE:
 char odometry_loop_counter = 0;
 long encoder_rightIncrements, encoder_leftIncrements;              //trenutne pozicije na enkoderima
@@ -55,19 +52,21 @@ void __attribute__((__interrupt__)) _T1Interrupt(void)
     // TODO: move the 5 into a variable in config.h
     if (++odometry_loop_counter == 5)
     {
+        // reset counter
         odometry_loop_counter = 0;
 
-        encoder_rightCurrentIncrements = -(int)POS2CNT;     // read the increments from the encoder
-        POS2CNT = 0;		    // reseting the counter
+        encoder_rightCurrentIncrements = -(int)POS2CNT;                 // read the increments from the encoder
+        POS2CNT = 0;		                                            // reseting the counter
+
         //encoder_rightIncrements += (1.051335 * (double)encoder_rightCurrentIncrements);//1.05131	//azuriramo trenutnu poziciju
         encoder_rightIncrements += encoder_rightCurrentIncrements;        // calculate the distance (encoder) it moved in the last 5ms
         
-        encoder_leftCurrentIncrements = (int)POS1CNT;	    // read the increments from the encoder
-        POS1CNT = 0;		    // reseting the counter
+        encoder_leftCurrentIncrements = (int)POS1CNT;	                // read the increments from the encoder
+        POS1CNT = 0;		                                            // reseting the counter
         encoder_leftIncrements += encoder_leftCurrentIncrements;	    // calculate the distance (encoder) it moved in the last 5ms
 		
-        odometry_incrementsDistance = (encoder_rightIncrements + encoder_leftIncrements) / 2;              // calculate the robots distance
-        odometry_incrementsOrientation = (encoder_rightIncrements - encoder_leftIncrements) % K1;   // the angle it moved at
+        odometry_incrementsDistance     = (encoder_rightIncrements + encoder_leftIncrements) / 2;               // calculate the robots distance
+        odometry_incrementsOrientation  = (encoder_rightIncrements - encoder_leftIncrements) % K1;           // the angle it moved at
         
         // depending on the odometry_incrementsOrientation we set it in positive/negative
         if(odometry_incrementsOrientation > K1/2)

@@ -27,14 +27,6 @@ void CloseUART1(void)
 
 } // end of CloseUART1(...)
 
-/*********************************************************************
-* Function Name     : ConfigIntUART1
-* Description       : This function sets priority for RX,TX interrupt  
-*                     and enable/disables the interrupt
-* Parameters        : unsigned int config enable/disable and priority
-* Return Value      : None
-*********************************************************************/
-
 /**
  * @brief set the priority for RX,TX interrupt and enable/disabled the interru[t]
  * 

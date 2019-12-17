@@ -18,9 +18,9 @@ static enum States robot_currentStatus = STATUS_IDLE;
  */
 void resetDriver(void)
 {
-    encoder_rightIncrements = encoder_leftIncrements = 0;
-    odometry_incrementsDistance = odometry_incrementsOrientation = 0;
-    encoder_rightCurrentIncrements = encoder_leftCurrentIncrements = 0;
+    encoder_rightIncrements         = encoder_leftIncrements            = 0;
+    odometry_incrementsDistance     = odometry_incrementsOrientation    = 0;
+    encoder_rightCurrentIncrements  = encoder_leftCurrentIncrements     = 0;
 
     setSpeed(0x80);
     setSpeedAccel(K2);
@@ -39,9 +39,9 @@ static void setX(int tmp)
 {
     unsigned long current_time;
 
-    odometry_incrementsX = (long long)tmp * 65534 * K2;
-    odometry_refrenceDistance = odometry_incrementsDistance;
-    odometry_refrenceOrientation = odometry_incrementsOrientation;
+    odometry_incrementsX            = (long long)tmp * 65534 * K2;
+    odometry_refrenceDistance       = odometry_incrementsDistance;
+    odometry_refrenceOrientation    = odometry_incrementsOrientation;
 
     current_time = sys_time;
     while(sys_time == current_time);
@@ -56,9 +56,9 @@ static void setY(int tmp)
 {
     unsigned long current_time;
 
-    odometry_incrementsY = (long long)tmp * 65534 * K2;
-    odometry_refrenceDistance = odometry_incrementsDistance;
-    odometry_refrenceOrientation = odometry_incrementsOrientation;
+    odometry_incrementsY            = (long long)tmp * 65534 * K2;
+    odometry_refrenceDistance       = odometry_incrementsDistance;
+    odometry_refrenceOrientation    = odometry_incrementsOrientation;
 
     current_time = sys_time;
     while(sys_time == current_time);
@@ -73,14 +73,14 @@ static void setO(int tmp)
 {
     unsigned long current_time;
 
-    encoder_leftIncrements = -(tmp * K1 / 360) / 2;
+    encoder_leftIncrements  = -(tmp * K1 / 360) / 2;
     encoder_rightIncrements = (tmp * K1 / 360) / 2;
 
-    odometry_incrementsDistance = (encoder_rightIncrements + encoder_leftIncrements) / 2;
-    odometry_incrementsOrientation = (encoder_rightIncrements - encoder_leftIncrements) % K1;
+    odometry_incrementsDistance     = (encoder_rightIncrements + encoder_leftIncrements) / 2;
+    odometry_incrementsOrientation  = (encoder_rightIncrements - encoder_leftIncrements) % K1;
 
-    odometry_refrenceDistance = odometry_incrementsDistance;
-    odometry_refrenceOrientation = odometry_incrementsOrientation;
+    odometry_refrenceDistance       = odometry_incrementsDistance;
+    odometry_refrenceOrientation    = odometry_incrementsOrientation;
 
     current_time = sys_time;
     while(sys_time == current_time);
@@ -138,10 +138,10 @@ void sendStatusAndPosition(void)
  */
 void setSpeedAccel(float v)
 {
-    odometry_speedMax = v;	                                                            // distance max speed
-    odometry_speedOmega = 2 * odometry_speedMax;                                        // rotation max speed
-    odometry_acceleration = odometry_speedMax / odometry_accelerationParameter;         // distance acceleration
-    odometry_accelerationAlpha = 2.5 * odometry_acceleration;                           // rotation acceleration
+    odometry_speedMax           = v;	                                                 // distance max speed
+    odometry_speedOmega         = 2 * odometry_speedMax;                                 // rotation max speed
+    odometry_acceleration       = odometry_speedMax / odometry_accelerationParameter;    // distance acceleration
+    odometry_accelerationAlpha  = 2.5 * odometry_acceleration;                           // rotation acceleration
 } // end of setSpeedAccel(...)
 
 /**
@@ -186,9 +186,9 @@ static char getCommand(void)
 
             case 'S':
                 // hard stop
-                odometry_refrenceDistance = odometry_incrementsDistance;
-                odometry_refrenceOrientation = odometry_incrementsOrientation;
-                odometry_refrenceSpeed = 0;
+                odometry_refrenceDistance       = odometry_incrementsDistance;
+                odometry_refrenceOrientation    = odometry_incrementsOrientation;
+                odometry_refrenceSpeed          = 0;
 
                 robot_currentStatus = STATUS_IDLE;
                 __delay_ms(10);
@@ -197,9 +197,9 @@ static char getCommand(void)
 
             case 's':
                 // stop and turn off PWM (stop stop)
-                odometry_refrenceDistance = odometry_incrementsDistance;
-                odometry_refrenceOrientation = odometry_incrementsOrientation;
-                odometry_refrenceSpeed = 0;
+                odometry_refrenceDistance       = odometry_incrementsDistance;
+                odometry_refrenceOrientation    = odometry_incrementsOrientation;
+                odometry_refrenceSpeed          = 0;
 
                 CloseMCPWM();
                 robot_currentStatus = STATUS_IDLE;
@@ -284,11 +284,12 @@ void gotoXY(int Xd, int Yd, unsigned char robot_maxSpeed, char robot_movingDirec
     // calculate the orientation angle to turn to 
     robot_orientation = atan2(position_futureIncrementsY-odometry_incrementsY, position_futureIncrementsX-odometry_incrementsX) * (180 / PI) - odometry_incrementsOrientation * 360 / K1;
     
+    // depending on the direction set the orientation
     if(robot_movingDirection < 0)
         robot_orientation += 180;
-    while(robot_orientation > 180)
+    if(robot_orientation > 180)
         robot_orientation -= 360;
-    while(robot_orientation < -180)
+    if(robot_orientation < -180)
         robot_orientation += 360;
 
     // do the orientation move
@@ -342,11 +343,11 @@ void gotoXY(int Xd, int Yd, unsigned char robot_maxSpeed, char robot_movingDirec
         time_calculatedStage3 = (speed_max - speed_end) / odometry_acceleration;
     }
 
-    current_time = current_time0 = sys_time;                      // get the current time
-    time_stage1 = current_time0 + time_calculatedStage1;                           // time it will take to speed up in ms
-    time_stage2 = time_stage1 + time_calculatedStage2;                           // time we can hold the max speed in ms
-    time_stage3 = time_stage2 + time_calculatedStage3;                           // time it will take to slow down in ms
-    distance_stage1 = odometry_refrenceDistance;         // current position
+    current_time = current_time0 = sys_time;                                    // get the current time
+    time_stage1 = current_time0 + time_calculatedStage1;                        // time it will take to speed up in ms
+    time_stage2 = time_stage1 + time_calculatedStage2;                          // time we can hold the max speed in ms
+    time_stage3 = time_stage2 + time_calculatedStage3;                          // time it will take to slow down in ms
+    distance_stage1 = odometry_refrenceDistance;                                // current position
 
     // update robot status to moving
     robot_currentStatus = STATUS_MOVING;
@@ -480,11 +481,11 @@ void kretanje_pravo(int robot_distance, unsigned char robot_maxSpeed)
         time_calculatedStage3 = (speed_max - speed_end) / odometry_acceleration;
     }
 
-    current_time = current_time0 = sys_time;                    // get the current time
-    time_stage1 = current_time0 + time_calculatedStage1;        // get the time for stage 1
-    time_stage2 = time_stage1 + time_calculatedStage2;          // get the time for stage 2
-    time_stage3 = time_stage2 + time_calculatedStage3;          // get the time for stage 3
-    distance_stage1 = odometry_refrenceDistance;                // get the current distance
+    current_time    = current_time0 = sys_time;                     // get the current time
+    time_stage1     = current_time0 + time_calculatedStage1;        // get the time for stage 1
+    time_stage2     = time_stage1 + time_calculatedStage2;          // get the time for stage 2
+    time_stage3     = time_stage2 + time_calculatedStage3;          // get the time for stage 3
+    distance_stage1 = odometry_refrenceDistance;                    // get the current distance
 
     // set the robot into moving status
     robot_currentStatus = STATUS_MOVING;
@@ -549,6 +550,7 @@ void apsolutni_ugao(int robot_orientation)
     // calculate the orientation we want to achieve
     int tmp = robot_orientation - odometry_incrementsOrientation * 360 / K1;
 
+    // remap to -180 - 180
     if(tmp > 180)
         tmp -= 360;
     if(tmp <-180)
@@ -600,7 +602,7 @@ char okret(int robot_orientation)
         time_calculatedStage2 = (calculation_sign * rotation_fullAngle - 2 * rotation_angleStage1) / odometry_speedOmega;
     }
 
-    rotation_refrence = odometry_refrenceOrientation;                        // get the current orientation
+    rotation_refrence = odometry_refrenceOrientation;               // get the current orientation
     current_time = current_time0 = sys_time;                        // get the current time
     time_stage1 = current_time0 + time_calculatedStage1;            // calculate the time for stage1
     time_stage2 = time_stage1 + time_calculatedStage2;              // calculate the time for stage2
