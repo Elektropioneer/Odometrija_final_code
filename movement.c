@@ -3,7 +3,7 @@
 #include <libpic30.h>
 #include <xc.h>
 #include "globals.h"
-#include "kretanje.h"
+#include "movement.h"
 #include "uart.h"
 #include "can.h"
 #include "init.h"
@@ -16,19 +16,19 @@ static enum States robot_currentStatus = STATUS_IDLE;
  * @brief reset the driver parameters
  * 
  */
-void resetDriver(void)
+void robot_resetDriver(void)
 {
     encoder_rightIncrements         = encoder_leftIncrements            = 0;
     odometry_incrementsDistance     = odometry_incrementsOrientation    = 0;
     encoder_rightCurrentIncrements  = encoder_leftCurrentIncrements     = 0;
 
-    setSpeed(0x80);
-    setSpeedAccel(K2);
+    robot_setSpeed(0x80);
+    odometry_setAcceleration(K2);
 
-    setPosition(0, 0, 0);
+    robot_setPosition(0, 0, 0);
     robot_currentStatus = STATUS_IDLE;
 
-} // end of resetDriver(...)
+} // end of robot_resetDriver(...)
 
 /**
  * @brief set the odometry_milliX position of the robot
@@ -93,20 +93,20 @@ static void setO(int tmp)
  * @param odometry_milliY the odometry_milliY position
  * @param odometry_incrementsOrientation the odometry_incrementsOrientation
  */
-void setPosition(int odometry_milliX, int odometry_milliY, int odometry_incrementsOrientation)
+void robot_setPosition(int odometry_milliX, int odometry_milliY, int odometry_incrementsOrientation)
 {
     setX(odometry_milliX);
     setY(odometry_milliY);
     setO(odometry_incrementsOrientation);
 
     robot_currentStatus = STATUS_IDLE;
-} // end of setPosition(...)
+} // end of robot_setPosition(...)
 
 /**
  * @brief get the current status/position and send it back
  * 
  */
-void sendStatusAndPosition(void)
+void robot_returnInfo(void)
 {
     long robot_currentOrientation = odometry_incrementsOrientation;
     if(robot_currentStatus == STATUS_ERROR)
@@ -129,40 +129,40 @@ void sendStatusAndPosition(void)
     robot_currentOrientation = ((double)odometry_incrementsOrientation * 360) / K1 + 0.5;
     putch_16bit(robot_currentOrientation);
     
-} // end of sendStatusAndPosition(...)
+} // end of robot_returnInfo(...)
 
 /**
  * @brief set the acceleration parameters
  * 
  * @param v acceleration parameter
  */
-void setSpeedAccel(float v)
+void odometry_setAcceleration(float v)
 {
     odometry_speedMax           = v;	                                                 // distance max speed
     odometry_speedOmega         = 2 * odometry_speedMax;                                 // rotation max speed
     odometry_acceleration       = odometry_speedMax / odometry_accelerationParameter;    // distance acceleration
     odometry_accelerationAlpha  = 2.5 * odometry_acceleration;                           // rotation acceleration
-} // end of setSpeedAccel(...)
+} // end of odometry_setAcceleration(...)
 
 /**
  * @brief helper function for getting the state
  * 
  * @return enum States 
  */
-enum States getStatus(void)
+enum States robot_getStatus(void)
 {
     return robot_currentStatus;
-} // end of getStatus(...)
+} // end of robot_getStatus(...)
 
 /**
  * @brief force a status
  * 
  * @param newStatus the new forced status
  */
-void forceStatus(enum States newStatus)
+void robot_forceStatus(enum States newStatus)
 {
     robot_currentStatus = newStatus; 
-} // end of forceStatus(...)
+} // end of robot_forceStatus(...)
 
 /**
  * @brief Function for reading command while moving
@@ -181,11 +181,11 @@ static char getCommand(void)
         switch(uart_command)
         {
             case 'P':
-                sendStatusAndPosition();
+                robot_returnInfo();
                 break;
 
             case 'S':
-                // hard stop
+                // hard robot_stop
                 odometry_refrenceDistance       = odometry_incrementsDistance;
                 odometry_refrenceOrientation    = odometry_incrementsOrientation;
                 odometry_refrenceSpeed          = 0;
@@ -196,7 +196,7 @@ static char getCommand(void)
                 return 0;
 
             case 's':
-                // stop and turn off PWM (stop stop)
+                // robot_stop and turn off PWM (robot_stop robot_stop)
                 odometry_refrenceDistance       = odometry_incrementsDistance;
                 odometry_refrenceOrientation    = odometry_incrementsOrientation;
                 odometry_refrenceSpeed          = 0;
@@ -213,7 +213,7 @@ static char getCommand(void)
 
                 //dodati da promeni motore...
                 
-                // stop, status ostaje MOVING
+                // robot_stop, status ostaje MOVING
 
                 odometry_refrenceDistance = odometry_incrementsDistance;
                 odometry_refrenceOrientation = odometry_incrementsOrientation;
@@ -261,14 +261,14 @@ static char checkStuckCondition(void)
  * @param robot_maxSpeed end speed 
  * @param robot_movingDirection direction
  */
-void gotoXY(int Xd, int Yd, unsigned char robot_maxSpeed, char robot_movingDirection)
+void robot_moveXY(int Xd, int Yd, unsigned char robot_maxSpeed, char robot_movingDirection)
 {
     long current_time, current_time0, time_stage1, time_stage2, time_stage3;
     long time_calculatedStage1, time_calculatedStage2, time_calculatedStage3;
     long distance_Total, distance_currentIncrements, distance_stage1Increments, distance_stage2Increments, distance_stage3Increments;
     long distance_stage1, distance_stage2, distance_stage3;
     float speed_max, speed_end, current_speed;
-    int robot_distance,  robot_orientation,   t_orientation;
+    int robot_distance,  robot_orientation;
     long long int position_futureIncrementsX, position_futureIncrementsY;
 
     // converting our future position by Xd and Yd to increments
@@ -293,7 +293,7 @@ void gotoXY(int Xd, int Yd, unsigned char robot_maxSpeed, char robot_movingDirec
         robot_orientation += 360;
 
     // do the orientation move
-    if(okret(robot_orientation))
+    if(robot_rotate(robot_orientation))
         return;
 
     // calculate the distance we need to go forward to achiveve our position
@@ -301,9 +301,9 @@ void gotoXY(int Xd, int Yd, unsigned char robot_maxSpeed, char robot_movingDirec
 
     // if the distance is less than odometry_shortDistance, don't accelerate so hard
     if(robot_distance < odometry_shortDistance) {
-        setSpeedAccel(odometry_accelerationShorterDistance);
+        odometry_setAcceleration(odometry_accelerationShorterDistance);
     } else {
-        setSpeedAccel(K2);
+        odometry_setAcceleration(K2);
     }
 
     // calculate the end speed we should have
@@ -315,7 +315,7 @@ void gotoXY(int Xd, int Yd, unsigned char robot_maxSpeed, char robot_movingDirec
     distance_stage1Increments = odometry_refrenceSpeed * time_calculatedStage1 + odometry_acceleration * time_calculatedStage1 * time_calculatedStage1 / 2;     // calculate the distance to speed up
 
     time_calculatedStage3 = (odometry_speedMax - speed_end) / odometry_acceleration;                   // the time it will take to deaccelerate
-    distance_stage3Increments = odometry_speedMax * time_calculatedStage3 - odometry_acceleration * time_calculatedStage3 * time_calculatedStage3 / 2;          // the distance it will take to stop
+    distance_stage3Increments = odometry_speedMax * time_calculatedStage3 - odometry_acceleration * time_calculatedStage3 * time_calculatedStage3 / 2;          // the distance it will take to robot_stop
 
     // can we achieve max speed
     if( (distance_stage1Increments + distance_stage3Increments) < distance_Total)
@@ -410,7 +410,7 @@ void gotoXY(int Xd, int Yd, unsigned char robot_maxSpeed, char robot_movingDirec
     }
     // arrived to destination, idle it
     robot_currentStatus = STATUS_IDLE;
-} // end of gotoXY(...)
+} // end of robot_moveXY(...)
 
 
 /**
@@ -419,7 +419,7 @@ void gotoXY(int Xd, int Yd, unsigned char robot_maxSpeed, char robot_movingDirec
  * @param robot_distance the length in [mm]
  * @param robot_maxSpeed end speed
  */
-void kretanje_pravo(int robot_distance, unsigned char robot_maxSpeed)
+void robot_moveLinear(int robot_distance, unsigned char robot_maxSpeed)
 {
     long current_time, current_time0, time_stage1, time_stage2, time_stage3;
     long time_calculatedStage1, time_calculatedStage2, time_calculatedStage3;
@@ -430,9 +430,9 @@ void kretanje_pravo(int robot_distance, unsigned char robot_maxSpeed)
 
     // depending on the distance we will travel, setup the acceleration
     if((robot_distance < odometry_shortDistance) && (robot_distance > -odometry_shortDistance)) {
-        setSpeedAccel(odometry_accelerationShorterDistance);
+        odometry_setAcceleration(odometry_accelerationShorterDistance);
     } else {
-        setSpeedAccel(K2);
+        odometry_setAcceleration(K2);
     }
 
     current_speed = odometry_refrenceSpeed;                             // get the current speed
@@ -538,14 +538,14 @@ void kretanje_pravo(int robot_distance, unsigned char robot_maxSpeed)
 
     // arrived to destination, idle it
     robot_currentStatus = STATUS_IDLE;
-} // end of kretanje_pravo(...)
+} // end of robot_moveLinear(...)
 
 /**
  * @brief Absolute angle
  * 
  * @param robot_orientation the angle we want it to send it to
  */
-void apsolutni_ugao(int robot_orientation)
+void robot_rotateAbsolute(int robot_orientation)
 {
     // calculate the orientation we want to achieve
     int tmp = robot_orientation - odometry_incrementsOrientation * 360 / K1;
@@ -556,8 +556,8 @@ void apsolutni_ugao(int robot_orientation)
     if(tmp <-180)
         tmp += 360;
 
-    okret(tmp);
-} // end of apsolutni_ugao(...)
+    robot_rotate(tmp);
+} // end of robot_rotateAbsolute(...)
 
 /**
  * @brief turn the robot at a specific angle (relative)
@@ -565,7 +565,7 @@ void apsolutni_ugao(int robot_orientation)
  * @param robot_orientation the angle
  * @return char 
  */
-char okret(int robot_orientation)
+char robot_rotate(int robot_orientation)
 {
     long current_time, current_time0, time_stage1, time_stage2, time_stage3;
     long time_calculatedStage1, time_calculatedStage2, time_calculatedStage3;
@@ -654,17 +654,17 @@ char okret(int robot_orientation)
     // achieved position, idling
     robot_currentStatus = STATUS_IDLE;
     return 0;
-} // end of okret(...)
+} // end of robot_rotate(...)
 
 /**
- * @brief do a kurva motion
+ * @brief do a robot_arc motion
  * 
  * @param Xc 
  * @param Yc 
  * @param Fi 
  * @param robot_movingDirection 
  */
-void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
+void robot_arc(long Xc, long Yc, int Fi, char robot_movingDirection)
 {
     float kurva_radius, kurva_startingAngle, kurva_currentAngleDelta, kurva_arc;
     long current_time, current_time0, time_stage1, time_stage2, time_stage3;
@@ -711,15 +711,15 @@ void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
     }
 
     // move the robot
-    okret(robot_orientation);
+    robot_rotate(robot_orientation);
 
     // save the current max speed
     odometry_currentSpeedMax = odometry_speedMax;
 
     // setup the acceleration
     if(odometry_speedMax > odometry_accelerationKurva) {
-        // don't go over the kurva acceleration
-        setSpeedAccel(odometry_accelerationKurva);
+        // don't go over the robot_arc acceleration
+        odometry_setAcceleration(odometry_accelerationKurva);
     }
 
     // calculate the full angle of the rotation
@@ -772,7 +772,7 @@ void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
             if(!getCommand())
             {
                 // if it fails, set back the original acceleration
-                setSpeedAccel(odometry_currentSpeedMax);
+                odometry_setAcceleration(odometry_currentSpeedMax);
                 return;
             }
 
@@ -780,7 +780,7 @@ void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
             if(!checkStuckCondition())
             {
                 // if it fails, set back the original acceleration
-                setSpeedAccel(odometry_currentSpeedMax);
+                odometry_setAcceleration(odometry_currentSpeedMax);
                 return;
             }
 
@@ -824,17 +824,17 @@ void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
     }
 
     // after finishing set back the original acceleration
-    setSpeedAccel(odometry_currentSpeedMax);
+    odometry_setAcceleration(odometry_currentSpeedMax);
 
     // after getting to the destination, set to idle
     robot_currentStatus = STATUS_IDLE;
-} // end of kurva(...)
+} // end of robot_arc(...)
  
 /**
- * @brief stop the robot at the current point
+ * @brief robot_stop the robot at the current point
  * 
  */
-void stop(void)
+void robot_stop(void)
 {
     // set the refrence distance/rotation in the position we are in now 
     odometry_refrenceDistance = odometry_incrementsDistance;
@@ -844,18 +844,18 @@ void stop(void)
     /* TODO: come up with another status (STATUS_HARDBREAK) where the robot takes a second to stabilize 
         before going into idle mode*/
     robot_currentStatus = STATUS_IDLE;
-} // end of stop(...)
+} // end of robot_stop(...)
 
 /**
  * @brief Set the max speed of the robot
  * 
  * @param tmp the max speed
  */
-void setSpeed(unsigned char tmp)
+void robot_setSpeed(unsigned char tmp)
 {
     // set the global value
     odometry_maxSpeedSet = tmp;
 
     // based on te 0-255 value calculate it into acceleration
-    setSpeedAccel(K2  * (unsigned char)odometry_maxSpeedSet / 256);
-} // end of setSpeed(...)
+    odometry_setAcceleration(K2  * (unsigned char)odometry_maxSpeedSet / 256);
+} // end of robot_setSpeed(...)

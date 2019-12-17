@@ -19,9 +19,9 @@ Command:
   build/default/production/_ext/1472/main.o \
   build/default/production/_ext/1472/init.o \
   build/default/production/_ext/1472/uart.o \
-  build/default/production/_ext/1472/kretanje.o \
   build/default/production/_ext/1472/can.o \
   build/default/production/_ext/1472/motor.o \
+  build/default/production/_ext/1472/movement.o \
   --defsym=__MPLAB_BUILD=1 \
   -Tp33FJ128MC802.gld.00 \
   --stack=16 \
@@ -57,23 +57,23 @@ Archive member included because of file (symbol)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(crt_start_mode_normal.eo)
                               (__crt_start_mode_normal)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(delay32.eo)
-                              build/default/production/_ext/1472/kretanje.o (___delay32)
+                              build/default/production/_ext/1472/can.o (___delay32)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atan2f.eo)
-                              build/default/production/_ext/1472/kretanje.o (_atan2f)
+                              build/default/production/_ext/1472/movement.o (_atan2f)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(divsi3.eo)
                               build/default/production/_ext/1472/main.o (___divsi3)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(errno.eo)
                               /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atan2f.eo) (_errno)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(feqltle.eo)
-                              build/default/production/_ext/1472/kretanje.o (___ltsf2)
+                              build/default/production/_ext/1472/movement.o (___ltsf2)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fgtge.eo)
-                              build/default/production/_ext/1472/kretanje.o (___gtsf2)
+                              build/default/production/_ext/1472/movement.o (___gtsf2)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixsfdi.eo)
-                              build/default/production/_ext/1472/kretanje.o (_(float, int, long long, short, float, double, int))
+                              build/default/production/_ext/1472/movement.o (_(float, int, long long, short, float, double, int))
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixsfsi.eo)
                               build/default/production/_ext/1472/main.o (_(float, int, long long, short, float, short, int))
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatdisf.eo)
-                              build/default/production/_ext/1472/kretanje.o (___floatdisf)
+                              build/default/production/_ext/1472/movement.o (___floatdisf)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatsisf.eo)
                               build/default/production/_ext/1472/main.o (___floatsisf)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatundisf.eo)
@@ -111,7 +111,7 @@ Archive member included because of file (symbol)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(smulfx.eo)
                               /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atanfx.eo) (__smulf)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(sqrtfx.eo)
-                              build/default/production/_ext/1472/kretanje.o (_sqrtf)
+                              build/default/production/_ext/1472/movement.o (_sqrtf)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(unpackfx.eo)
                               /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atanfx.eo) (__unpackf)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(dnrmpackfx.eo)
@@ -171,7 +171,7 @@ section                    address      alignment gaps    total length  (dec)
 .ndata                       0x864                   0             0x2  (2)
 .nbss                        0x866                   0             0x2  (2)
 .bss                         0x868                   0           0x198  (408)
-_0xf725ba6c5df8bb75         0x47c0                   0            0x40  (64)
+_0xf7266a6c5df92228         0x47c0                   0            0x40  (64)
 
                  Total "data" memory used (bytes):          0x240  (576) 3%
 
@@ -319,19 +319,19 @@ External Symbols in Program Memory (by address):
                   0x00191c                  __slmul
                   0x001956                  __norm4s
                   0x0019ca                  _sinus
-                  0x005a5e                  _resetDriver
-                  0x005bcc                  _setPosition
-                  0x005be8                  _sendStatusAndPosition
-                  0x005c6a                  _setSpeedAccel
-                  0x005ca0                  _getStatus
-                  0x005ca8                  _forceStatus
-                  0x005d30                  _gotoXY
-                  0x00639e                  _kretanje_pravo
-                  0x006876                  _apsolutni_ugao
-                  0x0068c4                  _okret
-                  0x006b9a                  _kurva
-                  0x0070f0                  _stop
-                  0x00710a                  _setSpeed
+                  0x005a5e                  _robot_resetDriver
+                  0x005bcc                  _robot_setPosition
+                  0x005be8                  _robot_returnInfo
+                  0x005c6a                  _odometry_setAcceleration
+                  0x005ca0                  _robot_getStatus
+                  0x005ca8                  _robot_forceStatus
+                  0x005d30                  _robot_moveXY
+                  0x00639e                  _robot_moveLinear
+                  0x006876                  _robot_rotateAbsolute
+                  0x0068c4                  _robot_rotate
+                  0x006b9a                  _robot_arc
+                  0x0070f0                  _robot_stop
+                  0x00710a                  _robot_setSpeed
                   0x00712e                  _CAN_checkRX
                   0x007136                  _CAN_write
                   0x0071d2                  _CAN_read
@@ -451,34 +451,34 @@ External Symbols in Program Memory (by name):
                   0x0017b8                  __typef
                   0x001114                  __unpackdnrmf
                   0x001414                  __unpackf
-                  0x006876                  _apsolutni_ugao
                   0x00086e                  _atan2f
                   0x000ec4                  _atanf
                   0x000ec4                  _atanfx
-                  0x005ca8                  _forceStatus
-                  0x005ca0                  _getStatus
                   0x007532                  _getch
                   0x007544                  _getch_16bit
                   0x007438                  _getsUART1
-                  0x005d30                  _gotoXY
-                  0x00639e                  _kretanje_pravo
-                  0x006b9a                  _kurva
                   0x00773c                  _main
                   0x0078d8                  _motor_leftPWM
                   0x0078e4                  _motor_rightPWM
-                  0x0068c4                  _okret
+                  0x005c6a                  _odometry_setAcceleration
                   0x00755c                  _putch
                   0x007570                  _putch_16bit
                   0x0074b4                  _putsUART1
-                  0x005a5e                  _resetDriver
-                  0x005be8                  _sendStatusAndPosition
-                  0x005bcc                  _setPosition
-                  0x00710a                  _setSpeed
-                  0x005c6a                  _setSpeedAccel
+                  0x006b9a                  _robot_arc
+                  0x005ca8                  _robot_forceStatus
+                  0x005ca0                  _robot_getStatus
+                  0x00639e                  _robot_moveLinear
+                  0x005d30                  _robot_moveXY
+                  0x005a5e                  _robot_resetDriver
+                  0x005be8                  _robot_returnInfo
+                  0x0068c4                  _robot_rotate
+                  0x006876                  _robot_rotateAbsolute
+                  0x005bcc                  _robot_setPosition
+                  0x00710a                  _robot_setSpeed
+                  0x0070f0                  _robot_stop
                   0x0019ca                  _sinus
                   0x001398                  _sqrtf
                   0x001398                  _sqrtfx
-                  0x0070f0                  _stop
 
 Memory Configuration
 
@@ -508,9 +508,9 @@ Linker script and memory map
 LOAD build/default/production/_ext/1472/main.o
 LOAD build/default/production/_ext/1472/init.o
 LOAD build/default/production/_ext/1472/uart.o
-LOAD build/default/production/_ext/1472/kretanje.o
 LOAD build/default/production/_ext/1472/can.o
 LOAD build/default/production/_ext/1472/motor.o
+LOAD build/default/production/_ext/1472/movement.o
                     0x0001                  __MPLAB_BUILD = 0x1
 LOAD p33FJ128MC802
 LOAD /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfx-elf.a
@@ -727,50 +727,50 @@ __FUID3
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x794b
+.debug_info       0x000000       0x7978
  *(.debug_info)
  .debug_info      0x000000        0xada build/default/production/_ext/1472/main.o
  .debug_info      0x000ada       0x23b5 build/default/production/_ext/1472/init.o
  .debug_info      0x002e8f        0xfdc build/default/production/_ext/1472/uart.o
- .debug_info      0x003e6b        0xe83 build/default/production/_ext/1472/kretanje.o
- .debug_info      0x004cee       0x2a77 build/default/production/_ext/1472/can.o
- .debug_info      0x007765        0x1e6 build/default/production/_ext/1472/motor.o
+ .debug_info      0x003e6b       0x2a77 build/default/production/_ext/1472/can.o
+ .debug_info      0x0068e2        0x1e6 build/default/production/_ext/1472/motor.o
+ .debug_info      0x006ac8        0xeb0 build/default/production/_ext/1472/movement.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x803
+.debug_abbrev     0x000000        0x7f6
  *(.debug_abbrev)
  .debug_abbrev    0x000000        0x14b build/default/production/_ext/1472/main.o
  .debug_abbrev    0x00014b         0xed build/default/production/_ext/1472/init.o
  .debug_abbrev    0x000238        0x1d0 build/default/production/_ext/1472/uart.o
- .debug_abbrev    0x000408        0x216 build/default/production/_ext/1472/kretanje.o
- .debug_abbrev    0x00061e        0x17b build/default/production/_ext/1472/can.o
- .debug_abbrev    0x000799         0x6a build/default/production/_ext/1472/motor.o
+ .debug_abbrev    0x000408        0x17b build/default/production/_ext/1472/can.o
+ .debug_abbrev    0x000583         0x6a build/default/production/_ext/1472/motor.o
+ .debug_abbrev    0x0005ed        0x209 build/default/production/_ext/1472/movement.o
 
 .debug_line       0x000000        0x8ee
  *(.debug_line)
  .debug_line      0x000000        0x1ac build/default/production/_ext/1472/main.o
  .debug_line      0x0001ac        0x129 build/default/production/_ext/1472/init.o
  .debug_line      0x0002d5        0x121 build/default/production/_ext/1472/uart.o
- .debug_line      0x0003f6        0x2e3 build/default/production/_ext/1472/kretanje.o
- .debug_line      0x0006d9        0x151 build/default/production/_ext/1472/can.o
- .debug_line      0x00082a         0xc4 build/default/production/_ext/1472/motor.o
+ .debug_line      0x0003f6        0x151 build/default/production/_ext/1472/can.o
+ .debug_line      0x000547         0xc4 build/default/production/_ext/1472/motor.o
+ .debug_line      0x00060b        0x2e3 build/default/production/_ext/1472/movement.o
 
 .debug_frame      0x000000        0x6aa
  *(.debug_frame)
  .debug_frame     0x000000         0x7e build/default/production/_ext/1472/main.o
  .debug_frame     0x00007e         0xf4 build/default/production/_ext/1472/init.o
  .debug_frame     0x000172        0x1a2 build/default/production/_ext/1472/uart.o
- .debug_frame     0x000314        0x232 build/default/production/_ext/1472/kretanje.o
- .debug_frame     0x000546        0x118 build/default/production/_ext/1472/can.o
- .debug_frame     0x00065e         0x4c build/default/production/_ext/1472/motor.o
+ .debug_frame     0x000314        0x118 build/default/production/_ext/1472/can.o
+ .debug_frame     0x00042c         0x4c build/default/production/_ext/1472/motor.o
+ .debug_frame     0x000478        0x232 build/default/production/_ext/1472/movement.o
 
 .debug_str        0x000000        0x7db
  *(.debug_str)
  .debug_str       0x000000        0x1ce build/default/production/_ext/1472/main.o
  .debug_str       0x0001ce        0x107 build/default/production/_ext/1472/init.o
  .debug_str       0x0002d5         0x42 build/default/production/_ext/1472/uart.o
- .debug_str       0x000317        0x3b8 build/default/production/_ext/1472/kretanje.o
- .debug_str       0x0006cf        0x10c build/default/production/_ext/1472/can.o
+ .debug_str       0x000317        0x10c build/default/production/_ext/1472/can.o
+ .debug_str       0x000423        0x3b8 build/default/production/_ext/1472/movement.o
 
 .debug_loc
  *(.debug_loc)
@@ -779,7 +779,7 @@ __FUID3
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x62a
+                  0x000000        0x66d
  *(.debug_pubnames)
  .debug_pubnames
                   0x000000        0x326 build/default/production/_ext/1472/main.o
@@ -788,11 +788,11 @@ __FUID3
  .debug_pubnames
                   0x0003a7         0xdd build/default/production/_ext/1472/uart.o
  .debug_pubnames
-                  0x000484         0xd7 build/default/production/_ext/1472/kretanje.o
+                  0x000484         0x98 build/default/production/_ext/1472/can.o
  .debug_pubnames
-                  0x00055b         0x98 build/default/production/_ext/1472/can.o
+                  0x00051c         0x37 build/default/production/_ext/1472/motor.o
  .debug_pubnames
-                  0x0005f3         0x37 build/default/production/_ext/1472/motor.o
+                  0x000553        0x11a build/default/production/_ext/1472/movement.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -806,11 +806,11 @@ __FUID3
  .debug_aranges
                   0x000030         0x18 build/default/production/_ext/1472/uart.o
  .debug_aranges
-                  0x000048         0x18 build/default/production/_ext/1472/kretanje.o
+                  0x000048         0x18 build/default/production/_ext/1472/can.o
  .debug_aranges
-                  0x000060         0x18 build/default/production/_ext/1472/can.o
+                  0x000060         0x18 build/default/production/_ext/1472/motor.o
  .debug_aranges
-                  0x000078         0x18 build/default/production/_ext/1472/motor.o
+                  0x000078         0x18 build/default/production/_ext/1472/movement.o
                     0x0000                  WREG0 = 0x0
                     0x0000                  _WREG0 = 0x0
                     0x0002                  WREG1 = 0x2
@@ -1909,11 +1909,11 @@ LOAD data_init
  .debug_pubtypes
                   0x000406         0xec build/default/production/_ext/1472/uart.o
  .debug_pubtypes
-                  0x0004f2         0x49 build/default/production/_ext/1472/kretanje.o
+                  0x0004f2        0x34d build/default/production/_ext/1472/can.o
  .debug_pubtypes
-                  0x00053b        0x34d build/default/production/_ext/1472/can.o
+                  0x00083f         0x1f build/default/production/_ext/1472/motor.o
  .debug_pubtypes
-                  0x000888         0x1f build/default/production/_ext/1472/motor.o
+                  0x00085e         0x49 build/default/production/_ext/1472/movement.o
 
 __c30_signature
                   0x0008a7         0xa2
@@ -1924,11 +1924,11 @@ __c30_signature
  __c30_signature
                   0x0008b3          0x6 build/default/production/_ext/1472/uart.o
  __c30_signature
-                  0x0008b9          0x6 build/default/production/_ext/1472/kretanje.o
+                  0x0008b9          0x6 build/default/production/_ext/1472/can.o
  __c30_signature
-                  0x0008bf          0x6 build/default/production/_ext/1472/can.o
+                  0x0008bf          0x6 build/default/production/_ext/1472/motor.o
  __c30_signature
-                  0x0008c5          0x6 build/default/production/_ext/1472/motor.o
+                  0x0008c5          0x6 build/default/production/_ext/1472/movement.o
  __c30_signature
                   0x0008cb          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(crt0_standard.o)
  __c30_signature
@@ -1972,9 +1972,9 @@ __c30_signature
  __c30_signature
                   0x000943          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umuldi3.eo)
 
-_0xf725ba6c5df8bb75
+_0xf7266a6c5df92228
                     0x47c0         0x40
- _0xf725ba6c5df8bb75
+ _0xf7266a6c5df92228
                     0x47c0         0x40 build/default/production/_ext/1472/can.o
 
 .nbss               0x0800         0x64
@@ -2009,7 +2009,7 @@ _0xf725ba6c5df8bb75
  .nbss              0x0860          0x4 build/default/production/_ext/1472/can.o
 
 .ndata              0x0864          0x2
- .ndata             0x0864          0x2 build/default/production/_ext/1472/kretanje.o
+ .ndata             0x0864          0x2 build/default/production/_ext/1472/movement.o
 
 .nbss               0x0866          0x2
  .nbss              0x0866          0x2 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(errno.eo)
@@ -2047,20 +2047,20 @@ libmxconst          0xd9ca         0x94 load address 0x0059ca
  libmxconst         0xda2e         0x30 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(ssqrtfx.eo)
 
 .text             0x005a5e       0x1e36
- .text            0x005a5e       0x16d0 build/default/production/_ext/1472/kretanje.o
-                  0x005a5e                  _resetDriver
-                  0x005bcc                  _setPosition
-                  0x005be8                  _sendStatusAndPosition
-                  0x005c6a                  _setSpeedAccel
-                  0x005ca0                  _getStatus
-                  0x005ca8                  _forceStatus
-                  0x005d30                  _gotoXY
-                  0x00639e                  _kretanje_pravo
-                  0x006876                  _apsolutni_ugao
-                  0x0068c4                  _okret
-                  0x006b9a                  _kurva
-                  0x0070f0                  _stop
-                  0x00710a                  _setSpeed
+ .text            0x005a5e       0x16d0 build/default/production/_ext/1472/movement.o
+                  0x005a5e                  _robot_resetDriver
+                  0x005bcc                  _robot_setPosition
+                  0x005be8                  _robot_returnInfo
+                  0x005c6a                  _odometry_setAcceleration
+                  0x005ca0                  _robot_getStatus
+                  0x005ca8                  _robot_forceStatus
+                  0x005d30                  _robot_moveXY
+                  0x00639e                  _robot_moveLinear
+                  0x006876                  _robot_rotateAbsolute
+                  0x0068c4                  _robot_rotate
+                  0x006b9a                  _robot_arc
+                  0x0070f0                  _robot_stop
+                  0x00710a                  _robot_setSpeed
  .text            0x00712e        0x26a build/default/production/_ext/1472/can.o
                   0x00712e                  _CAN_checkRX
                   0x007136                  _CAN_write

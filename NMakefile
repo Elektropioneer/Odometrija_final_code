@@ -34,8 +34,8 @@ RM = del
 	$(CC) -mcpu=33FJ128MC802 -x c -c "can.c" -o"can.o" -D__DEBUG -g -Wall
 
 "kretanje.o" : "..\..\..\..\..\..\program files (x86)\microchip\mplab c30\include\math.h" "can.h" "pwm.h" "uart.h" "..\..\..\..\..\..\program files (x86)\microchip\mplab c30\support\dsPIC33F\h\p33FJ128MC802.h" "globals.h" "kretanje.h" "..\..\..\..\..\..\program files (x86)\microchip\mplab c30\support\dsPIC33F\h\p33FJ128MC802.h" "globals.h" "kretanje.c"
-	$(CC) -mcpu=33FJ128MC802 -x c -c "kretanje.c" -o"kretanje.o" -D__DEBUG -g -Wall
+	$(CC) -mcpu=33FJ128MC802 -x c -c "movement.c" -o"movement.o" -D__DEBUG -g -Wall
 
 "clean" : 
-	$(RM) "main.o" "init.o" "uart.o" "timer.o" "pwm.o" "can.o" "kretanje.o" "odometrija.cof" "odometrija.hex"
+	$(RM) "main.o" "init.o" "uart.o" "timer.o" "pwm.o" "can.o" "movement.o" "odometrija.cof" "odometrija.hex"
 

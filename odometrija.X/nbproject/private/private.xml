@@ -4,13 +4,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/silardg/Documents/SENSA/Robotika/Odometrija_firmware/kretanje.c</file>
             <file>file:/home/silardg/Documents/SENSA/Robotika/Odometrija_firmware/motor.h</file>
             <file>file:/home/silardg/Documents/SENSA/Robotika/Odometrija_firmware/main.c</file>
-            <file>file:/home/silardg/Documents/SENSA/Robotika/Odometrija_firmware/init.c</file>
-            <file>file:/home/silardg/Documents/SENSA/Robotika/Odometrija_firmware/can.c</file>
             <file>file:/home/silardg/Documents/SENSA/Robotika/Odometrija_firmware/uart.c</file>
             <file>file:/home/silardg/Documents/SENSA/Robotika/Odometrija_firmware/motor.c</file>
+            <file>file:/home/silardg/Documents/SENSA/Robotika/Odometrija_firmware/can.c</file>
         </group>
     </open-files>
 </project-private>

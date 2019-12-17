@@ -3,7 +3,7 @@ build/default/production/_ext/1472/main.o:  \
 ../init.h  \
 ../uart.h  \
  ../sinus.h  \
-../kretanje.h  \
+../movement.h  \
 ../globals.h  \
 ../can.h  \
 ../motor.h 

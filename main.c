@@ -3,7 +3,7 @@
 #include <xc.h>
 #include "init.h"
 #include "sinus.h"
-#include "kretanje.h"
+#include "movement.h"
 #include "globals.h"
 #include "uart.h"
 #include "can.h"
@@ -212,13 +212,13 @@ int main(void)
     QEIinit();                  // init for encoders
     PWMinit();                  // init for motors
 
-    resetDriver();
+    robot_resetDriver();
 
-    setSpeed(0x80);
-    setSpeedAccel(K2);	
+    robot_setSpeed(0x80);
+    odometry_setAcceleration(K2);	
 
     // default max speed
-    setSpeed(70);
+    robot_setSpeed(70);
     
     int uart_intData1, uart_intData2, uart_intData3;
     unsigned char uart_command, uart_charData1, uart_charData2;
@@ -241,18 +241,18 @@ int main(void)
                     uart_intData3 = getch_16bit();
                     
                     
-                    setPosition(uart_intData1, uart_intData2, uart_intData3);
+                    robot_setPosition(uart_intData1, uart_intData2, uart_intData3);
                     break;
 
                 // send back status and position
                 case 'P':
-                    sendStatusAndPosition();
+                    robot_returnInfo();
                     break;
 
                 // set the max speed
                 case 'V':
                     uart_charData1 = getch();
-                    setSpeed(uart_charData1);
+                    robot_setSpeed(uart_charData1);
 
                     break;
 
@@ -261,7 +261,7 @@ int main(void)
                     uart_intData1 = getch_16bit();
                     uart_charData1 = getch();            
                     PWMinit();             
-                    kretanje_pravo(uart_intData1, uart_charData1);
+                    robot_moveLinear(uart_intData1, uart_charData1);
 
                     break;
 
@@ -269,7 +269,7 @@ int main(void)
                 case 'T':
                     uart_intData1 = getch_16bit();
                     PWMinit();
-                    okret(uart_intData1);
+                    robot_rotate(uart_intData1);
 
                     break;
 
@@ -277,7 +277,7 @@ int main(void)
                 case 'A':
                     uart_intData1 = getch_16bit();
                     PWMinit();
-                    apsolutni_ugao(uart_intData1);
+                    robot_rotateAbsolute(uart_intData1);
 
                     break;
 
@@ -288,32 +288,32 @@ int main(void)
                     uart_charData1 = getch();
                     uart_charData2 = getch();
                     PWMinit();
-                    gotoXY(uart_intData1, uart_intData2, uart_charData1, uart_charData2);
+                    robot_moveXY(uart_intData1, uart_intData2, uart_charData1, uart_charData2);
 
                     break;
 
-                // kurva
+                // robot_arc
                 case 'Q':
                     uart_intData1 = getch_16bit();
                     uart_intData2 = getch_16bit();
                     uart_intData3 = getch_16bit();
                     uart_charData1 = getch();
                     PWMinit();
-                    kurva(uart_intData1, uart_intData2, uart_intData3, uart_charData1);
+                    robot_arc(uart_intData1, uart_intData2, uart_intData3, uart_charData1);
 
                     break;
 
-                // hard stop
+                // hard robot_stop
                 case 'S':
                    
-                    stop();
+                    robot_stop();
 
                     break;
 
-                // stop and turn off PWM
+                // robot_stop and turn off PWM
                 case 's':
                     
-                    stop();
+                    robot_stop();
                     CloseMCPWM();
 
                     break;
@@ -325,7 +325,7 @@ int main(void)
                     break;
                 
                 default:
-                    forceStatus(STATUS_ERROR);
+                    robot_forceStatus(STATUS_ERROR);
                     break;
             }
         } 

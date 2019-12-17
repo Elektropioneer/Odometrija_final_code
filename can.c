@@ -17,7 +17,6 @@ unsigned char CAN_checkRX(void)
     return rxCounter;
 }
 
-
 void CAN_write(unsigned char *data, unsigned int targetAddress, unsigned char priority)
 {	
 	while(C1TR01CONbits.TXREQ0 == 0b1);

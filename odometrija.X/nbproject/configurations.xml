@@ -6,11 +6,11 @@
                    projectFiles="true">
       <itemPath>../init.h</itemPath>
       <itemPath>../sinus.h</itemPath>
-      <itemPath>../kretanje.h</itemPath>
       <itemPath>../uart.h</itemPath>
       <itemPath>../globals.h</itemPath>
       <itemPath>../can.h</itemPath>
       <itemPath>../motor.h</itemPath>
+      <itemPath>../movement.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -22,9 +22,9 @@
       <itemPath>../main.c</itemPath>
       <itemPath>../init.c</itemPath>
       <itemPath>../uart.c</itemPath>
-      <itemPath>../kretanje.c</itemPath>
       <itemPath>../can.c</itemPath>
       <itemPath>../motor.c</itemPath>
+      <itemPath>../movement.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
