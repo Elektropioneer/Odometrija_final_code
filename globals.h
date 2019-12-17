@@ -57,7 +57,7 @@
 
 // misc defines (global)
 #define ROBOT_ACCEL_NUMBER 1500 // the acceleration parameter, the higher the number it slower accelerates
-
+#define motor_saturationPWMValue   3200                 // max/min PWM value
 
 
 

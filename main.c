@@ -162,14 +162,17 @@ void __attribute__((__interrupt__)) _T1Interrupt(void)
         //motor_currentRightPWM = odometry_regulatorRotation;
         
         // motor saturation (max/min)
-        if(motor_currentRightPWM <= -(motor_saturationPWMValue))
+        if(motor_currentRightPWM <= -(motor_saturationPWMValue)) {
             motor_currentRightPWM = -(motor_saturationPWMValue);
-        else if(motor_currentRightPWM >= motor_saturationPWMValue)
+        } else if(motor_currentRightPWM >= motor_saturationPWMValue) {
             motor_currentRightPWM = motor_saturationPWMValue;
-        if(motor_currentLeftPWM <= -(motor_saturationPWMValue))
+        }
+        
+        if(motor_currentLeftPWM <= -(motor_saturationPWMValue)) {
             motor_currentLeftPWM = -(motor_saturationPWMValue);
-        else if(motor_currentLeftPWM >= motor_saturationPWMValue)
+        } else if(motor_currentLeftPWM >= motor_saturationPWMValue) {
             motor_currentLeftPWM = motor_saturationPWMValue;
+        }
 		
         // depending on the PWM value, send the motor forward/backward
         // left motor
@@ -219,9 +222,8 @@ int main(void)
     // default max speed
     setSpeed(70);
     
-    int data_tmp, data_tmpX, data_tmpY, data_tmpO;
-    unsigned char uart_command, data_tmpSpeed, data_tmpDirection;
-    unsigned char uc_data_tmp;
+    int uart_intData1, uart_intData2, uart_intData3;
+    unsigned char uart_command, uart_charData1, uart_charData2;
     
     while(1)
     {
@@ -236,12 +238,12 @@ int main(void)
             {
                 // set position
                 case 'I':
-                    data_tmpX = getch_16bit();
-                    data_tmpY = getch_16bit();
-                    data_tmpO = getch_16bit();
+                    uart_intData1 = getch_16bit();
+                    uart_intData2 = getch_16bit();
+                    uart_intData3 = getch_16bit();
                     
                     
-                    setPosition(data_tmpX, data_tmpY, data_tmpO);
+                    setPosition(uart_intData1, uart_intData2, uart_intData3);
                     break;
 
                 // send back status and position
@@ -251,55 +253,55 @@ int main(void)
 
                 // set the max speed
                 case 'V':
-                    uc_data_tmp = getch();
-                    setSpeed(uc_data_tmp);
+                    uart_charData1 = getch();
+                    setSpeed(uart_charData1);
 
                     break;
 
                 // move robot forward/backward
                 case 'D':
-                    data_tmp = getch_16bit();
-                    data_tmpSpeed = getch();            
+                    uart_intData1 = getch_16bit();
+                    uart_charData1 = getch();            
                     PWMinit();             
-                    kretanje_pravo(data_tmp, data_tmpSpeed);
+                    kretanje_pravo(uart_intData1, uart_charData1);
 
                     break;
 
                 // relative angle
                 case 'T':
-                    data_tmp = getch_16bit();
+                    uart_intData1 = getch_16bit();
                     PWMinit();
-                    okret(data_tmp);
+                    okret(uart_intData1);
 
                     break;
 
                 // absolute angle
                 case 'A':
-                    data_tmp = getch_16bit();
+                    uart_intData1 = getch_16bit();
                     PWMinit();
-                    apsolutni_ugao(data_tmp);
+                    apsolutni_ugao(uart_intData1);
 
                     break;
 
                 // goto xy
                 case 'G':
-                    data_tmpX = getch_16bit();
-                    data_tmpY = getch_16bit();
-                    data_tmpSpeed = getch();
-                    data_tmpDirection = getch();
+                    uart_intData1 = getch_16bit();
+                    uart_intData2 = getch_16bit();
+                    uart_charData1 = getch();
+                    uart_charData2 = getch();
                     PWMinit();
-                    gotoXY(data_tmpX, data_tmpY, data_tmpSpeed, data_tmpDirection);
+                    gotoXY(uart_intData1, uart_intData2, uart_charData1, uart_charData2);
 
                     break;
 
                 // kurva
                 case 'Q':
-                    data_tmpX = getch_16bit();
-                    data_tmpY = getch_16bit();
-                    data_tmpO = getch_16bit();
-                    data_tmpDirection = getch();
+                    uart_intData1 = getch_16bit();
+                    uart_intData2 = getch_16bit();
+                    uart_intData3 = getch_16bit();
+                    uart_charData1 = getch();
                     PWMinit();
-                    kurva(data_tmpX, data_tmpY, data_tmpO, data_tmpDirection);
+                    kurva(uart_intData1, uart_intData2, uart_intData3, uart_charData1);
 
                     break;
 
