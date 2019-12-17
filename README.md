@@ -5,6 +5,8 @@ Ovo je source code drajvera za kretanje robota. Drajver se satoji od dva H mosta
 IDE:      MPLAB-X                                                                                                       
 Compiler: MPLAB XC16 Compiler
 
+For Linux people:
+https://vtluug.org/wiki/PICKit_2
 
 ## Update za 1.0
 
