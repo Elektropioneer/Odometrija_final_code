@@ -24,13 +24,12 @@ char odometry_loop_counter = 0;
 long encoder_rightIncrements, encoder_leftIncrements;              //trenutne pozicije na enkoderima
 int encoder_rightCurrentIncrements, encoder_leftCurrentIncrements, greska_pred, greska_pred_R; //trenutne brzine na motorima
 int odometry_stuckOrientation, odometry_stuckDistance;
-unsigned char brzinaL;
+unsigned char odometry_maxSpeedSet;
 long odometry_incrementsDistance=0, odometry_incrementsOrientation=0, odometry_orientationTeta=0;
 long long int odometry_incrementsX=0, odometry_incrementsY=0;
 float odometry_speedMax, odometry_acceleration;
 float odometry_speedOmega, odometry_accelerationAlpha;
 long odometry_milliX=0, odometry_milliY=0;
-long brojac,i;
 unsigned long sys_time = 0;
 //PROMENLJIVE POTREBNE ZA REGULACIJU
 int motor_currentLeftPWM, motor_currentRightPWM;

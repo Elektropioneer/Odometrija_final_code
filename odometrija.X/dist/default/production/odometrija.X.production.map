@@ -167,13 +167,13 @@ libmxconst                  0x59ca                0x94            0xde  (222)
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-.nbss                        0x800                   0            0x6c  (108)
-.ndata                       0x86c                   0             0x2  (2)
-.nbss                        0x86e                   0             0x2  (2)
-.bss                         0x870                   0           0x1a8  (424)
-_0xf7266a6c5df81f7f         0x47c0                   0            0x40  (64)
+.nbss                        0x800                   0            0x64  (100)
+.ndata                       0x864                   0             0x2  (2)
+.nbss                        0x866                   0             0x2  (2)
+.bss                         0x868                   0           0x1a8  (424)
+_0xf72f2a6c5df88074         0x47c0                   0            0x40  (64)
 
-                 Total "data" memory used (bytes):          0x258  (600) 3%
+                 Total "data" memory used (bytes):          0x250  (592) 3%
 
 
 Dynamic Memory Usage
@@ -181,9 +181,9 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0xa18                              0x3da8  (15784)
+stack                        0xa10                              0x3db0  (15792)
 
-                 Maximum dynamic memory (bytes):         0x3da8  (15784)
+                 Maximum dynamic memory (bytes):         0x3db0  (15792)
 
 Note: Project is using a large data memory model when small data memory model is sufficient.
 
@@ -199,7 +199,7 @@ External Symbols in Data Memory (by address):
                     0x0810                  _greska_pred_R
                     0x0812                  _odometry_stuckOrientation
                     0x0814                  _odometry_stuckDistance
-                    0x0816                  _brzinaL
+                    0x0816                  _odometry_maxSpeedSet
                     0x0818                  _odometry_incrementsDistance
                     0x081c                  _odometry_incrementsOrientation
                     0x0820                  _odometry_orientationTeta
@@ -211,30 +211,25 @@ External Symbols in Data Memory (by address):
                     0x0840                  _odometry_accelerationAlpha
                     0x0844                  _odometry_milliX
                     0x0848                  _odometry_milliY
-                    0x084c                  _brojac
-                    0x0850                  _i
-                    0x0854                  _sys_time
-                    0x0858                  _motor_currentLeftPWM
-                    0x085a                  _motor_currentRightPWM
-                    0x085c                  _odometry_refrenceOrientation
-                    0x0860                  _odometry_refrenceDistance
-                    0x0864                  _odometry_refrenceSpeed
-                    0x0a08                  _rxData
-                    0x0a10                  _txData
+                    0x084c                  _sys_time
+                    0x0850                  _motor_currentLeftPWM
+                    0x0852                  _motor_currentRightPWM
+                    0x0854                  _odometry_refrenceOrientation
+                    0x0858                  _odometry_refrenceDistance
+                    0x085c                  _odometry_refrenceSpeed
+                    0x0a00                  _rxData
+                    0x0a08                  _txData
 
 External Symbols in Data Memory (by name):
 
-                    0x084c                  _brojac
-                    0x0816                  _brzinaL
                     0x080c                  _encoder_leftCurrentIncrements
                     0x0806                  _encoder_leftIncrements
                     0x080a                  _encoder_rightCurrentIncrements
                     0x0802                  _encoder_rightIncrements
                     0x080e                  _greska_pred
                     0x0810                  _greska_pred_R
-                    0x0850                  _i
-                    0x0858                  _motor_currentLeftPWM
-                    0x085a                  _motor_currentRightPWM
+                    0x0850                  _motor_currentLeftPWM
+                    0x0852                  _motor_currentRightPWM
                     0x0838                  _odometry_acceleration
                     0x0840                  _odometry_accelerationAlpha
                     0x0818                  _odometry_incrementsDistance
@@ -242,19 +237,20 @@ External Symbols in Data Memory (by name):
                     0x0824                  _odometry_incrementsX
                     0x082c                  _odometry_incrementsY
                     0x0800                  _odometry_loop_counter
+                    0x0816                  _odometry_maxSpeedSet
                     0x0844                  _odometry_milliX
                     0x0848                  _odometry_milliY
                     0x0820                  _odometry_orientationTeta
-                    0x0860                  _odometry_refrenceDistance
-                    0x085c                  _odometry_refrenceOrientation
-                    0x0864                  _odometry_refrenceSpeed
+                    0x0858                  _odometry_refrenceDistance
+                    0x0854                  _odometry_refrenceOrientation
+                    0x085c                  _odometry_refrenceSpeed
                     0x0834                  _odometry_speedMax
                     0x083c                  _odometry_speedOmega
                     0x0814                  _odometry_stuckDistance
                     0x0812                  _odometry_stuckOrientation
-                    0x0a08                  _rxData
-                    0x0854                  _sys_time
-                    0x0a10                  _txData
+                    0x0a00                  _rxData
+                    0x084c                  _sys_time
+                    0x0a08                  _txData
 
 External Symbols in Program Memory (by address):
 
@@ -735,33 +731,33 @@ __FUID3
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x7908
+.debug_info       0x000000       0x7952
  *(.debug_info)
- .debug_info      0x000000        0xb2c build/default/production/_ext/1472/main.o
- .debug_info      0x000b2c       0x23b5 build/default/production/_ext/1472/init.o
- .debug_info      0x002ee1        0xfdc build/default/production/_ext/1472/uart.o
- .debug_info      0x003ebd        0xdee build/default/production/_ext/1472/kretanje.o
- .debug_info      0x004cab       0x2a77 build/default/production/_ext/1472/can.o
- .debug_info      0x007722        0x1e6 build/default/production/_ext/1472/motor.o
+ .debug_info      0x000000        0xb14 build/default/production/_ext/1472/main.o
+ .debug_info      0x000b14       0x23b5 build/default/production/_ext/1472/init.o
+ .debug_info      0x002ec9        0xfdc build/default/production/_ext/1472/uart.o
+ .debug_info      0x003ea5        0xe50 build/default/production/_ext/1472/kretanje.o
+ .debug_info      0x004cf5       0x2a77 build/default/production/_ext/1472/can.o
+ .debug_info      0x00776c        0x1e6 build/default/production/_ext/1472/motor.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x801
+.debug_abbrev     0x000000        0x80c
  *(.debug_abbrev)
  .debug_abbrev    0x000000        0x154 build/default/production/_ext/1472/main.o
  .debug_abbrev    0x000154         0xed build/default/production/_ext/1472/init.o
  .debug_abbrev    0x000241        0x1d0 build/default/production/_ext/1472/uart.o
- .debug_abbrev    0x000411        0x20b build/default/production/_ext/1472/kretanje.o
- .debug_abbrev    0x00061c        0x17b build/default/production/_ext/1472/can.o
- .debug_abbrev    0x000797         0x6a build/default/production/_ext/1472/motor.o
+ .debug_abbrev    0x000411        0x216 build/default/production/_ext/1472/kretanje.o
+ .debug_abbrev    0x000627        0x17b build/default/production/_ext/1472/can.o
+ .debug_abbrev    0x0007a2         0x6a build/default/production/_ext/1472/motor.o
 
-.debug_line       0x000000        0x8ea
+.debug_line       0x000000        0x8eb
  *(.debug_line)
  .debug_line      0x000000        0x1ac build/default/production/_ext/1472/main.o
  .debug_line      0x0001ac        0x129 build/default/production/_ext/1472/init.o
  .debug_line      0x0002d5        0x123 build/default/production/_ext/1472/uart.o
- .debug_line      0x0003f8        0x2dd build/default/production/_ext/1472/kretanje.o
- .debug_line      0x0006d5        0x151 build/default/production/_ext/1472/can.o
- .debug_line      0x000826         0xc4 build/default/production/_ext/1472/motor.o
+ .debug_line      0x0003f8        0x2de build/default/production/_ext/1472/kretanje.o
+ .debug_line      0x0006d6        0x151 build/default/production/_ext/1472/can.o
+ .debug_line      0x000827         0xc4 build/default/production/_ext/1472/motor.o
 
 .debug_frame      0x000000        0x6aa
  *(.debug_frame)
@@ -772,13 +768,13 @@ __FUID3
  .debug_frame     0x000546        0x118 build/default/production/_ext/1472/can.o
  .debug_frame     0x00065e         0x4c build/default/production/_ext/1472/motor.o
 
-.debug_str        0x000000        0x618
+.debug_str        0x000000        0x779
  *(.debug_str)
  .debug_str       0x000000        0x1ce build/default/production/_ext/1472/main.o
  .debug_str       0x0001ce        0x107 build/default/production/_ext/1472/init.o
  .debug_str       0x0002d5         0x42 build/default/production/_ext/1472/uart.o
- .debug_str       0x000317        0x1f5 build/default/production/_ext/1472/kretanje.o
- .debug_str       0x00050c        0x10c build/default/production/_ext/1472/can.o
+ .debug_str       0x000317        0x356 build/default/production/_ext/1472/kretanje.o
+ .debug_str       0x00066d        0x10c build/default/production/_ext/1472/can.o
 
 .debug_loc
  *(.debug_loc)
@@ -787,20 +783,20 @@ __FUID3
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x644
+                  0x000000        0x640
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000        0x340 build/default/production/_ext/1472/main.o
+                  0x000000        0x33c build/default/production/_ext/1472/main.o
  .debug_pubnames
-                  0x000340         0x81 build/default/production/_ext/1472/init.o
+                  0x00033c         0x81 build/default/production/_ext/1472/init.o
  .debug_pubnames
-                  0x0003c1         0xdd build/default/production/_ext/1472/uart.o
+                  0x0003bd         0xdd build/default/production/_ext/1472/uart.o
  .debug_pubnames
-                  0x00049e         0xd7 build/default/production/_ext/1472/kretanje.o
+                  0x00049a         0xd7 build/default/production/_ext/1472/kretanje.o
  .debug_pubnames
-                  0x000575         0x98 build/default/production/_ext/1472/can.o
+                  0x000571         0x98 build/default/production/_ext/1472/can.o
  .debug_pubnames
-                  0x00060d         0x37 build/default/production/_ext/1472/motor.o
+                  0x000609         0x37 build/default/production/_ext/1472/motor.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -1980,13 +1976,13 @@ __c30_signature
  __c30_signature
                   0x000943          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umuldi3.eo)
 
-_0xf7266a6c5df81f7f
+_0xf72f2a6c5df88074
                     0x47c0         0x40
- _0xf7266a6c5df81f7f
+ _0xf72f2a6c5df88074
                     0x47c0         0x40 build/default/production/_ext/1472/can.o
 
-.nbss               0x0800         0x6c
- .nbss              0x0800         0x68 build/default/production/_ext/1472/main.o
+.nbss               0x0800         0x64
+ .nbss              0x0800         0x60 build/default/production/_ext/1472/main.o
                     0x0800                  _odometry_loop_counter
                     0x0802                  _encoder_rightIncrements
                     0x0806                  _encoder_leftIncrements
@@ -1996,7 +1992,7 @@ _0xf7266a6c5df81f7f
                     0x0810                  _greska_pred_R
                     0x0812                  _odometry_stuckOrientation
                     0x0814                  _odometry_stuckDistance
-                    0x0816                  _brzinaL
+                    0x0816                  _odometry_maxSpeedSet
                     0x0818                  _odometry_incrementsDistance
                     0x081c                  _odometry_incrementsOrientation
                     0x0820                  _odometry_orientationTeta
@@ -2008,28 +2004,26 @@ _0xf7266a6c5df81f7f
                     0x0840                  _odometry_accelerationAlpha
                     0x0844                  _odometry_milliX
                     0x0848                  _odometry_milliY
-                    0x084c                  _brojac
-                    0x0850                  _i
-                    0x0854                  _sys_time
-                    0x0858                  _motor_currentLeftPWM
-                    0x085a                  _motor_currentRightPWM
-                    0x085c                  _odometry_refrenceOrientation
-                    0x0860                  _odometry_refrenceDistance
-                    0x0864                  _odometry_refrenceSpeed
- .nbss              0x0868          0x4 build/default/production/_ext/1472/can.o
+                    0x084c                  _sys_time
+                    0x0850                  _motor_currentLeftPWM
+                    0x0852                  _motor_currentRightPWM
+                    0x0854                  _odometry_refrenceOrientation
+                    0x0858                  _odometry_refrenceDistance
+                    0x085c                  _odometry_refrenceSpeed
+ .nbss              0x0860          0x4 build/default/production/_ext/1472/can.o
 
-.ndata              0x086c          0x2
- .ndata             0x086c          0x2 build/default/production/_ext/1472/kretanje.o
+.ndata              0x0864          0x2
+ .ndata             0x0864          0x2 build/default/production/_ext/1472/kretanje.o
 
-.nbss               0x086e          0x2
- .nbss              0x086e          0x2 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(errno.eo)
-                    0x086e                  _errno
+.nbss               0x0866          0x2
+ .nbss              0x0866          0x2 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(errno.eo)
+                    0x0866                  _errno
 
-.bss                0x0870        0x1a8
- .bss               0x0870        0x198 build/default/production/_ext/1472/can.o
- .bss               0x0a08         0x10 build/default/production/_ext/1472/main.o
-                    0x0a08                  _rxData
-                    0x0a10                  _txData
+.bss                0x0868        0x1a8
+ .bss               0x0868        0x198 build/default/production/_ext/1472/can.o
+ .bss               0x0a00         0x10 build/default/production/_ext/1472/main.o
+                    0x0a00                  _rxData
+                    0x0a08                  _txData
 
 .ivt._T1Interrupt
                   0x00001a          0x2

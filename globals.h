@@ -13,7 +13,7 @@
  5. Moving forward encoder, the motor should move backward
  -> if the forward encoder moves the motor forward, swap the cables on the connector
  6. Check if everything works
- 7. Measure d_tocka and D_tocka
+ 7. Measure d_encoderWheel and D_encoderWheel
  8. Calculate K1, K2
  9.   = odometry_regulatorDistance
         motor_currentRightPWM = odometry_regulatorDistance
@@ -63,10 +63,10 @@
 
 
 #ifdef BIG_ROBOT 
-#define d_tocka	82.26           // precnik odometrijskog tocka odometrijskih
-#define D_tocka	347.26          //rastojanje izmedju tockova odometrijskih
-#define K1	34620               //(0.5 + 8*2048.0f * D_tocka / d_tocka)  // broj ikremenata po krugu
-#define K2	15.873              //(long)(0.5 + 4*2048.0f / (d_tocka * PI))  //za konverziju mm u inkremente == 121.26
+#define d_encoderWheel	82.26           // precnik odometrijskog tocka odometrijskih
+#define D_encoderWheel	347.26          //rastojanje izmedju tockova odometrijskih
+#define K1	34620               //(0.5 + 8*2048.0f * D_encoderWheel / d_encoderWheel)  // broj ikremenata po krugu
+#define K2	15.873              //(long)(0.5 + 4*2048.0f / (d_encoderWheel * PI))  //za konverziju mm u inkremente == 121.26
 
 // napred/nazad P(I)D
 #define regulator_distanceP	6.6             
@@ -75,21 +75,23 @@
 // rotacija P(I)D
 #define regulator_rotationP	3.25 
 #define regulator_rotationD	15
+
 #endif
 
 
 
 #ifdef SMALL_ROBOT
 
-#define d_tocka	65 //79.8            // precnik odometrijskog tocka
-#define D_tocka	255//207.5           //rastojanje izmedju tockova
-#define K1 	64276//41785               //(43841long)(0.5 + 8*2048.0f * D_tocka / d_tocka)  //broj ikremenata po krugu
-#define K2	40.64//32.400              //(long)(0.5 + 4*2048.0f / (d_tocka * PI))  //za konverziju mm u inkremente == 121.26
+#define d_encoderWheel	65 //79.8            // precnik odometrijskog tocka
+#define D_encoderWheel	255//207.5           //rastojanje izmedju tockova
+#define K1 	64276//41785               //(43841long)(0.5 + 8*2048.0f * D_encoderWheel / d_encoderWheel)  //broj ikremenata po krugu
+#define K2	40.64//32.400              //(long)(0.5 + 4*2048.0f / (d_encoderWheel * PI))  //za konverziju mm u inkremente == 121.26
 #define regulator_distanceP	2.25         
 #define regulator_distanceD	23.06       
 
 #define regulator_rotationP	0.70
 #define regulator_rotationD	4.1
+
 #endif
 
 
@@ -100,13 +102,12 @@ extern char odometry_loop_counter;
 extern long encoder_rightIncrements, encoder_leftIncrements;               //trenutne pozicije na enkoderima
 extern int encoder_rightCurrentIncrements, encoder_leftCurrentIncrements, greska_pred, greska_pred_R;  //trenutne brzine na motorima
 extern int odometry_stuckDistance, odometry_stuckOrientation;                    
-extern unsigned char brzinaL;
+extern unsigned char odometry_maxSpeedSet;
 extern long odometry_incrementsDistance, odometry_incrementsOrientation, odometry_orientationTeta;
 extern long long int odometry_incrementsX, odometry_incrementsY;
 extern float odometry_speedMax, odometry_acceleration;
 extern float odometry_speedOmega, odometry_accelerationAlpha;
 extern long odometry_milliX, odometry_milliY;
-extern long brojac,i;
 extern unsigned long sys_time;
 //PROMENLJIVE POTREBNE ZA REGULACIJU
 extern int motor_currentLeftPWM, motor_currentRightPWM;
