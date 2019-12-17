@@ -430,7 +430,7 @@ void kretanje_pravo(int robot_distance, unsigned char robot_maxSpeed)
     if((robot_distance < odometry_shortDistance) && (robot_distance > -odometry_shortDistance)) {
         setSpeedAccel(odometry_accelerationShorterDistance);
     } else {
-        setSpeed(K2);
+        setSpeedAccel(K2);
     }
 
     current_speed = odometry_refrenceSpeed;
