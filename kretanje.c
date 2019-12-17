@@ -138,10 +138,10 @@ void sendStatusAndPosition(void)
  */
 void setSpeedAccel(float v)
 {
-    odometry_speedMax = v;	
-    odometry_speedOmega = 2 * odometry_speedMax;
-    odometry_acceleration = odometry_speedMax / odometry_accelerationParameter;
-    odometry_accelerationAlpha = 2.5 * odometry_acceleration;
+    odometry_speedMax = v;	                                                            // distance max speed
+    odometry_speedOmega = 2 * odometry_speedMax;                                        // rotation max speed
+    odometry_acceleration = odometry_speedMax / odometry_accelerationParameter;         // distance acceleration
+    odometry_accelerationAlpha = 2.5 * odometry_acceleration;                           // rotation acceleration
 } // end of setSpeedAccel(...)
 
 /**
@@ -567,65 +567,89 @@ char okret(int robot_orientation)
 {
     long current_time, current_time0, time_stage1, time_stage2, time_stage3;
     long time_calculatedStage1, time_calculatedStage2, time_calculatedStage3;
-    long Fi_total, Fi1;
-    float ugao_ref, w_ref = 0;
+    long rotation_fullAngle, rotation_angleStage1;
+    float rotation_refrence, rotation_accelerationRefrence = 0;
     char calculation_sign;
 
+    // get the CW/CCW direction
     calculation_sign = (robot_orientation >= 0 ? 1 : -1);
-    Fi_total = (long)robot_orientation * K1 / 360;
 
+    // calculate the angle we will do in increments
+    rotation_fullAngle = (long)robot_orientation * K1 / 360;
+
+    // calculate the time for stage 1 - acceleration
     time_calculatedStage1 = time_calculatedStage3 = odometry_speedOmega / odometry_accelerationAlpha;
-    Fi1 = odometry_accelerationAlpha * time_calculatedStage1 * time_calculatedStage1 / 2;
-    if(Fi1 > (calculation_sign * Fi_total / 2))
+    // calculate the increments needed for stage 1
+    rotation_angleStage1 = odometry_accelerationAlpha * time_calculatedStage1 * time_calculatedStage1 / 2;
+
+    // can we achieve max speed
+    if(rotation_angleStage1 > (calculation_sign * rotation_fullAngle / 2))
     {
-        //trougaoni profil
-        Fi1 = calculation_sign  * Fi_total / 2;
-        time_calculatedStage1 = time_calculatedStage3 = sqrt(2 * Fi1 / odometry_accelerationAlpha);
+        // we can't achieve it
+        // recalculate stage 1
+        rotation_angleStage1 = calculation_sign  * rotation_fullAngle / 2;
+        // recalculate the time for stage 1
+        time_calculatedStage1 = time_calculatedStage3 = sqrt(2 * rotation_angleStage1 / odometry_accelerationAlpha);
+        // stage 2 is 0
         time_calculatedStage2 = 0;
     }
     else
     {
-        //trapezni profil
-        time_calculatedStage2 = (calculation_sign * Fi_total - 2 * Fi1) / odometry_speedOmega;
+        // we can achieve max speed (omega is the max speed for rotation)
+        // calculate the time for stage2
+        time_calculatedStage2 = (calculation_sign * rotation_fullAngle - 2 * rotation_angleStage1) / odometry_speedOmega;
     }
 
-    ugao_ref = odometry_refrenceOrientation;
-    current_time = current_time0 = sys_time;
-    time_stage1 = current_time0 + time_calculatedStage1;
-    time_stage2 = time_stage1 + time_calculatedStage2;
-    time_stage3 = time_stage2 + time_calculatedStage3;
+    rotation_refrence = odometry_refrenceOrientation;                        // get the current orientation
+    current_time = current_time0 = sys_time;                        // get the current time
+    time_stage1 = current_time0 + time_calculatedStage1;            // calculate the time for stage1
+    time_stage2 = time_stage1 + time_calculatedStage2;              // calculate the time for stage2
+    time_stage3 = time_stage2 + time_calculatedStage3;              // calculate the time for stage3
 
+    // set the robot status
     robot_currentStatus = STATUS_ROTATING;
-    while(current_time < time_stage3)
+
+    // while the time is less than stage 3
+    while(current_time < time_stage3) {
+        // execute every 1ms
         if(current_time != sys_time)
         {
+            // update the time
             current_time = sys_time;
+
+            // check for communication
             if(!getCommand())
                 return 1;
-            //if (current_time % 16 == 0) putch ((char)(zaglaencoder_rightCurrentIncrements / 16));
+            
+            // check if robot is stuck
             if(!checkStuckCondition())
                 return 1;
 
+            // stage 1 - acceleraton
             if(current_time <= time_stage1)
             {
-                w_ref += odometry_accelerationAlpha;
-                ugao_ref += calculation_sign * (w_ref - odometry_accelerationAlpha / 2);
-                odometry_refrenceOrientation = ugao_ref;
+                rotation_accelerationRefrence += odometry_accelerationAlpha;                                        // update the acceleration
+                rotation_refrence += calculation_sign * (rotation_accelerationRefrence - odometry_accelerationAlpha / 2);    // update the refrence angle 
+                odometry_refrenceOrientation = rotation_refrence;                                    // update our global refrence orientation
             }
+            // stage 2 - holding the speed
             else if(current_time <= time_stage2)
             {
-                w_ref = odometry_speedOmega;
-                ugao_ref += calculation_sign * odometry_speedOmega;
-                odometry_refrenceOrientation = ugao_ref;
+                rotation_accelerationRefrence = odometry_speedOmega;                                                // hold the speed
+                rotation_refrence += calculation_sign * odometry_speedOmega;                         // update the refrence angle
+                odometry_refrenceOrientation = rotation_refrence;                                    // update the global refrence angle
             }
+            // stage 3 - deacceleration
             else if(current_time <= time_stage3)
             {
-                w_ref -= odometry_accelerationAlpha;
-                ugao_ref += calculation_sign * (w_ref + odometry_accelerationAlpha / 2);
-                odometry_refrenceOrientation = ugao_ref;
+                rotation_accelerationRefrence -= odometry_accelerationAlpha;                                        // update the deacceleration
+                rotation_refrence += calculation_sign * (rotation_accelerationRefrence + odometry_accelerationAlpha / 2);    // update the refrence angle
+                odometry_refrenceOrientation = rotation_refrence;                                    // update the global refrence angle
             }
         }
+    }
 
+    // achieved position, idling
     robot_currentStatus = STATUS_IDLE;
     return 0;
 } // end of okret(...)
@@ -643,8 +667,8 @@ void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
     float R, Fi_pocetno, delta, luk;
     long current_time, current_time0, time_stage1, time_stage2, time_stage3;
     long time_calculatedStage1, time_calculatedStage2, time_calculatedStage3;
-    long Fi_total, Fi1;
-    float v_poc, dist_ref, ugao_ref, w_ref = 0, odometry_refrenceSpeed = 0;
+    long rotation_fullAngle, rotation_angleStage1;
+    float v_poc, dist_ref, rotation_refrence, rotation_accelerationRefrence = 0, odometry_refrenceSpeed = 0;
     char calculation_sign;
     int robot_orientation;
 
@@ -674,28 +698,28 @@ void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
     if(odometry_speedMax > K2/32)
         setSpeedAccel(K2 / 32);
 
-    Fi_total = (long)Fi * K1 / 360;
+    rotation_fullAngle = (long)Fi * K1 / 360;
 
     time_calculatedStage1 = time_calculatedStage3 = odometry_speedOmega / odometry_accelerationAlpha;
-    Fi1 = odometry_accelerationAlpha * time_calculatedStage1 * time_calculatedStage1 / 2;
-    if(Fi1 > (calculation_sign * Fi_total / 2))
+    rotation_angleStage1 = odometry_accelerationAlpha * time_calculatedStage1 * time_calculatedStage1 / 2;
+    if(rotation_angleStage1 > (calculation_sign * rotation_fullAngle / 2))
     {
         //trougaoni profil
-        Fi1 = calculation_sign  * Fi_total / 2;
-        time_calculatedStage1 = time_calculatedStage3 = sqrt(2 * Fi1 / odometry_accelerationAlpha);
+        rotation_angleStage1 = calculation_sign  * rotation_fullAngle / 2;
+        time_calculatedStage1 = time_calculatedStage3 = sqrt(2 * rotation_angleStage1 / odometry_accelerationAlpha);
         time_calculatedStage2 = 0;
     }
     else
     {
         //trapezni profil
-        time_calculatedStage2 = (calculation_sign * Fi_total - 2 * Fi1) / odometry_speedOmega;
+        time_calculatedStage2 = (calculation_sign * rotation_fullAngle - 2 * rotation_angleStage1) / odometry_speedOmega;
     }
 
     current_time = current_time0 = sys_time;
     time_stage1 = current_time0 + time_calculatedStage1;
     time_stage2 = time_stage1 + time_calculatedStage2;
     time_stage3 = time_stage2 + time_calculatedStage3;
-    ugao_ref = odometry_refrenceOrientation;
+    rotation_refrence = odometry_refrenceOrientation;
     dist_ref = odometry_refrenceDistance;
 
     robot_currentStatus = STATUS_MOVING;
@@ -717,35 +741,35 @@ void kurva(long Xc, long Yc, int Fi, char robot_movingDirection)
 
             if(current_time <= time_stage1)
             {
-                w_ref += odometry_accelerationAlpha;
+                rotation_accelerationRefrence += odometry_accelerationAlpha;
                 odometry_refrenceSpeed += odometry_acceleration;
-                delta = calculation_sign * (w_ref - odometry_accelerationAlpha / 2);
+                delta = calculation_sign * (rotation_accelerationRefrence - odometry_accelerationAlpha / 2);
                 luk = calculation_sign * R * delta / D_encoderWheel;
-                ugao_ref += delta;
+                rotation_refrence += delta;
                 dist_ref += robot_movingDirection * luk;
-                odometry_refrenceOrientation = ugao_ref;
+                odometry_refrenceOrientation = rotation_refrence;
                 odometry_refrenceDistance = dist_ref;
             }
             else if(current_time <= time_stage2)
             {
-                w_ref = odometry_speedOmega;
+                rotation_accelerationRefrence = odometry_speedOmega;
                 odometry_refrenceSpeed = odometry_speedMax;
                 delta = calculation_sign * odometry_speedOmega;
                 luk = calculation_sign * R * delta / D_encoderWheel;
-                ugao_ref += delta;
+                rotation_refrence += delta;
                 dist_ref += robot_movingDirection * luk;
-                odometry_refrenceOrientation = ugao_ref;
+                odometry_refrenceOrientation = rotation_refrence;
                 odometry_refrenceDistance = dist_ref;
             }
             else if(current_time <= time_stage3)
             {
-                w_ref -= odometry_accelerationAlpha;
+                rotation_accelerationRefrence -= odometry_accelerationAlpha;
                 odometry_refrenceSpeed -= odometry_acceleration;
-                delta = calculation_sign * (w_ref + odometry_accelerationAlpha / 2);
+                delta = calculation_sign * (rotation_accelerationRefrence + odometry_accelerationAlpha / 2);
                 luk = calculation_sign * R * delta / D_encoderWheel;
-                ugao_ref += delta;
+                rotation_refrence += delta;
                 dist_ref += robot_movingDirection * luk;
-                odometry_refrenceOrientation = ugao_ref;
+                odometry_refrenceOrientation = rotation_refrence;
                 odometry_refrenceDistance = dist_ref;
             }
         }
