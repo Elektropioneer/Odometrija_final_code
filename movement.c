@@ -18,14 +18,20 @@ static enum States robot_currentStatus = STATUS_IDLE;
  */
 void robot_resetDriver(void)
 {
-    encoder_rightIncrements         = encoder_leftIncrements            = 0;
-    odometry_incrementsDistance     = odometry_incrementsOrientation    = 0;
-    encoder_rightCurrentIncrements  = encoder_leftCurrentIncrements     = 0;
+    encoder_rightIncrements         = encoder_leftIncrements            = 0;        // reset the encoder increments
+    odometry_incrementsDistance     = odometry_incrementsOrientation    = 0;        // reset the distance and oritentation increments
+    encoder_rightCurrentIncrements  = encoder_leftCurrentIncrements     = 0;        // reset left/right current read increments
 
+    // default robot speed
     robot_setSpeed(0x80);
+    
+    // 1m/s acceleration
     odometry_setAcceleration(K2);
 
+    // set the position to 0,0,0
     robot_setPosition(0, 0, 0);
+    
+    // idle it
     robot_currentStatus = STATUS_IDLE;
 
 } // end of robot_resetDriver(...)
@@ -39,11 +45,14 @@ static void setX(int tmp)
 {
     unsigned long current_time;
 
-    odometry_incrementsX            = (long long)tmp * 65534 * K2;
-    odometry_refrenceDistance       = odometry_incrementsDistance;
-    odometry_refrenceOrientation    = odometry_incrementsOrientation;
+    odometry_incrementsX            = (long long)tmp * 65534 * K2;              // from distance to increments
+    odometry_refrenceDistance       = odometry_incrementsDistance;              // refrence distance is the current distance increments
+    odometry_refrenceOrientation    = odometry_incrementsOrientation;           // refrence oritentation is the current orientation increments
 
+    // set the current time
     current_time = sys_time;
+    
+    // wait for current time to update (waits <1ms)
     while(sys_time == current_time);
 } // end of setX(...)
 
@@ -56,11 +65,14 @@ static void setY(int tmp)
 {
     unsigned long current_time;
 
-    odometry_incrementsY            = (long long)tmp * 65534 * K2;
-    odometry_refrenceDistance       = odometry_incrementsDistance;
-    odometry_refrenceOrientation    = odometry_incrementsOrientation;
+    odometry_incrementsY            = (long long)tmp * 65534 * K2;          // convert from distance to increments
+    odometry_refrenceDistance       = odometry_incrementsDistance;          // refrence distance is the current distance increments
+    odometry_refrenceOrientation    = odometry_incrementsOrientation;       // refrence rotation is the current rotation increments
 
+    // set the current time
     current_time = sys_time;
+    
+    // wait for current time to update (waits <1ms)
     while(sys_time == current_time);
 } // end of setY(...)
 
@@ -71,18 +83,23 @@ static void setY(int tmp)
  */
 static void setO(int tmp)
 {
-    unsigned long current_time;
+    unsigned long current_time;                                                                         // current time
 
-    encoder_leftIncrements  = -(tmp * K1 / 360) / 2;
-    encoder_rightIncrements = (tmp * K1 / 360) / 2;
+    encoder_leftIncrements  = -(tmp * K1 / 360) / 2;                                                    // calculate the left increments based on the angle
+    encoder_rightIncrements = (tmp * K1 / 360) / 2;                                                     // calculate the right increments based on the angle
 
+    // calculate both distance and orientation based on the increments
     odometry_incrementsDistance     = (encoder_rightIncrements + encoder_leftIncrements) / 2;
     odometry_incrementsOrientation  = (encoder_rightIncrements - encoder_leftIncrements) % K1;
 
+    // update to global refrences
     odometry_refrenceDistance       = odometry_incrementsDistance;
     odometry_refrenceOrientation    = odometry_incrementsOrientation;
 
+    // update system time
     current_time = sys_time;
+    
+    // wait for system time to update (waits <1ms)
     while(sys_time == current_time);
 } // end of setO(...)
 
@@ -108,7 +125,9 @@ void robot_setPosition(int odometry_milliX, int odometry_milliY, int odometry_in
  */
 void robot_returnInfo(void)
 {
-    long robot_currentOrientation = odometry_incrementsOrientation;
+    long robot_currentOrientation = odometry_incrementsOrientation;         // check the orientation
+    
+    // depending on the status, send it back
     if(robot_currentStatus == STATUS_ERROR)
         putch('E');
     else if(robot_currentStatus == STATUS_MOVING)
@@ -120,13 +139,17 @@ void robot_returnInfo(void)
     else if(robot_currentStatus == STATUS_ROTATING)
         putch('R');
     
+    // reset the uart
     U1STAbits.OERR = 0;
     
-    
+    // send back the X and Y coord
     putch_16bit(odometry_milliX);
     putch_16bit(odometry_milliY);
 
+    // calculate the angle rotation
     robot_currentOrientation = ((double)odometry_incrementsOrientation * 360) / K1 + 0.5;
+    
+    // send back the angle
     putch_16bit(robot_currentOrientation);
     
 } // end of robot_returnInfo(...)
