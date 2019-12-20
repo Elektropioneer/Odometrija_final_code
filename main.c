@@ -226,19 +226,19 @@ int main(void)
     while(1)
     {
         // if data has arrived
-        if(DataRdyUART1() > 0) {
+        if(uart_available() > 0) {
             
             // check the first byte
-            uart_command = getch();
+            uart_command = uart_getch();
             
             // select the function depending on the first byte
             switch(uart_command)
             {
                 // set position
                 case 'I':
-                    uart_intData1 = getch_16bit();
-                    uart_intData2 = getch_16bit();
-                    uart_intData3 = getch_16bit();
+                    uart_intData1 = uart_getch16();
+                    uart_intData2 = uart_getch16();
+                    uart_intData3 = uart_getch16();
                     
                     
                     robot_setPosition(uart_intData1, uart_intData2, uart_intData3);
@@ -251,15 +251,15 @@ int main(void)
 
                 // set the max speed
                 case 'V':
-                    uart_charData1 = getch();
+                    uart_charData1 = uart_getch();
                     robot_setSpeed(uart_charData1);
 
                     break;
 
                 // move robot forward/backward
                 case 'D':
-                    uart_intData1 = getch_16bit();
-                    uart_charData1 = getch();            
+                    uart_intData1 = uart_getch16();
+                    uart_charData1 = uart_getch();            
                     PWMinit();             
                     robot_moveLinear(uart_intData1, uart_charData1);
 
@@ -267,7 +267,7 @@ int main(void)
 
                 // relative angle
                 case 'T':
-                    uart_intData1 = getch_16bit();
+                    uart_intData1 = uart_getch16();
                     PWMinit();
                     robot_rotate(uart_intData1);
 
@@ -275,7 +275,7 @@ int main(void)
 
                 // absolute angle
                 case 'A':
-                    uart_intData1 = getch_16bit();
+                    uart_intData1 = uart_getch16();
                     PWMinit();
                     robot_rotateAbsolute(uart_intData1);
 
@@ -283,10 +283,10 @@ int main(void)
 
                 // goto xy
                 case 'G':
-                    uart_intData1 = getch_16bit();
-                    uart_intData2 = getch_16bit();
-                    uart_charData1 = getch();
-                    uart_charData2 = getch();
+                    uart_intData1 = uart_getch16();
+                    uart_intData2 = uart_getch16();
+                    uart_charData1 = uart_getch();
+                    uart_charData2 = uart_getch();
                     PWMinit();
                     robot_moveXY(uart_intData1, uart_intData2, uart_charData1, uart_charData2);
 
@@ -294,10 +294,10 @@ int main(void)
 
                 // robot_arc
                 case 'Q':
-                    uart_intData1 = getch_16bit();
-                    uart_intData2 = getch_16bit();
-                    uart_intData3 = getch_16bit();
-                    uart_charData1 = getch();
+                    uart_intData1 = uart_getch16();
+                    uart_intData2 = uart_getch16();
+                    uart_intData3 = uart_getch16();
+                    uart_charData1 = uart_getch();
                     PWMinit();
                     robot_arc(uart_intData1, uart_intData2, uart_intData3, uart_charData1);
 

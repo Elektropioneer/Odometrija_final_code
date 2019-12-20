@@ -129,28 +129,28 @@ void robot_returnInfo(void)
     
     // depending on the status, send it back
     if(robot_currentStatus == STATUS_ERROR)
-        putch('E');
+        uart_putch('E');
     else if(robot_currentStatus == STATUS_MOVING)
-        putch('M');
+        uart_putch('M');
     else if(robot_currentStatus == STATUS_IDLE)
-        putch('I');
+        uart_putch('I');
     else if(robot_currentStatus == STATUS_STUCK)
-        putch('S');
+        uart_putch('S');
     else if(robot_currentStatus == STATUS_ROTATING)
-        putch('R');
+        uart_putch('R');
     
     // reset the uart
     U1STAbits.OERR = 0;
     
     // send back the X and Y coord
-    putch_16bit(odometry_milliX);
-    putch_16bit(odometry_milliY);
+    uart_putch16(odometry_milliX);
+    uart_putch16(odometry_milliY);
 
     // calculate the angle rotation
     robot_currentOrientation = ((double)odometry_incrementsOrientation * 360) / K1 + 0.5;
     
     // send back the angle
-    putch_16bit(robot_currentOrientation);
+    uart_putch16(robot_currentOrientation);
     
 } // end of robot_returnInfo(...)
 
@@ -197,9 +197,9 @@ static char getCommand(void)
     char uart_command;
 
    // U1STAbits.OERR = 0;       
-    if(DataRdyUART1() > 0)   
+    if(uart_available() > 0)   
     {
-        uart_command = getch();
+        uart_command = uart_getch();
 
         switch(uart_command)
         {

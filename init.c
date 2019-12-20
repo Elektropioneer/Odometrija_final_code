@@ -6,7 +6,7 @@
  */
 void UARTinit()
 {
-    CloseUART1();
+    uart_close();
 
     U1MODEbits.STSEL = 0;   // 1 Stop bit
     U1MODEbits.PDSEL = 0;   // No Parity, 8 data bits
