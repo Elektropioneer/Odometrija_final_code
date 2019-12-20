@@ -1,13 +1,16 @@
-Microchip Technology Inc, v1.41 (A)
+Microchip Technology Inc, v1.41 (B)
 
 Tool Name:
   /opt/microchip/xc16/v1.41/bin/bin/../bin/elf-ld
 
 Command:
   -p33FJ128MC802 \
+  --mdfp=/opt/microchip/mplabx/v5.30/packs/Microchip/dsPIC33F-GP-MC_DFP/1.1.15/xc16 \
   -o \
   dist/default/production/odometrija.X.production.elf \
   -L/opt/microchip/xc16/v1.41/bin/bin/.. \
+  -L/opt/microchip/mplabx/v5.30/packs/Microchip/dsPIC33F-GP-MC_DFP/1.1.15/xc16/bin/../support/PIC24H/gld \
+  -L/opt/microchip/mplabx/v5.30/packs/Microchip/dsPIC33F-GP-MC_DFP/1.1.15/xc16/bin/../support/dsPIC33F/gld \
   -L/opt/microchip/xc16/v1.41/bin/bin/../../lib \
   -L/opt/microchip/xc16/v1.41/bin/bin/../../support/PIC24E/gld \
   -L/opt/microchip/xc16/v1.41/bin/bin/../../support/PIC24F/gld \
@@ -142,7 +145,7 @@ Archive member included because of file (symbol)
                               /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(smaddfx.eo) (__norm4s)
 
 
-xc16-ld 1.41 (A)
+xc16-ld 1.41 (B)
 
 Default Code Model: Small
 Default Data Model: Large
@@ -171,7 +174,7 @@ section                    address      alignment gaps    total length  (dec)
 .ndata                       0x864                   0             0x2  (2)
 .nbss                        0x866                   0             0x2  (2)
 .bss                         0x868                   0           0x198  (408)
-_0xf724da6c5df9438a         0x47c0                   0            0x40  (64)
+_0xf727aa6c5dfd2673         0x47c0                   0            0x40  (64)
 
                  Total "data" memory used (bytes):          0x240  (576) 3%
 
@@ -727,14 +730,14 @@ __FUID3
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x7954
+.debug_info       0x000000       0x7979
  *(.debug_info)
- .debug_info      0x000000        0xad4 build/default/production/_ext/1472/main.o
- .debug_info      0x000ad4       0x23af build/default/production/_ext/1472/init.o
- .debug_info      0x002e83        0xfd6 build/default/production/_ext/1472/uart.o
- .debug_info      0x003e59       0x2a71 build/default/production/_ext/1472/can.o
- .debug_info      0x0068ca        0x1e0 build/default/production/_ext/1472/motor.o
- .debug_info      0x006aaa        0xeaa build/default/production/_ext/1472/movement.o
+ .debug_info      0x000000        0xada build/default/production/_ext/1472/main.o
+ .debug_info      0x000ada       0x23b5 build/default/production/_ext/1472/init.o
+ .debug_info      0x002e8f        0xfdc build/default/production/_ext/1472/uart.o
+ .debug_info      0x003e6b       0x2a77 build/default/production/_ext/1472/can.o
+ .debug_info      0x0068e2        0x1e6 build/default/production/_ext/1472/motor.o
+ .debug_info      0x006ac8        0xeb1 build/default/production/_ext/1472/movement.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x7f6
@@ -746,14 +749,14 @@ __FUID3
  .debug_abbrev    0x000583         0x6a build/default/production/_ext/1472/motor.o
  .debug_abbrev    0x0005ed        0x209 build/default/production/_ext/1472/movement.o
 
-.debug_line       0x000000        0x8ee
+.debug_line       0x000000        0x9eb
  *(.debug_line)
- .debug_line      0x000000        0x1ac build/default/production/_ext/1472/main.o
- .debug_line      0x0001ac        0x129 build/default/production/_ext/1472/init.o
- .debug_line      0x0002d5        0x121 build/default/production/_ext/1472/uart.o
- .debug_line      0x0003f6        0x151 build/default/production/_ext/1472/can.o
- .debug_line      0x000547         0xc4 build/default/production/_ext/1472/motor.o
- .debug_line      0x00060b        0x2e3 build/default/production/_ext/1472/movement.o
+ .debug_line      0x000000        0x1d6 build/default/production/_ext/1472/main.o
+ .debug_line      0x0001d6        0x153 build/default/production/_ext/1472/init.o
+ .debug_line      0x000329        0x14b build/default/production/_ext/1472/uart.o
+ .debug_line      0x000474        0x17b build/default/production/_ext/1472/can.o
+ .debug_line      0x0005ef         0xee build/default/production/_ext/1472/motor.o
+ .debug_line      0x0006dd        0x30e build/default/production/_ext/1472/movement.o
 
 .debug_frame      0x000000        0x6aa
  *(.debug_frame)
@@ -1972,9 +1975,9 @@ __c30_signature
  __c30_signature
                   0x000943          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umuldi3.eo)
 
-_0xf724da6c5df9438a
+_0xf727aa6c5dfd2673
                     0x47c0         0x40
- _0xf724da6c5df9438a
+ _0xf727aa6c5dfd2673
                     0x47c0         0x40 build/default/production/_ext/1472/can.o
 
 .nbss               0x0800         0x64

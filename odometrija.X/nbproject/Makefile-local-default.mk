@@ -34,4 +34,4 @@ MP_AS_DIR="/opt/microchip/xc16/v1.41/bin"
 MP_LD_DIR="/opt/microchip/xc16/v1.41/bin"
 MP_AR_DIR="/opt/microchip/xc16/v1.41/bin"
 # MP_BC_DIR is not defined
-DFP_DIR="/home/silardg/.mchp_packs/Microchip/dsPIC33F-GP-MC_DFP/1.0.6"
+DFP_DIR="/opt/microchip/mplabx/v5.30/packs/Microchip/dsPIC33F-GP-MC_DFP/1.1.15"
