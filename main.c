@@ -51,6 +51,7 @@ void __attribute__((__interrupt__)) _T1Interrupt(void)
     // execute PID on every 5ms
     // TODO: move the 5 into a variable in config.h
     if (++odometry_loop_counter == 5)
+    //if(something == 1)
     {
         // reset counter
         odometry_loop_counter = 0;
@@ -209,9 +210,14 @@ int main(void)
     PortInit();                 // init for other pins
     UARTinit();                 // init for communication
     TimerInit();                // init for interrupt timer
-    QEIinit();                  // init for encoders
     PWMinit();                  // init for motors
-
+    int i=0;
+    //3.27675
+    motor_rightPWM(255);
+    __delay_ms(6000);
+    motor_rightPWM(0);
+    __delay_ms(5000);
+    QEIinit();
     robot_resetDriver();
 
     robot_setSpeed(0x80);

@@ -55,7 +55,12 @@ void PWMinit()
     PWM1CON1bits.PEN1H = 0;     // enable pwm pin for pwm
     PWM1CON1bits.PEN1L = 1;     // enable pwm pin for pwm
     P1TMR = 1;
-    P1TPER = 1627;              // PWM frequency: 18425Hz
+    
+    // (300000 / pres * freq) - 1
+     // prescaler: 64 -> 9375
+    P1TCONbits.PTCKPS0 = 1;
+    P1TCONbits.PTCKPS1 = 1;
+    P1TPER = 9375;              // PWM frequency: 18425Hz
     P1DC1 = 0;
     P1TCONbits.PTEN = 1;
 
@@ -64,7 +69,11 @@ void PWMinit()
     PWM2CON1bits.PMOD1 = 1;     // Independent output mode
     PWM2CON1bits.PEN1H = 0;     // enable pwm pin for pwm
     PWM2CON1bits.PEN1L = 1;     // enable pwm pin for pwm
-    P2TPER = 1627;              // PWM frquenecy: 18425Hz
+    
+    P2TCONbits.PTCKPS0 = 1;
+    P2TCONbits.PTCKPS1 = 1;
+    
+    P2TPER = 9375;              // PWM frquenecy: 18425Hz
     P2DC1 = 0;
     P2TCONbits.PTEN = 1;
 

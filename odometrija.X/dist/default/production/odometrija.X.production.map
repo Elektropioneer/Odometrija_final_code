@@ -60,7 +60,7 @@ Archive member included because of file (symbol)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(crt_start_mode_normal.eo)
                               (__crt_start_mode_normal)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(delay32.eo)
-                              build/default/production/_ext/1472/can.o (___delay32)
+                              build/default/production/_ext/1472/main.o (___delay32)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atan2f.eo)
                               build/default/production/_ext/1472/movement.o (_atan2f)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(divsi3.eo)
@@ -75,12 +75,16 @@ Archive member included because of file (symbol)
                               build/default/production/_ext/1472/movement.o (_(float, int, long long, short, float, double, int))
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixsfsi.eo)
                               build/default/production/_ext/1472/main.o (_(float, int, long long, short, float, short, int))
+/opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixunssfsi.eo)
+                              build/default/production/_ext/1472/motor.o (___fixunssfsi)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatdisf.eo)
                               build/default/production/_ext/1472/movement.o (___floatdisf)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatsisf.eo)
                               build/default/production/_ext/1472/main.o (___floatsisf)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatundisf.eo)
                               /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatdisf.eo) (___floatundisf)
+/opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatunsisf.eo)
+                              build/default/production/_ext/1472/motor.o (___floatunsisf)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fpack.eo)
                               /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatundisf.eo) (__fpack)
 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack.eo)
@@ -155,15 +159,14 @@ Default Scalar Model: Small
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x200              0x17ca          0x23af  (9135)
-.const                      0x19ca              0x4000          0x6000  (24576)
-libmxconst                  0x59ca                0x94            0xde  (222)
-.text                       0x5a5e              0x1d02          0x2b83  (11139)
-.dinit                      0x7760                0x28            0x3c  (60)
-.init.delay32               0x7788                0x1c            0x2a  (42)
-.text                       0x77a4                0x18            0x24  (36)
+.text                        0x200              0x180a          0x240f  (9231)
+.const                      0x1a0a              0x4000          0x6000  (24576)
+libmxconst                  0x5a0a                0x94            0xde  (222)
+.text                       0x5a9e              0x1dbe          0x2c9d  (11421)
+.dinit                      0x785c                0x28            0x3c  (60)
+.init.delay32               0x7884                0x1c            0x2a  (42)
 
-                 Total "program" memory used (bytes):         0xb09a  (45210) 34%
+                 Total "program" memory used (bytes):         0xb1f0  (45552) 34%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x4000]
@@ -174,7 +177,7 @@ section                    address      alignment gaps    total length  (dec)
 .ndata                       0x864                   0             0x2  (2)
 .nbss                        0x866                   0             0x2  (2)
 .bss                         0x868                   0           0x198  (408)
-_0xf72dca6c5dfd2c39         0x47c0                   0            0x40  (64)
+_0xf72fea6c5e1a19c6         0x47c0                   0            0x40  (64)
 
                  Total "data" memory used (bytes):          0x240  (576) 3%
 
@@ -258,222 +261,228 @@ External Symbols in Program Memory (by address):
                   0x000252                  __data_init
                   0x000252                  __data_init_standard
                   0x0002c8                  __T1Interrupt
-                  0x000768                  __DMA1Interrupt
-                  0x000830                  __DMA2Interrupt
-                  0x000844                  __C1Interrupt
-                  0x000868                  __DefaultInterrupt
-                  0x00086e                  _atan2f
-                  0x0008a8                  ___divsi3
-                  0x0008c6                  ___lesf2
-                  0x0008c6                  ___eqsf2
-                  0x0008c6                  ___ltsf2
-                  0x0008ca                  ___gtsf2
-                  0x0008ca                  ___gesf2
-                  0x0008ce                  ___fixsfdi
-                  0x000920                  ___fixsfsi
-                  0x000962                  ___floatdisf
-                  0x000982                  ___floatsisf
-                  0x000988                  ___floatundisf
-                  0x0009e6                  __fpack
-                  0x000a32                  __funpack
-                  0x000a5c                  __funpack2
-                  0x000a6c                  __fPropagateNaN
-                  0x000a7e                  __fbopExit
-                  0x000a86                  __fbopReturnNaN
-                  0x000a8c                  ___modsi3
-                  0x000aaa                  ___muldi3
-                  0x000afc                  ___subsf3
-                  0x000afc                  ___subsf3x
-                  0x000b0e                  ___addsf3
-                  0x000b0e                  ___addsf3x
-                  0x000cd8                  ___mulsf3
-                  0x000cd8                  ___mulsf3x
-                  0x000de4                  ___udivsi3x
-                  0x000de4                  ___udivsi3
-                  0x000ebe                  ___umodsi3
-                  0x000ebe                  ___umodsi3x
-                  0x000ec4                  _atanf
-                  0x000ec4                  _atanfx
-                  0x000fe4                  __srmsubf
-                  0x000fea                  __smsubf
-                  0x000fee                  __smaddf
-                  0x001114                  __unpackdnrmf
-                  0x001172                  ___divsf3x
-                  0x001172                  ___divsf3
-                  0x001304                  __sdivf
-                  0x001330                  __propnanf
-                  0x001342                  __smulf
-                  0x001398                  _sqrtfx
-                  0x001398                  _sqrtf
-                  0x001414                  __unpackf
-                  0x00147a                  __dnrmpackf
-                  0x0014ce                  __srsubf
-                  0x0014d4                  __ssubf
-                  0x0014d8                  __saddf
-                  0x00156e                  __spackf
-                  0x001614                  __ssqrtf
-                  0x0016ea                  __sfloatfsi
-                  0x00173e                  __fcompare
-                  0x001774                  ___umuldi3
-                  0x0017b8                  __typef
-                  0x0017ec                  __sintrndf
-                  0x00184e                  __spolyfb
-                  0x0018d4                  __norm3s
-                  0x00191c                  __slmul
-                  0x001956                  __norm4s
-                  0x0019ca                  _sinus
-                  0x005a5e                  _robot_resetDriver
-                  0x005bcc                  _robot_setPosition
-                  0x005be8                  _robot_returnInfo
-                  0x005c6a                  _odometry_setAcceleration
-                  0x005ca0                  _robot_getStatus
-                  0x005ca8                  _robot_forceStatus
-                  0x005d30                  _robot_moveXY
-                  0x00639e                  _robot_moveLinear
-                  0x006876                  _robot_rotateAbsolute
-                  0x0068c4                  _robot_rotate
-                  0x006b9a                  _robot_arc
-                  0x0070f0                  _robot_stop
-                  0x00710a                  _robot_setSpeed
-                  0x00712e                  _CAN_checkRX
-                  0x007136                  _CAN_write
-                  0x0071d2                  _CAN_read
-                  0x007230                  _CAN_getLastMessage
-                  0x00725e                  _CAN_init
-                  0x007398                  _UARTinit
-                  0x0073b6                  _CloseMCPWM
-                  0x0073de                  _PWMinit
-                  0x00740a                  _TimerInit
-                  0x00742e                  _QEIinit
-                  0x007470                  _PortInit
-                  0x00749a                  _PinsInit
-                  0x0074e4                  _OscillatorInit
-                  0x007538                  _main
-                  0x007690                  _uart_busy
-                  0x0076a6                  _uart_close
-                  0x0076b6                  _uart_available
-                  0x0076c2                  _uart_read
-                  0x0076da                  _uart_write
-                  0x0076f6                  _uart_getch
-                  0x007708                  _uart_getch16
-                  0x007720                  _uart_putch
-                  0x007734                  _uart_putch16
-                  0x00774a                  _uart_flush
-                  0x007788                  ___delay32
-                  0x0077a4                  _motor_leftPWM
-                  0x0077b0                  _motor_rightPWM
+                  0x00076c                  __DMA1Interrupt
+                  0x000834                  __DMA2Interrupt
+                  0x000848                  __C1Interrupt
+                  0x00086c                  __DefaultInterrupt
+                  0x000872                  _atan2f
+                  0x0008ac                  ___divsi3
+                  0x0008ca                  ___lesf2
+                  0x0008ca                  ___eqsf2
+                  0x0008ca                  ___ltsf2
+                  0x0008ce                  ___gtsf2
+                  0x0008ce                  ___gesf2
+                  0x0008d2                  ___fixsfdi
+                  0x000924                  ___fixsfsi
+                  0x000966                  ___fixunssfsi
+                  0x00099c                  ___floatdisf
+                  0x0009bc                  ___floatsisf
+                  0x0009c2                  ___floatundisf
+                  0x000a20                  ___floatunsisf
+                  0x000a24                  __fpack
+                  0x000a70                  __funpack
+                  0x000a9a                  __funpack2
+                  0x000aaa                  __fPropagateNaN
+                  0x000abc                  __fbopExit
+                  0x000ac4                  __fbopReturnNaN
+                  0x000aca                  ___modsi3
+                  0x000ae8                  ___muldi3
+                  0x000b3a                  ___subsf3
+                  0x000b3a                  ___subsf3x
+                  0x000b4c                  ___addsf3
+                  0x000b4c                  ___addsf3x
+                  0x000d16                  ___mulsf3
+                  0x000d16                  ___mulsf3x
+                  0x000e22                  ___udivsi3x
+                  0x000e22                  ___udivsi3
+                  0x000efc                  ___umodsi3
+                  0x000efc                  ___umodsi3x
+                  0x000f04                  _atanf
+                  0x000f04                  _atanfx
+                  0x001024                  __srmsubf
+                  0x00102a                  __smsubf
+                  0x00102e                  __smaddf
+                  0x001154                  __unpackdnrmf
+                  0x0011b2                  ___divsf3x
+                  0x0011b2                  ___divsf3
+                  0x001344                  __sdivf
+                  0x001370                  __propnanf
+                  0x001382                  __smulf
+                  0x0013d8                  _sqrtfx
+                  0x0013d8                  _sqrtf
+                  0x001454                  __unpackf
+                  0x0014ba                  __dnrmpackf
+                  0x00150e                  __srsubf
+                  0x001514                  __ssubf
+                  0x001518                  __saddf
+                  0x0015ae                  __spackf
+                  0x001654                  __ssqrtf
+                  0x00172a                  __sfloatfsi
+                  0x00177e                  __fcompare
+                  0x0017b4                  ___umuldi3
+                  0x0017f8                  __typef
+                  0x00182c                  __sintrndf
+                  0x00188e                  __spolyfb
+                  0x001914                  __norm3s
+                  0x00195c                  __slmul
+                  0x001996                  __norm4s
+                  0x001a0a                  _sinus
+                  0x005a9e                  _robot_resetDriver
+                  0x005c0c                  _robot_setPosition
+                  0x005c28                  _robot_returnInfo
+                  0x005caa                  _odometry_setAcceleration
+                  0x005ce0                  _robot_getStatus
+                  0x005ce8                  _robot_forceStatus
+                  0x005d70                  _robot_moveXY
+                  0x0063de                  _robot_moveLinear
+                  0x0068b6                  _robot_rotateAbsolute
+                  0x006904                  _robot_rotate
+                  0x006bda                  _robot_arc
+                  0x007130                  _robot_stop
+                  0x00714a                  _robot_setSpeed
+                  0x00716e                  _CAN_checkRX
+                  0x007176                  _CAN_write
+                  0x007212                  _CAN_read
+                  0x007270                  _CAN_getLastMessage
+                  0x00729e                  _CAN_init
+                  0x0073d8                  _UARTinit
+                  0x0073f6                  _CloseMCPWM
+                  0x00741e                  _PWMinit
+                  0x007452                  _TimerInit
+                  0x007476                  _QEIinit
+                  0x0074b8                  _PortInit
+                  0x0074e2                  _PinsInit
+                  0x00752c                  _OscillatorInit
+                  0x007580                  _main
+                  0x0076f2                  _uart_busy
+                  0x007708                  _uart_close
+                  0x007718                  _uart_available
+                  0x007724                  _uart_read
+                  0x00773c                  _uart_write
+                  0x007758                  _uart_getch
+                  0x00776a                  _uart_getch16
+                  0x007782                  _uart_putch
+                  0x007796                  _uart_putch16
+                  0x0077ac                  _uart_flush
+                  0x0077c2                  _map
+                  0x00780c                  _motor_leftPWM
+                  0x007834                  _motor_rightPWM
+                  0x007884                  ___delay32
 
 External Symbols in Program Memory (by name):
 
-                  0x00712e                  _CAN_checkRX
-                  0x007230                  _CAN_getLastMessage
-                  0x00725e                  _CAN_init
-                  0x0071d2                  _CAN_read
-                  0x007136                  _CAN_write
-                  0x0073b6                  _CloseMCPWM
-                  0x0074e4                  _OscillatorInit
-                  0x0073de                  _PWMinit
-                  0x00749a                  _PinsInit
-                  0x007470                  _PortInit
-                  0x00742e                  _QEIinit
-                  0x00740a                  _TimerInit
-                  0x007398                  _UARTinit
-                  0x000844                  __C1Interrupt
-                  0x000768                  __DMA1Interrupt
-                  0x000830                  __DMA2Interrupt
-                  0x000868                  __DefaultInterrupt
+                  0x00716e                  _CAN_checkRX
+                  0x007270                  _CAN_getLastMessage
+                  0x00729e                  _CAN_init
+                  0x007212                  _CAN_read
+                  0x007176                  _CAN_write
+                  0x0073f6                  _CloseMCPWM
+                  0x00752c                  _OscillatorInit
+                  0x00741e                  _PWMinit
+                  0x0074e2                  _PinsInit
+                  0x0074b8                  _PortInit
+                  0x007476                  _QEIinit
+                  0x007452                  _TimerInit
+                  0x0073d8                  _UARTinit
+                  0x000848                  __C1Interrupt
+                  0x00076c                  __DMA1Interrupt
+                  0x000834                  __DMA2Interrupt
+                  0x00086c                  __DefaultInterrupt
                   0x0002c8                  __T1Interrupt
-                  0x000b0e                  ___addsf3
-                  0x000b0e                  ___addsf3x
-                  0x007788                  ___delay32
-                  0x001172                  ___divsf3
-                  0x001172                  ___divsf3x
-                  0x0008a8                  ___divsi3
-                  0x0008c6                  ___eqsf2
-                  0x0008ce                  ___fixsfdi
-                  0x000920                  ___fixsfsi
-                  0x000962                  ___floatdisf
-                  0x000982                  ___floatsisf
-                  0x000988                  ___floatundisf
-                  0x0008ca                  ___gesf2
-                  0x0008ca                  ___gtsf2
-                  0x0008c6                  ___lesf2
-                  0x0008c6                  ___ltsf2
-                  0x000a8c                  ___modsi3
-                  0x000aaa                  ___muldi3
-                  0x000cd8                  ___mulsf3
-                  0x000cd8                  ___mulsf3x
-                  0x000afc                  ___subsf3
-                  0x000afc                  ___subsf3x
-                  0x000de4                  ___udivsi3
-                  0x000de4                  ___udivsi3x
-                  0x000ebe                  ___umodsi3
-                  0x000ebe                  ___umodsi3x
-                  0x001774                  ___umuldi3
+                  0x000b4c                  ___addsf3
+                  0x000b4c                  ___addsf3x
+                  0x007884                  ___delay32
+                  0x0011b2                  ___divsf3
+                  0x0011b2                  ___divsf3x
+                  0x0008ac                  ___divsi3
+                  0x0008ca                  ___eqsf2
+                  0x0008d2                  ___fixsfdi
+                  0x000924                  ___fixsfsi
+                  0x000966                  ___fixunssfsi
+                  0x00099c                  ___floatdisf
+                  0x0009bc                  ___floatsisf
+                  0x0009c2                  ___floatundisf
+                  0x000a20                  ___floatunsisf
+                  0x0008ce                  ___gesf2
+                  0x0008ce                  ___gtsf2
+                  0x0008ca                  ___lesf2
+                  0x0008ca                  ___ltsf2
+                  0x000aca                  ___modsi3
+                  0x000ae8                  ___muldi3
+                  0x000d16                  ___mulsf3
+                  0x000d16                  ___mulsf3x
+                  0x000b3a                  ___subsf3
+                  0x000b3a                  ___subsf3x
+                  0x000e22                  ___udivsi3
+                  0x000e22                  ___udivsi3x
+                  0x000efc                  ___umodsi3
+                  0x000efc                  ___umodsi3x
+                  0x0017b4                  ___umuldi3
                   0x000252                  __data_init
                   0x000252                  __data_init_standard
-                  0x00147a                  __dnrmpackf
-                  0x000a6c                  __fPropagateNaN
-                  0x000a7e                  __fbopExit
-                  0x000a86                  __fbopReturnNaN
-                  0x00173e                  __fcompare
-                  0x0009e6                  __fpack
-                  0x000a32                  __funpack
-                  0x000a5c                  __funpack2
-                  0x0018d4                  __norm3s
-                  0x001956                  __norm4s
-                  0x001330                  __propnanf
+                  0x0014ba                  __dnrmpackf
+                  0x000aaa                  __fPropagateNaN
+                  0x000abc                  __fbopExit
+                  0x000ac4                  __fbopReturnNaN
+                  0x00177e                  __fcompare
+                  0x000a24                  __fpack
+                  0x000a70                  __funpack
+                  0x000a9a                  __funpack2
+                  0x001914                  __norm3s
+                  0x001996                  __norm4s
+                  0x001370                  __propnanf
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x0014d8                  __saddf
-                  0x001304                  __sdivf
-                  0x0016ea                  __sfloatfsi
-                  0x0017ec                  __sintrndf
-                  0x00191c                  __slmul
-                  0x000fee                  __smaddf
-                  0x000fea                  __smsubf
-                  0x001342                  __smulf
-                  0x00156e                  __spackf
-                  0x00184e                  __spolyfb
-                  0x000fe4                  __srmsubf
-                  0x0014ce                  __srsubf
-                  0x001614                  __ssqrtf
-                  0x0014d4                  __ssubf
-                  0x0017b8                  __typef
-                  0x001114                  __unpackdnrmf
-                  0x001414                  __unpackf
-                  0x00086e                  _atan2f
-                  0x000ec4                  _atanf
-                  0x000ec4                  _atanfx
-                  0x007538                  _main
-                  0x0077a4                  _motor_leftPWM
-                  0x0077b0                  _motor_rightPWM
-                  0x005c6a                  _odometry_setAcceleration
-                  0x006b9a                  _robot_arc
-                  0x005ca8                  _robot_forceStatus
-                  0x005ca0                  _robot_getStatus
-                  0x00639e                  _robot_moveLinear
-                  0x005d30                  _robot_moveXY
-                  0x005a5e                  _robot_resetDriver
-                  0x005be8                  _robot_returnInfo
-                  0x0068c4                  _robot_rotate
-                  0x006876                  _robot_rotateAbsolute
-                  0x005bcc                  _robot_setPosition
-                  0x00710a                  _robot_setSpeed
-                  0x0070f0                  _robot_stop
-                  0x0019ca                  _sinus
-                  0x001398                  _sqrtf
-                  0x001398                  _sqrtfx
-                  0x0076b6                  _uart_available
-                  0x007690                  _uart_busy
-                  0x0076a6                  _uart_close
-                  0x00774a                  _uart_flush
-                  0x0076f6                  _uart_getch
-                  0x007708                  _uart_getch16
-                  0x007720                  _uart_putch
-                  0x007734                  _uart_putch16
-                  0x0076c2                  _uart_read
-                  0x0076da                  _uart_write
+                  0x001518                  __saddf
+                  0x001344                  __sdivf
+                  0x00172a                  __sfloatfsi
+                  0x00182c                  __sintrndf
+                  0x00195c                  __slmul
+                  0x00102e                  __smaddf
+                  0x00102a                  __smsubf
+                  0x001382                  __smulf
+                  0x0015ae                  __spackf
+                  0x00188e                  __spolyfb
+                  0x001024                  __srmsubf
+                  0x00150e                  __srsubf
+                  0x001654                  __ssqrtf
+                  0x001514                  __ssubf
+                  0x0017f8                  __typef
+                  0x001154                  __unpackdnrmf
+                  0x001454                  __unpackf
+                  0x000872                  _atan2f
+                  0x000f04                  _atanf
+                  0x000f04                  _atanfx
+                  0x007580                  _main
+                  0x0077c2                  _map
+                  0x00780c                  _motor_leftPWM
+                  0x007834                  _motor_rightPWM
+                  0x005caa                  _odometry_setAcceleration
+                  0x006bda                  _robot_arc
+                  0x005ce8                  _robot_forceStatus
+                  0x005ce0                  _robot_getStatus
+                  0x0063de                  _robot_moveLinear
+                  0x005d70                  _robot_moveXY
+                  0x005a9e                  _robot_resetDriver
+                  0x005c28                  _robot_returnInfo
+                  0x006904                  _robot_rotate
+                  0x0068b6                  _robot_rotateAbsolute
+                  0x005c0c                  _robot_setPosition
+                  0x00714a                  _robot_setSpeed
+                  0x007130                  _robot_stop
+                  0x001a0a                  _sinus
+                  0x0013d8                  _sqrtf
+                  0x0013d8                  _sqrtfx
+                  0x007718                  _uart_available
+                  0x0076f2                  _uart_busy
+                  0x007708                  _uart_close
+                  0x0077ac                  _uart_flush
+                  0x007758                  _uart_getch
+                  0x00776a                  _uart_getch16
+                  0x007782                  _uart_putch
+                  0x007796                  _uart_putch16
+                  0x007724                  _uart_read
+                  0x00773c                  _uart_write
 
 Memory Configuration
 
@@ -537,7 +546,7 @@ LOAD /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfx-elf.a
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000200       0x17ca
+.text             0x000200       0x180a
  *(.init)
  .init            0x000200         0x4c /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(crt0_standard.o)
                   0x000200                  __reset
@@ -549,132 +558,139 @@ LOAD /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfx-elf.a
  *(.user_init)
  *(.handle)
  *(.isr*)
- .isr.text        0x0002c8        0x4a0 build/default/production/_ext/1472/main.o
+ .isr.text        0x0002c8        0x4a4 build/default/production/_ext/1472/main.o
                   0x0002c8                  __T1Interrupt
- .isr.text        0x000768        0x100 build/default/production/_ext/1472/can.o
-                  0x000768                  __DMA1Interrupt
-                  0x000830                  __DMA2Interrupt
-                  0x000844                  __C1Interrupt
- .isr             0x000868          0x4 default_isr
-                  0x000868                  __DefaultInterrupt
+ .isr.text        0x00076c        0x100 build/default/production/_ext/1472/can.o
+                  0x00076c                  __DMA1Interrupt
+                  0x000834                  __DMA2Interrupt
+                  0x000848                  __C1Interrupt
+ .isr             0x00086c          0x4 default_isr
+                  0x00086c                  __DefaultInterrupt
  *(.libc)
  *(.libm)
  *(.libdsp)
  *(.lib*)
  .libpic30_crt_start_mode
-                  0x00086c          0x2 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(crt_start_mode_normal.eo)
-                  0x00086c                  __crt_start_mode_normal
-                  0x00086c                  __crt_start_mode
- .libm.atanf      0x00086e         0x3a /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atan2f.eo)
-                  0x00086e                  _atan2f
- .libm.divsi3     0x0008a8         0x1e /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(divsi3.eo)
-                  0x0008a8                  ___divsi3
- .libm.eqsf2      0x0008c6          0x4 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(feqltle.eo)
-                  0x0008c6                  ___lesf2
-                  0x0008c6                  ___eqsf2
-                  0x0008c6                  ___ltsf2
- .libm.gtsf2      0x0008ca          0x4 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fgtge.eo)
-                  0x0008ca                  ___gtsf2
-                  0x0008ca                  ___gesf2
- .libm.fixsfdi    0x0008ce         0x52 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixsfdi.eo)
-                  0x0008ce                  _(float, int, long long, short, float, double, int)
- .libm.fixsfsi    0x000920         0x42 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixsfsi.eo)
-                  0x000920                  _(float, int, long long, short, float, short, int)
+                  0x000870          0x2 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(crt_start_mode_normal.eo)
+                  0x000870                  __crt_start_mode_normal
+                  0x000870                  __crt_start_mode
+ .libm.atanf      0x000872         0x3a /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atan2f.eo)
+                  0x000872                  _atan2f
+ .libm.divsi3     0x0008ac         0x1e /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(divsi3.eo)
+                  0x0008ac                  ___divsi3
+ .libm.eqsf2      0x0008ca          0x4 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(feqltle.eo)
+                  0x0008ca                  ___lesf2
+                  0x0008ca                  ___eqsf2
+                  0x0008ca                  ___ltsf2
+ .libm.gtsf2      0x0008ce          0x4 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fgtge.eo)
+                  0x0008ce                  ___gtsf2
+                  0x0008ce                  ___gesf2
+ .libm.fixsfdi    0x0008d2         0x52 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixsfdi.eo)
+                  0x0008d2                  _(float, int, long long, short, float, double, int)
+ .libm.fixsfsi    0x000924         0x42 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixsfsi.eo)
+                  0x000924                  _(float, int, long long, short, float, short, int)
+ .libm.fixunssfsi
+                  0x000966         0x36 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixunssfsi.eo)
+                  0x000966                  ___fixunssfsi
  .libm.floatdisf
-                  0x000962         0x20 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatdisf.eo)
-                  0x000962                  ___floatdisf
+                  0x00099c         0x20 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatdisf.eo)
+                  0x00099c                  ___floatdisf
  .libm.floatsisf
-                  0x000982          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatsisf.eo)
-                  0x000982                  ___floatsisf
+                  0x0009bc          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatsisf.eo)
+                  0x0009bc                  ___floatsisf
  .libm.floatundisf
-                  0x000988         0x5e /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatundisf.eo)
-                  0x000988                  ___floatundisf
- .libm.fpack      0x0009e6         0x4c /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fpack.eo)
-                  0x0009e6                  __fpack
- .libm.funpack    0x000a32         0x2a /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack.eo)
-                  0x000a32                  __funpack
+                  0x0009c2         0x5e /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatundisf.eo)
+                  0x0009c2                  ___floatundisf
+ .libm.floatunsisf
+                  0x000a20          0x4 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatunsisf.eo)
+                  0x000a20                  ___floatunsisf
+ .libm.fpack      0x000a24         0x4c /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fpack.eo)
+                  0x000a24                  __fpack
+ .libm.funpack    0x000a70         0x2a /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack.eo)
+                  0x000a70                  __funpack
  .libm.funpack2
-                  0x000a5c         0x10 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack2.eo)
-                  0x000a5c                  __funpack2
+                  0x000a9a         0x10 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack2.eo)
+                  0x000a9a                  __funpack2
  .libm.fPropagateNaN
-                  0x000a6c         0x12 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(futil.eo)
-                  0x000a6c                  __fPropagateNaN
+                  0x000aaa         0x12 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(futil.eo)
+                  0x000aaa                  __fPropagateNaN
  .libm.fbobExit
-                  0x000a7e          0x8 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(futil.eo)
-                  0x000a7e                  __fbopExit
+                  0x000abc          0x8 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(futil.eo)
+                  0x000abc                  __fbopExit
  .libm.fbopReturnNaN
-                  0x000a86          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(futil.eo)
-                  0x000a86                  __fbopReturnNaN
- .libm.modsi3     0x000a8c         0x1e /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(modsi3.eo)
-                  0x000a8c                  ___modsi3
+                  0x000ac4          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(futil.eo)
+                  0x000ac4                  __fbopReturnNaN
+ .libm.modsi3     0x000aca         0x1e /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(modsi3.eo)
+                  0x000aca                  ___modsi3
  .libm.__muldi3
-                  0x000aaa         0x52 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(muldi3.eo)
-                  0x000aaa                  ___muldi3
- .libmx           0x000afc        0x1dc /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(addsf3x.eo)
-                  0x000afc                  ___subsf3
-                  0x000afc                  ___subsf3x
-                  0x000b0e                  ___addsf3
-                  0x000b0e                  ___addsf3x
- .libmx           0x000cd8        0x10c /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(mulsf3x.eo)
-                  0x000cd8                  ___mulsf3
-                  0x000cd8                  ___mulsf3x
- .libmx           0x000de4         0xda /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(udivsi3x.eo)
-                  0x000de4                  ___udivsi3x
-                  0x000de4                  ___udivsi3
- .libmx           0x000ebe          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umodsi3x.eo)
-                  0x000ebe                  ___umodsi3
-                  0x000ebe                  ___umodsi3x
- .libmx_atanfx    0x000ec4        0x120 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atanfx.eo)
-                  0x000ec4                  _atanf
-                  0x000ec4                  _atanfx
- .libmx           0x000fe4        0x130 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(smaddfx.eo)
-                  0x000fe4                  __srmsubf
-                  0x000fea                  __smsubf
-                  0x000fee                  __smaddf
- .libmx           0x001114         0x5e /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(unpackdnrmfx.eo)
-                  0x001114                  __unpackdnrmf
- .libmx           0x001172        0x1be /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(divsf3x.eo)
-                  0x001172                  ___divsf3x
-                  0x001172                  ___divsf3
-                  0x001304                  __sdivf
- .libmx           0x001330         0x12 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(propnanfx.eo)
-                  0x001330                  __propnanf
- .libmx           0x001342         0x56 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(smulfx.eo)
-                  0x001342                  __smulf
- .libmx           0x001398         0x7c /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(sqrtfx.eo)
-                  0x001398                  _sqrtfx
-                  0x001398                  _sqrtf
- .libmx           0x001414         0x66 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(unpackfx.eo)
-                  0x001414                  __unpackf
- .libmx           0x00147a         0x54 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(dnrmpackfx.eo)
-                  0x00147a                  __dnrmpackf
- .libmx           0x0014ce         0xa0 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(saddfx.eo)
-                  0x0014ce                  __srsubf
-                  0x0014d4                  __ssubf
-                  0x0014d8                  __saddf
- .libmx           0x00156e         0xa6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(spackfx.eo)
-                  0x00156e                  __spackf
- .libmx           0x001614         0xd6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(ssqrtfx.eo)
-                  0x001614                  __ssqrtf
- .libmx           0x0016ea         0x54 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(sfloatfsix.eo)
-                  0x0016ea                  __sfloatfsi
+                  0x000ae8         0x52 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(muldi3.eo)
+                  0x000ae8                  ___muldi3
+ .libmx           0x000b3a        0x1dc /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(addsf3x.eo)
+                  0x000b3a                  ___subsf3
+                  0x000b3a                  ___subsf3x
+                  0x000b4c                  ___addsf3
+                  0x000b4c                  ___addsf3x
+ .libmx           0x000d16        0x10c /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(mulsf3x.eo)
+                  0x000d16                  ___mulsf3
+                  0x000d16                  ___mulsf3x
+ .libmx           0x000e22         0xda /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(udivsi3x.eo)
+                  0x000e22                  ___udivsi3x
+                  0x000e22                  ___udivsi3
+ .libmx           0x000efc          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umodsi3x.eo)
+                  0x000efc                  ___umodsi3
+                  0x000efc                  ___umodsi3x
+ *fill*           0x000f02          0x400
+ .libmx_atanfx    0x000f04        0x120 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atanfx.eo)
+                  0x000f04                  _atanf
+                  0x000f04                  _atanfx
+ .libmx           0x001024        0x130 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(smaddfx.eo)
+                  0x001024                  __srmsubf
+                  0x00102a                  __smsubf
+                  0x00102e                  __smaddf
+ .libmx           0x001154         0x5e /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(unpackdnrmfx.eo)
+                  0x001154                  __unpackdnrmf
+ .libmx           0x0011b2        0x1be /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(divsf3x.eo)
+                  0x0011b2                  ___divsf3x
+                  0x0011b2                  ___divsf3
+                  0x001344                  __sdivf
+ .libmx           0x001370         0x12 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(propnanfx.eo)
+                  0x001370                  __propnanf
+ .libmx           0x001382         0x56 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(smulfx.eo)
+                  0x001382                  __smulf
+ .libmx           0x0013d8         0x7c /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(sqrtfx.eo)
+                  0x0013d8                  _sqrtfx
+                  0x0013d8                  _sqrtf
+ .libmx           0x001454         0x66 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(unpackfx.eo)
+                  0x001454                  __unpackf
+ .libmx           0x0014ba         0x54 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(dnrmpackfx.eo)
+                  0x0014ba                  __dnrmpackf
+ .libmx           0x00150e         0xa0 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(saddfx.eo)
+                  0x00150e                  __srsubf
+                  0x001514                  __ssubf
+                  0x001518                  __saddf
+ .libmx           0x0015ae         0xa6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(spackfx.eo)
+                  0x0015ae                  __spackf
+ .libmx           0x001654         0xd6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(ssqrtfx.eo)
+                  0x001654                  __ssqrtf
+ .libmx           0x00172a         0x54 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(sfloatfsix.eo)
+                  0x00172a                  __sfloatfsi
  .libm.fcompare
-                  0x00173e         0x36 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fcompare.eo)
-                  0x00173e                  __fcompare
- .libm.umuldi3    0x001774         0x44 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umuldi3.eo)
-                  0x001774                  ___umuldi3
- .libmx           0x0017b8         0x34 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(typefx.eo)
-                  0x0017b8                  __typef
- .libmx           0x0017ec         0x62 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(sintrndfx.eo)
-                  0x0017ec                  __sintrndf
- .libmx           0x00184e         0x86 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(spolyfbx.eo)
-                  0x00184e                  __spolyfb
- .libmx           0x0018d4         0x48 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(norm3sx.eo)
-                  0x0018d4                  __norm3s
- .libmx           0x00191c         0x3a /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(slmulx.eo)
-                  0x00191c                  __slmul
- .libmx           0x001956         0x74 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(norm4sx.eo)
-                  0x001956                  __norm4s
+                  0x00177e         0x36 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fcompare.eo)
+                  0x00177e                  __fcompare
+ .libm.umuldi3    0x0017b4         0x44 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umuldi3.eo)
+                  0x0017b4                  ___umuldi3
+ .libmx           0x0017f8         0x34 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(typefx.eo)
+                  0x0017f8                  __typef
+ .libmx           0x00182c         0x62 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(sintrndfx.eo)
+                  0x00182c                  __sintrndf
+ .libmx           0x00188e         0x86 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(spolyfbx.eo)
+                  0x00188e                  __spolyfb
+ .libmx           0x001914         0x48 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(norm3sx.eo)
+                  0x001914                  __norm3s
+ .libmx           0x00195c         0x3a /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(slmulx.eo)
+                  0x00195c                  __slmul
+ .libmx           0x001996         0x74 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(norm4sx.eo)
+                  0x001996                  __norm4s
 
 usercode
  *(usercode)
@@ -722,42 +738,42 @@ __FUID3
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x7494
+.debug_info       0x000000       0x752b
  *(.debug_info)
- .debug_info      0x000000        0xada build/default/production/_ext/1472/main.o
- .debug_info      0x000ada       0x23b5 build/default/production/_ext/1472/init.o
- .debug_info      0x002e8f        0xaf7 build/default/production/_ext/1472/uart.o
- .debug_info      0x003986       0x2a77 build/default/production/_ext/1472/can.o
- .debug_info      0x0063fd        0x1e6 build/default/production/_ext/1472/motor.o
- .debug_info      0x0065e3        0xeb1 build/default/production/_ext/1472/movement.o
+ .debug_info      0x000000        0xafa build/default/production/_ext/1472/main.o
+ .debug_info      0x000afa       0x23b5 build/default/production/_ext/1472/init.o
+ .debug_info      0x002eaf        0xaf7 build/default/production/_ext/1472/uart.o
+ .debug_info      0x0039a6       0x2a77 build/default/production/_ext/1472/can.o
+ .debug_info      0x00641d        0x25d build/default/production/_ext/1472/motor.o
+ .debug_info      0x00667a        0xeb1 build/default/production/_ext/1472/movement.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x7c5
+.debug_abbrev     0x000000        0x7de
  *(.debug_abbrev)
  .debug_abbrev    0x000000        0x14b build/default/production/_ext/1472/main.o
  .debug_abbrev    0x00014b         0xed build/default/production/_ext/1472/init.o
  .debug_abbrev    0x000238        0x19f build/default/production/_ext/1472/uart.o
  .debug_abbrev    0x0003d7        0x17b build/default/production/_ext/1472/can.o
- .debug_abbrev    0x000552         0x6a build/default/production/_ext/1472/motor.o
- .debug_abbrev    0x0005bc        0x209 build/default/production/_ext/1472/movement.o
+ .debug_abbrev    0x000552         0x83 build/default/production/_ext/1472/motor.o
+ .debug_abbrev    0x0005d5        0x209 build/default/production/_ext/1472/movement.o
 
-.debug_line       0x000000        0x9bc
+.debug_line       0x000000        0x9d2
  *(.debug_line)
- .debug_line      0x000000        0x1d6 build/default/production/_ext/1472/main.o
- .debug_line      0x0001d6        0x153 build/default/production/_ext/1472/init.o
- .debug_line      0x000329        0x11a build/default/production/_ext/1472/uart.o
- .debug_line      0x000443        0x17d build/default/production/_ext/1472/can.o
- .debug_line      0x0005c0         0xee build/default/production/_ext/1472/motor.o
- .debug_line      0x0006ae        0x30e build/default/production/_ext/1472/movement.o
+ .debug_line      0x000000        0x1dd build/default/production/_ext/1472/main.o
+ .debug_line      0x0001dd        0x157 build/default/production/_ext/1472/init.o
+ .debug_line      0x000334        0x11a build/default/production/_ext/1472/uart.o
+ .debug_line      0x00044e        0x17d build/default/production/_ext/1472/can.o
+ .debug_line      0x0005cb         0xf9 build/default/production/_ext/1472/motor.o
+ .debug_line      0x0006c4        0x30e build/default/production/_ext/1472/movement.o
 
-.debug_frame      0x000000        0x63a
+.debug_frame      0x000000        0x678
  *(.debug_frame)
  .debug_frame     0x000000         0x7e build/default/production/_ext/1472/main.o
  .debug_frame     0x00007e         0xf4 build/default/production/_ext/1472/init.o
  .debug_frame     0x000172        0x132 build/default/production/_ext/1472/uart.o
  .debug_frame     0x0002a4        0x118 build/default/production/_ext/1472/can.o
- .debug_frame     0x0003bc         0x4c build/default/production/_ext/1472/motor.o
- .debug_frame     0x000408        0x232 build/default/production/_ext/1472/movement.o
+ .debug_frame     0x0003bc         0x8a build/default/production/_ext/1472/motor.o
+ .debug_frame     0x000446        0x232 build/default/production/_ext/1472/movement.o
 
 .debug_str        0x000000        0x7c0
  *(.debug_str)
@@ -774,7 +790,7 @@ __FUID3
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x63e
+                  0x000000        0x646
  *(.debug_pubnames)
  .debug_pubnames
                   0x000000        0x326 build/default/production/_ext/1472/main.o
@@ -785,9 +801,9 @@ __FUID3
  .debug_pubnames
                   0x000455         0x98 build/default/production/_ext/1472/can.o
  .debug_pubnames
-                  0x0004ed         0x37 build/default/production/_ext/1472/motor.o
+                  0x0004ed         0x3f build/default/production/_ext/1472/motor.o
  .debug_pubnames
-                  0x000524        0x11a build/default/production/_ext/1472/movement.o
+                  0x00052c        0x11a build/default/production/_ext/1472/movement.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -1911,7 +1927,7 @@ LOAD data_init
                   0x000824         0x49 build/default/production/_ext/1472/movement.o
 
 __c30_signature
-                  0x00086d         0xa2
+                  0x00086d         0xae
  __c30_signature
                   0x00086d          0x6 build/default/production/_ext/1472/main.o
  __c30_signature
@@ -1945,31 +1961,35 @@ __c30_signature
  __c30_signature
                   0x0008c7          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixsfsi.eo)
  __c30_signature
-                  0x0008cd          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatdisf.eo)
+                  0x0008cd          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fixunssfsi.eo)
  __c30_signature
-                  0x0008d3          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatsisf.eo)
+                  0x0008d3          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatdisf.eo)
  __c30_signature
-                  0x0008d9          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatundisf.eo)
+                  0x0008d9          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatsisf.eo)
  __c30_signature
-                  0x0008df          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fpack.eo)
+                  0x0008df          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatundisf.eo)
  __c30_signature
-                  0x0008e5          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack.eo)
+                  0x0008e5          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(floatunsisf.eo)
  __c30_signature
-                  0x0008eb          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack2.eo)
+                  0x0008eb          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fpack.eo)
  __c30_signature
-                  0x0008f1          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(futil.eo)
+                  0x0008f1          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack.eo)
  __c30_signature
-                  0x0008f7          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(modsi3.eo)
+                  0x0008f7          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(funpack2.eo)
  __c30_signature
-                  0x0008fd          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(muldi3.eo)
+                  0x0008fd          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(futil.eo)
  __c30_signature
-                  0x000903          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fcompare.eo)
+                  0x000903          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(modsi3.eo)
  __c30_signature
-                  0x000909          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umuldi3.eo)
+                  0x000909          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(muldi3.eo)
+ __c30_signature
+                  0x00090f          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(fcompare.eo)
+ __c30_signature
+                  0x000915          0x6 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(umuldi3.eo)
 
-_0xf72dca6c5dfd2c39
+_0xf72fea6c5e1a19c6
                     0x47c0         0x40
- _0xf72dca6c5dfd2c39
+ _0xf72fea6c5e1a19c6
                     0x47c0         0x40 build/default/production/_ext/1472/can.o
 
 .nbss               0x0800         0x64
@@ -2033,66 +2053,65 @@ _0xf72dca6c5dfd2c39
  .ivt._C1Interrupt
                   0x00005a          0x2 build/default/production/_ext/1472/can.o
 
-.const              0x99ca       0x4000 load address 0x0019ca  
- .const             0x99ca       0x4000 build/default/production/_ext/1472/main.o
-                    0x99ca                  _sinus
+.const              0x9a0a       0x4000 load address 0x001a0a  
+ .const             0x9a0a       0x4000 build/default/production/_ext/1472/main.o
+                    0x9a0a                  _sinus
 
-libmxconst          0xd9ca         0x94 load address 0x0059ca  
- libmxconst         0xd9ca         0x64 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atanfx.eo)
- libmxconst         0xda2e         0x30 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(ssqrtfx.eo)
+libmxconst          0xda0a         0x94 load address 0x005a0a  
+ libmxconst         0xda0a         0x64 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(atanfx.eo)
+ libmxconst         0xda6e         0x30 /opt/microchip/xc16/v1.41/bin/bin/../../lib/libfastm-elf.a(ssqrtfx.eo)
 
-.text             0x005a5e       0x1d02
- .text            0x005a5e       0x16d0 build/default/production/_ext/1472/movement.o
-                  0x005a5e                  _robot_resetDriver
-                  0x005bcc                  _robot_setPosition
-                  0x005be8                  _robot_returnInfo
-                  0x005c6a                  _odometry_setAcceleration
-                  0x005ca0                  _robot_getStatus
-                  0x005ca8                  _robot_forceStatus
-                  0x005d30                  _robot_moveXY
-                  0x00639e                  _robot_moveLinear
-                  0x006876                  _robot_rotateAbsolute
-                  0x0068c4                  _robot_rotate
-                  0x006b9a                  _robot_arc
-                  0x0070f0                  _robot_stop
-                  0x00710a                  _robot_setSpeed
- .text            0x00712e        0x26a build/default/production/_ext/1472/can.o
-                  0x00712e                  _CAN_checkRX
-                  0x007136                  _CAN_write
-                  0x0071d2                  _CAN_read
-                  0x007230                  _CAN_getLastMessage
-                  0x00725e                  _CAN_init
- .text            0x007398        0x1a0 build/default/production/_ext/1472/init.o
-                  0x007398                  _UARTinit
-                  0x0073b6                  _CloseMCPWM
-                  0x0073de                  _PWMinit
-                  0x00740a                  _TimerInit
-                  0x00742e                  _QEIinit
-                  0x007470                  _PortInit
-                  0x00749a                  _PinsInit
-                  0x0074e4                  _OscillatorInit
- .text            0x007538        0x158 build/default/production/_ext/1472/main.o
-                  0x007538                  _main
- .text            0x007690         0xd0 build/default/production/_ext/1472/uart.o
-                  0x007690                  _uart_busy
-                  0x0076a6                  _uart_close
-                  0x0076b6                  _uart_available
-                  0x0076c2                  _uart_read
-                  0x0076da                  _uart_write
-                  0x0076f6                  _uart_getch
-                  0x007708                  _uart_getch16
-                  0x007720                  _uart_putch
-                  0x007734                  _uart_putch16
-                  0x00774a                  _uart_flush
+.text             0x005a9e       0x1dbe
+ .text            0x005a9e       0x16d0 build/default/production/_ext/1472/movement.o
+                  0x005a9e                  _robot_resetDriver
+                  0x005c0c                  _robot_setPosition
+                  0x005c28                  _robot_returnInfo
+                  0x005caa                  _odometry_setAcceleration
+                  0x005ce0                  _robot_getStatus
+                  0x005ce8                  _robot_forceStatus
+                  0x005d70                  _robot_moveXY
+                  0x0063de                  _robot_moveLinear
+                  0x0068b6                  _robot_rotateAbsolute
+                  0x006904                  _robot_rotate
+                  0x006bda                  _robot_arc
+                  0x007130                  _robot_stop
+                  0x00714a                  _robot_setSpeed
+ .text            0x00716e        0x26a build/default/production/_ext/1472/can.o
+                  0x00716e                  _CAN_checkRX
+                  0x007176                  _CAN_write
+                  0x007212                  _CAN_read
+                  0x007270                  _CAN_getLastMessage
+                  0x00729e                  _CAN_init
+ .text            0x0073d8        0x1a8 build/default/production/_ext/1472/init.o
+                  0x0073d8                  _UARTinit
+                  0x0073f6                  _CloseMCPWM
+                  0x00741e                  _PWMinit
+                  0x007452                  _TimerInit
+                  0x007476                  _QEIinit
+                  0x0074b8                  _PortInit
+                  0x0074e2                  _PinsInit
+                  0x00752c                  _OscillatorInit
+ .text            0x007580        0x172 build/default/production/_ext/1472/main.o
+                  0x007580                  _main
+ .text            0x0076f2         0xd0 build/default/production/_ext/1472/uart.o
+                  0x0076f2                  _uart_busy
+                  0x007708                  _uart_close
+                  0x007718                  _uart_available
+                  0x007724                  _uart_read
+                  0x00773c                  _uart_write
+                  0x007758                  _uart_getch
+                  0x00776a                  _uart_getch16
+                  0x007782                  _uart_putch
+                  0x007796                  _uart_putch16
+                  0x0077ac                  _uart_flush
+ .text            0x0077c2         0x9a build/default/production/_ext/1472/motor.o
+                  0x0077c2                  _map
+                  0x00780c                  _motor_leftPWM
+                  0x007834                  _motor_rightPWM
 
-.dinit            0x007760         0x28
- .dinit           0x007760         0x28 data_init
+.dinit            0x00785c         0x28
+ .dinit           0x00785c         0x28 data_init
 
-.init.delay32     0x007788         0x1c
- .init.delay32    0x007788         0x1c /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(delay32.eo)
-                  0x007788                  ___delay32
-
-.text             0x0077a4         0x18
- .text            0x0077a4         0x18 build/default/production/_ext/1472/motor.o
-                  0x0077a4                  _motor_leftPWM
-                  0x0077b0                  _motor_rightPWM
+.init.delay32     0x007884         0x1c
+ .init.delay32    0x007884         0x1c /opt/microchip/xc16/v1.41/bin/bin/../../lib/libpic30-elf.a(delay32.eo)
+                  0x007884                  ___delay32

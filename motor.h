@@ -3,6 +3,10 @@
 #ifndef MOTOR_H
 #define	MOTOR_H
 
+
+#define ESC_MIN 850
+#define ESC_MAX 2000
+
 //makroi za zadavanje smera motora:
 #define motor_leftForward	    LATBbits.LATB14=0; LATBbits.LATB12=1
 #define motor_leftBackward	    LATBbits.LATB14=1; LATBbits.LATB12=0
