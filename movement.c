@@ -224,7 +224,7 @@ static char getCommand(void)
                 //odometry_refrenceDistance       = odometry_incrementsDistance;
                 //odometry_refrenceOrientation    = odometry_incrementsOrientation;
                 //odometry_refrenceSpeed          = 0;
-                robot_stop();
+                //robot_stop();
                 CloseMCPWM();
                 //robot_currentStatus = STATUS_IDLE;
                 //__delay_ms(10);
@@ -861,30 +861,41 @@ void robot_arc(long Xc, long Yc, int Fi, char robot_movingDirection)
 void robot_stop(void)
 {
     
-    unsigned long current_time = 0;
+    //unsigned long current_time = 0;
+    long old_odom_refdist = 0, old_odom_refori = 0;
     
     // set the refrence distance/rotation in the position we are in now 
     odometry_refrenceDistance       = odometry_incrementsDistance;
     odometry_refrenceOrientation    = odometry_incrementsOrientation;
     
+    old_odom_refdist                = odometry_refrenceDistance;
+    old_odom_refori                 = odometry_refrenceOrientation;
+    
     // this was pre-set but hard code it in
     robot_currentStatus = STATUS_MOVING;            
     
     // set the current time
-    current_time = sys_time;
+    //current_time = sys_time;
     
     // wait for odometry hardstop time or wait for refrence speed to drop  below 0
-    while(sys_time - current_time < odometry_hardStopTime || odometry_refrenceSpeed > 5) {
+    while(/*sys_time - current_time < odometry_hardStopTime || */odometry_refrenceSpeed > 5) {
         // takes time to stabilize
+        odometry_refrenceDistance       = odometry_incrementsDistance;
+        odometry_refrenceOrientation    = odometry_incrementsOrientation;
+        __delay_ms(250);
     }
     
-    // break hard
-    odometry_refrenceDistance       = odometry_incrementsDistance;
-    odometry_refrenceOrientation    = odometry_incrementsOrientation;
+    __delay_ms(250);
+    
+    // break hard - goes back to original breaking point 
+    // should it go back or stay where he is? or she idk
+    odometry_refrenceDistance       = old_odom_refdist;
+    odometry_refrenceOrientation    = old_odom_refori;
     odometry_refrenceSpeed          = 0;
     
     // set the status to idle
     robot_currentStatus = STATUS_IDLE;
+    
 } // end of robot_stop(...)
 
 /**

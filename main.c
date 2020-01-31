@@ -310,10 +310,10 @@ int main(void)
 
                     break;
 
-                // robot_stop and turn off PWM
+                // turn off PWM
                 case 's':
                     
-                    robot_stop();
+                    //robot_stop();
                     CloseMCPWM();
 
                     break;
