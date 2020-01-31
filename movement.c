@@ -209,24 +209,25 @@ static char getCommand(void)
 
             case 'S':
                 // hard robot_stop
-                odometry_refrenceDistance       = odometry_incrementsDistance;
-                odometry_refrenceOrientation    = odometry_incrementsOrientation;
-                odometry_refrenceSpeed          = 0;
+                //odometry_refrenceDistance       = odometry_incrementsDistance;
+                //odometry_refrenceOrientation    = odometry_incrementsOrientation;
+                //odometry_refrenceSpeed          = 0;
 
-                robot_currentStatus = STATUS_IDLE;
-                __delay_ms(10);
+                robot_stop();
+                //robot_currentStatus = STATUS_IDLE;
+                //__delay_ms(10);
 
                 return 0;
 
             case 's':
                 // robot_stop and turn off PWM (robot_stop robot_stop)
-                odometry_refrenceDistance       = odometry_incrementsDistance;
-                odometry_refrenceOrientation    = odometry_incrementsOrientation;
-                odometry_refrenceSpeed          = 0;
-
+                //odometry_refrenceDistance       = odometry_incrementsDistance;
+                //odometry_refrenceOrientation    = odometry_incrementsOrientation;
+                //odometry_refrenceSpeed          = 0;
+                robot_stop();
                 CloseMCPWM();
-                robot_currentStatus = STATUS_IDLE;
-                __delay_ms(10);
+                //robot_currentStatus = STATUS_IDLE;
+                //__delay_ms(10);
 
                 return 0;
 
@@ -859,13 +860,30 @@ void robot_arc(long Xc, long Yc, int Fi, char robot_movingDirection)
  */
 void robot_stop(void)
 {
+    
+    unsigned long current_time = 0;
+    
     // set the refrence distance/rotation in the position we are in now 
-    odometry_refrenceDistance = odometry_incrementsDistance;
-    odometry_refrenceOrientation = odometry_incrementsOrientation;
-
+    odometry_refrenceDistance       = odometry_incrementsDistance;
+    odometry_refrenceOrientation    = odometry_incrementsOrientation;
+    
+    // this was pre-set but hard code it in
+    robot_currentStatus = STATUS_MOVING;            
+    
+    // set the current time
+    current_time = sys_time;
+    
+    // wait for odometry hardstop time or wait for refrence speed to drop  below 0
+    while(sys_time - current_time < odometry_hardStopTime || odometry_refrenceSpeed > 5) {
+        // takes time to stabilize
+    }
+    
+    // break hard
+    odometry_refrenceDistance       = odometry_incrementsDistance;
+    odometry_refrenceOrientation    = odometry_incrementsOrientation;
+    odometry_refrenceSpeed          = 0;
+    
     // set the status to idle
-    /* TODO: come up with another status (STATUS_HARDBREAK) where the robot takes a second to stabilize 
-        before going into idle mode*/
     robot_currentStatus = STATUS_IDLE;
 } // end of robot_stop(...)
 
